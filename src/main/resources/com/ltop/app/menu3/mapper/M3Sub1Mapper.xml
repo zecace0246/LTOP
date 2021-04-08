@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ltop.app.menu3.mapper.M3Sub1Mapper">
+  		
+	<select id="selectUserList" resultType="com.ltop.app.menu3.domain.M3Sub1VO">
+		SELECT	mem.userid AS userId
+				, mem.username AS userName
+				, mem.tel
+				, mem.use_yn
+				, mem.mat_id AS matId
+				, auth.auth
+		FROM	tbl_member mem, tbl_member_auth auth  
+		WHERE	mem.userid = auth.userid
+				AND auth.auth = 'ROLE_USER'
+				
+				<if test="searchUserName != null and searchUserName != ''">
+				AND mem.username = #{searchUserName}
+				</if>
+				
+				<if test="searchMatId != null and searchMatId != ''">
+				AND mem.mat_id = #{searchMatId}
+				</if>
+				
+				<if test="searchUseYn != null and searchUseYn != ''">
+				AND mem.use_yn = #{searchUseYn}
+				</if>				
+	</select>
+	
+</mapper>
