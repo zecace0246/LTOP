@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ltop.app.menu5.mapper.M5Sub4Mapper">
+  		
+	<select id="selectAlarmPropertyTotalCount" resultType="int">
+		SELECT	COUNT(*) 
+		FROM 	tbl_alarm_property 
+		WHERE 	1 = 1
+		
+				<if test="searchCategory != null and searchCategory != ''">
+				AND category = #{searchCategory}
+				</if>
+				
+				<if test="searchCategorySub != null and searchCategorySub != ''">
+				AND category_sub = #{searchCategorySub}
+				</if>
+
+				<if test="searchAlarmType != null and searchAlarmType != ''">
+				AND alarm_type = #{searchAlarmType}
+				</if>
+	</select>  		
+  		
+	<select id="selectAlarmPropertyList" resultType="com.ltop.app.menu5.domain.M5Sub4VO">
+		<![CDATA[
+			SELECT R.*
+			FROM 
+			(		
+				SELECT	category
+						, category_sub
+						, alarm_type
+						, description
+						, basis_min
+						, alarm_from
+						, alarm_to
+						, alert_yn
+						, reg_date
+				FROM	tbl_alarm_property
+				WHERE	1 = 1
+		]]>
+		
+				<if test="m5Sub4VO.searchCategory != null and m5Sub4VO.searchCategory != ''">
+				AND category = #{m5Sub4VO.searchCategory}
+				</if>
+				
+				<if test="m5Sub4VO.searchCategorySub != null and m5Sub4VO.searchCategorySub != ''">
+				AND category_sub = #{m5Sub4VO.searchCategorySub}
+				</if>
+
+				<if test="m5Sub4VO.searchAlarmType != null and m5Sub4VO.searchAlarmType != ''">
+				AND alarm_type = #{m5Sub4VO.searchAlarmType}
+				</if>				
+				
+		<![CDATA[    
+			) R
+			LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
+		]]>				
+	</select>	
+	
+	<select id="selectAlarmPropertyInfo" resultType="com.ltop.app.menu5.domain.M5Sub4VO">
+		SELECT	category
+				, category_sub
+				, alarm_type
+				, description
+				, basis_min
+				, alarm_from
+				, alarm_to
+				, alert_yn
+				, reg_date
+		FROM	tbl_alarm_property
+		WHERE	category = #{category} 
+				AND category_sub = #{categorySub} 
+				AND alarm_type = #{alarmType}
+	</select>	
+	
+	<insert id="insertAlarmProperty">
+		INSERT INTO tbl_alarm_property 
+		(
+			category
+			, category_sub
+			, alarm_type
+			, description
+			, basis_min
+			, alarm_from
+			, alarm_to
+			, alert_yn
+			, reg_date
+		)
+		VALUES 
+		(
+			#{category}
+			, #{categorySub}
+			, #{alarmType}
+			, #{description}
+			, #{basisMin}
+			, #{alarmFrom}
+			, #{alarmTo}
+			, #{alertYn}
+			, NOW()
+		)
+	</insert>
+		
+	<update id="updateAlarmProperty">
+		UPDATE	tbl_alarm_property 
+		SET		description = #{description}
+				, basis_min = #{basisMin}
+				, alarm_from = #{alarmFrom}
+				, alarm_to = #{alarmTo}
+				, alert_yn = #{alertYn}
+		WHERE	category = #{category} 
+				AND category_sub = #{categorySub} 
+				AND alarm_type = #{alarmType}
+	</update>
+	
+	<delete id="deleteAlarmProperty">
+		DELETE FROM tbl_alarm_property WHERE category = #{category} AND category_sub = #{categorySub} AND alarm_type = #{alarmType}
+	</delete>	
+
+</mapper>

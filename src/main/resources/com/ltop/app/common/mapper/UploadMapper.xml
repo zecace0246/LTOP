@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ltop.app.common.mapper.UploadMapper">
+
+	<insert id="insertFile">
+		INSERT INTO TBL_ATTACH 
+		(
+			UUID
+			, UPLOADPATH
+			, FILENAME
+			, FILETYPE
+			, BNO
+		)
+		VALUES 
+		(
+			#{uuid}
+			, #{uploadPath}
+			, #{fileName}
+			, #{fileType}
+			, #{bno} 
+		)
+	</insert>
+
+	<delete id="deleteFile">
+		DELETE FROM TBL_ATTACH WHERE UUID = #{uuid}
+	</delete>
+
+	<select id="findFileByBno" resultType="com.ltop.app.common.domain.UploadAttachVO">
+		SELECT * FROM TBL_ATTACH WHERE BNO = #{bno}
+	</select>
+
+	<delete id="deleteAllFiles">
+		DELETE FROM TBL_ATTACH WHERE BNO = #{bno}
+	</delete>
+
+	<select id="getOldFiles" resultType="com.ltop.app.common.domain.UploadAttachVO">
+		SELECT * FROM TBL_ATTACH WHERE UPLOADPATH = DATE_FORMAT(DATE_SUB(NOW(),INTERVAL 1 DAY), '%Y-%m-%d %H:%i:%s')
+	</select>
+
+</mapper>

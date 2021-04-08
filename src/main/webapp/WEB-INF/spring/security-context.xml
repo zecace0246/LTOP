@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="adminLoginSuccess" class="com.ltop.app.common.security.AdminLoginSuccessHandler"></bean>
+
+	<bean id="adminAccessDenied" class="com.ltop.app.common.security.AdminAccessDeniedHandler"></bean>
+	
+	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+	
+	<bean id="adminUserDetailsService" class="com.ltop.app.common.security.AdminUserDetailsService"></bean>	
+		
+	<!-- 정적 리소스 파일 -->
+	<security:http pattern="/resources/**" security="none" />
+	<security:http pattern="/favicon.ico" security="none" />
+	<security:http pattern="/resources/assets/images/favicon.ico" security="none" />
+		
+	<security:http auto-config="true" use-expressions="true">
+		
+		<security:intercept-url pattern="/favicon.ico" access="permitAll"/>
+		
+		<security:intercept-url pattern="/home" access="hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')"/>
+		
+		<security:intercept-url pattern="/" access="hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')"/>
+		
+		<security:form-login login-page="/member/adminLogin" authentication-success-handler-ref="adminLoginSuccess"/>
+		
+		<security:logout logout-url="/member/adminLogout" invalidate-session="true"/>
+		
+		<security:access-denied-handler ref="adminAccessDenied"/>
+		
+		<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800"/>
+		
+		<security:logout logout-url="/member/adminLogout" invalidate-session="true" delete-cookies="remember-me,JSESSION_ID"/>		
+
+	</security:http>
+	
+	<security:authentication-manager>
+
+		<security:authentication-provider user-service-ref="adminUserDetailsService">
+					
+			<security:password-encoder ref="bcryptPasswordEncoder" />			
+			
+		</security:authentication-provider>
+
+	</security:authentication-manager>	
+
+</beans>

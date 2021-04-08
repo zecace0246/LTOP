@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ltop.app.board.mapper.BoardMapper">
+		
+	<select id="selectBoardTotalCount" resultType="int">
+		SELECT COUNT(*) FROM TBL_BOARD WHERE 1 = 1
+		
+		<if test="searchTitle != null and !searchTitle.equals('')" >
+			AND title LIKE CONCAT('%',#{searchTitle},'%')
+		</if>
+		
+		<if test="searchContent != null and !searchContent.equals('')" >
+			AND content LIKE CONCAT('%',#{searchContent},'%')
+		</if>
+		
+		<if test="searchWriter != null and !searchWriter.equals('')" >
+			AND writer LIKE CONCAT('%',#{searchWriter},'%')
+		</if>
+		
+		AND BNO > 0
+	</select>	
+	
+	<select id="selectBoardList" resultType="com.ltop.app.board.domain.BoardVO">
+		<![CDATA[
+			SELECT R.*
+			FROM 
+			(
+				SELECT /*+INDEX_DESC(TBL_BOARD PK_BOARD) */
+				       BNO
+				       , TITLE
+				       , CONTENT
+				       , WRITER
+				       , REGDATE
+				       , UPDATEDATE
+				FROM TBL_BOARD
+				WHERE 1 = 1
+		]]>
+		
+		<if test="searchTitle != null and !searchTitle.equals('')" >
+			AND TITLE LIKE CONCAT('%',#{searchTitle},'%')
+		</if>
+		
+		<if test="searchContent != null and !searchContent.equals('')" >
+			AND CONTENT LIKE CONCAT('%',#{searchContent},'%')
+		</if>
+		
+		<if test="searchWriter != null and !searchWriter.equals('')" >
+			AND WRITER LIKE CONCAT('%',#{searchWriter},'%')
+		</if>
+		    
+		<![CDATA[    
+				ORDER BY BNO ASC
+			) R
+			LIMIT #{amount} OFFSET #{startNum}
+		]]>
+	</select>
+	
+	<select id="selectBoardInfo" resultType="com.ltop.app.board.domain.BoardVO">
+		SELECT * FROM TBL_BOARD WHERE BNO = #{BNO}
+	</select>	
+	
+	<insert id="insert">
+		<selectKey keyProperty="bno" order="BEFORE" resultType="long">
+			SELECT MAX(BNO)+1 FROM TBL_BOARD
+		</selectKey>
+
+		INSERT INTO TBL_BOARD 
+		(
+		  BNO
+		  , TITLE
+		  , CONTENT
+		  , WRITER
+		)
+		VALUES 
+		(
+		  IFNULL(#{bno},1)
+		  , #{title}
+		  , #{content}
+		  , #{writer}
+		)
+	</insert>
+		
+	<update id="update">
+		UPDATE TBL_BOARD
+		SET TITLE= #{title},
+		    CONTENT=#{content},
+		    WRITER = #{writer},
+		UPDATEDATE = NOW()
+		WHERE BNO = #{bno}
+	</update>	
+
+	<delete id="delete">
+		DELETE FROM TBL_BOARD WHERE BNO = #{bno}
+	</delete>
+	
+	<insert id="insertFile">
+		INSERT INTO TBL_ATTACH 
+		(
+			UUID
+			, UPLOADPATH
+			, FILENAME
+			, FILETYPE
+			, BNO
+		)
+		VALUES 
+		(
+			#{uuid}
+			, #{uploadPath}
+			, #{fileName}
+			, #{fileType}
+			, #{bno} 
+		)
+	</insert>
+
+	<delete id="deleteFile">
+		DELETE FROM TBL_ATTACH WHERE UUID = #{uuid}
+	</delete>
+
+	<select id="findFileByBno" resultType="com.ltop.app.board.domain.BoardAttachVO">
+		SELECT * FROM TBL_ATTACH WHERE BNO = #{bno}
+	</select>
+
+	<delete id="deleteAllFiles">
+		DELETE FROM TBL_ATTACH WHERE BNO = #{bno}
+	</delete>
+
+	<select id="getOldFiles" resultType="com.ltop.app.board.domain.BoardAttachVO">
+		SELECT * FROM TBL_ATTACH WHERE UPLOADPATH = DATE_FORMAT(DATE_SUB(NOW(),INTERVAL 1 DAY), '%Y-%m-%d %H:%i:%s')
+	</select>
+	
+</mapper>
