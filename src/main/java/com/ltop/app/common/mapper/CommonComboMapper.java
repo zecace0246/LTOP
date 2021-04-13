@@ -17,4 +17,6 @@ public interface CommonComboMapper {
 
 	public List<CommonComboVO> selectAgencyCombo();
 
+	public List<CommonComboVO> selectAgencyGroupCombo();
+
 }

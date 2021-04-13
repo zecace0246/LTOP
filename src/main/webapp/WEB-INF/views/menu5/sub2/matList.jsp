@@ -28,9 +28,9 @@
 	                    <div class="col-sm-3">
 	                        <select class="form-control js-example-placeholder-multiple col-sm-12" id="searchAgency" name="searchAgency">
 	                            <option value="">기관 전체</option>
-	                            <c:forEach items="${comboGrpList}" var="grpCombo">
-	                                <option value="${grpCombo.agencyNo}"
-	                                        <c:if test="${searchAgency==grpCombo.agencyNo}">selected</c:if> >${grpCombo.agencyName}</option>
+	                            <c:forEach items="${comboAgnyList}" var="agencyCombo">
+	                                <option value="${agencyCombo.agencyNo}"
+	                                        <c:if test="${searchAgency==agencyCombo.agencyNo}">selected</c:if> >${agencyCombo.agencyName}</option>
 	                            </c:forEach>
 	                        </select>
                         </div>

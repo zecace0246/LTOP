@@ -17,4 +17,8 @@ public class CommonComboVO {
 	private String agencyNo;
     private String agencyName;
 
+    //Agency Group Combo
+    private String groupSeq;
+    private String groupName;
+
 }

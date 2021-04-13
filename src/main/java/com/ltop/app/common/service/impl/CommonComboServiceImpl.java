@@ -38,4 +38,9 @@ public class CommonComboServiceImpl implements CommonComboService {
 		return commonComboMapper.selectAgencyCombo();
 	}
 
+	@Override
+	public List<CommonComboVO> selectAgencyGroupCombo() {
+		return commonComboMapper.selectAgencyGroupCombo();
+	}
+
 }

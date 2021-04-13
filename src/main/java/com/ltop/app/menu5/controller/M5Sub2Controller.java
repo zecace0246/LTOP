@@ -39,10 +39,10 @@ public class M5Sub2Controller {
 		int total = m5Sub2Service.selectMatTotalCount(m5Sub2VO);
 
 		List<M5Sub2VO> matList = m5Sub2Service.selectMatList(pageVO, m5Sub2VO);
-	    List<CommonComboVO> comboGrpList = commonComboService.selectAgencyCombo();
+	    List<CommonComboVO> comboAgnyList = commonComboService.selectAgencyCombo();
 
 		model.addAttribute("matList", matList);
-		model.addAttribute("comboGrpList", comboGrpList);
+		model.addAttribute("comboAgnyList", comboAgnyList);
 		model.addAttribute("searchMatId", m5Sub2VO.getSearchMatId());
 		model.addAttribute("searchMatDesc", m5Sub2VO.getSearchMatDesc());
 		model.addAttribute("searchAgency", m5Sub2VO.getSearchAgency());
@@ -54,7 +54,14 @@ public class M5Sub2Controller {
 
 	// 사용자 등록 화면
 	@GetMapping("/sub2/matRegister")
-	public String matRegister() {
+	public String matRegister(Model model) {
+
+		List<CommonComboVO> comboAgCyGrpList = commonComboService.selectAgencyGroupCombo();
+		List<CommonComboVO> comboAgnyList = commonComboService.selectAgencyCombo();
+
+		model.addAttribute("comboAgCyGrpList", comboAgCyGrpList);
+		model.addAttribute("comboAgnyList", comboAgnyList);
+
 		return "/menu5/sub2/matRegister";
 	}
 

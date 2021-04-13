@@ -32,4 +32,11 @@
         WHERE   use_yn = 'Y'
     </select>
 
+    <select id="selectAgencyGroupCombo" resultType="com.ltop.app.common.domain.CommonComboVO">
+        SELECT  group_seq AS groupSeq
+              , group_name AS groupName
+        FROM    tbl_agency_group
+        WHERE   use_yn = 'Y'
+    </select>
+
 </mapper>
