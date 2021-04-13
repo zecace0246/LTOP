@@ -11,9 +11,11 @@
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
         <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
         <property name="jdbcUrl" value="jdbc:log4jdbc:mariadb://39.114.115.140:43306/ltop"></property>
+        <!-- <property name="jdbcUrl" value="jdbc:log4jdbc:mariadb://localhost:3306/ltop"></property> -->
 
         <property name="username" value="root"></property>
         <property name="password" value="dpfxkq123"></property>
+
 	</bean>
 
 	<!-- HikariCP configuration -->

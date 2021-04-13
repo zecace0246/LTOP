@@ -8,12 +8,21 @@ import lombok.Data;
 public class M5Sub2VO {
 
 	private String searchMatId;
+	private String searchMatDesc;
+	private String searchAgency;
 	private String searchUseYn;
-	
+
 	private Integer matNo;
 	private String matId;
 	private String description;
 	private String useYn;
+	private String groupSeq;
+	private String agencyNo;
+	private String agencyName;
+	private String groupName;
+	private String groupAdmId;
+	private String groupAdmName;
+
 	private String attr1;
 	private String attr2;
 	private String attr3;
@@ -26,5 +35,5 @@ public class M5Sub2VO {
 	private String attr10;
 	private String regId;
 	private Date regDate;
-	
+
 }

@@ -19,11 +19,11 @@
 	                        <input type="text" class="form-control" placeholder="Writer" name="searchWriter" value='<c:out value="${pageMaker.cri.searchWriter}"/>'>
 	                    </div>
 	                    <div class="col-sm-3" align="right">
-	                        <button type="button" class="btn btn-primary"><i class="feather mr-2 icon-search"></i>Search</button>
+	                        <button type="button" class="btn btn-primary"><i class="feather mr-2 icon-search"></i>검색</button>
 	                    </div>
 	                </div>
-	                
-	                <input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' /> 
+
+	                <input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' />
 					<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
 	            </form>
             </div>
@@ -44,8 +44,8 @@
 						<div class="col-sm-12 input-group mb-3 w-25">
 							<button type="button" id="regBtn" class="btn waves-effect waves-light btn-secondary btn-icon btn-msg-send">Register</button>
 						</div>
-					</div> 
-					<div class="dt-responsive table-responsive">                            
+					</div>
+					<div class="dt-responsive table-responsive">
 						<table id="simpletable" class="table table-striped table-bordered nowrap">
 							<thead>
 								<tr>
@@ -102,7 +102,7 @@
 		<!-- [Table] end -->
 	</div>
 	<!-- [ Main Content ] end -->
-</div>	
+</div>
 
 <script type="text/javascript">
 
@@ -113,57 +113,57 @@ $(document).ready(function() {
 	// 조회 버튼 선택
 	$("#searchForm button").on("click", function(e) {
 		e.preventDefault();
-		
+
 		$("input[name='pageNum']").val("1");
-		
+
 		var formData = {
-				pageNum: $('input[name=pageNum]').val(), 
-				amount: $('input[name=amount]').val(), 
-				searchTitle: $('input[name=searchTitle]').val(), 
-				searchContent: $('input[name=searchContent]').val(), 
+				pageNum: $('input[name=pageNum]').val(),
+				amount: $('input[name=amount]').val(),
+				searchTitle: $('input[name=searchTitle]').val(),
+				searchContent: $('input[name=searchContent]').val(),
 				searchWriter: $('input[name=searchWriter]').val()
 			};
-		
+
 		gfn_callMenu("GET", "/board/boardList", true, formData, "text", gfn_callMenuResult, 30000);
-	});			
-	
+	});
+
 	// 등록 버튼 선택
 	$("#regBtn").on("click", function(e) {
 		e.preventDefault();
-		
+
 		gfn_callMenu("GET", "/board/boardRegister", true, "", "text", gfn_callMenuResult, 30000);
 	});
-	
+
 	// 상세 내용 선택
 	$(".move").on("click", function(e) {
 		e.preventDefault();
-		
+
 		var formData = {
-				bno: $(this).attr("href"), 
-				pageNum: $('input[name=pageNum]').val(), 
-				amount: $('input[name=amount]').val(), 
-				searchTitle: $('input[name=searchTitle]').val(), 
-				searchContent: $('input[name=searchContent]').val(), 
+				bno: $(this).attr("href"),
+				pageNum: $('input[name=pageNum]').val(),
+				amount: $('input[name=amount]').val(),
+				searchTitle: $('input[name=searchTitle]').val(),
+				searchContent: $('input[name=searchContent]').val(),
 				searchWriter: $('input[name=searchWriter]').val()
 			};
-		
+
 		gfn_callServer("POST", "/board/boardView", true, formData, "application/x-www-form-urlencoded", "text", gfn_callMenuResult, 30000, csrfTokenValue);
-	});		
-	
+	});
+
 	// 페이징 버튼 선택
 	$(".paginate_button a").on("click", function(e) {
 		e.preventDefault();
-		
+
 		var formData = {
-				pageNum: $(this).attr("href"), 
-				amount: $('input[name=amount]').val(), 
-				searchTitle: $('input[name=searchTitle]').val(), 
-				searchContent: $('input[name=searchContent]').val(), 
+				pageNum: $(this).attr("href"),
+				amount: $('input[name=amount]').val(),
+				searchTitle: $('input[name=searchTitle]').val(),
+				searchContent: $('input[name=searchContent]').val(),
 				searchWriter: $('input[name=searchWriter]').val()
 			};
-		
+
 		gfn_callMenu("GET", "/board/boardList", true, formData, "text", gfn_callMenuResult, 30000);
 	});
 });
-		
+
 </script>

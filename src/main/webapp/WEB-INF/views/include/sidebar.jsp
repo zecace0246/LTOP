@@ -17,7 +17,7 @@
 							<li><a href="#" data-url="/dashboardv2">Sales</a></li>
 						</ul>
 					</li>
-					
+
 					<li class="nav-item pcoded-hasmenu">
 						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-bar-chart-2"></i></span><span class="pcoded-mtext">통계</span></a>
 						<ul class="pcoded-submenu">
@@ -25,33 +25,32 @@
 							<li><a href="#" data-url="">심박</a></li>
 							<li><a href="#" data-url="">수면</a></li>
 						</ul>
-					</li>					
-					
+					</li>
+
 					<li class="nav-item pcoded-singlemenu">
 						<a href="#" data-url="" class="nav-link ">
 							<span class="pcoded-micon"><i class="feather icon-users"></i></span>
 							<span class="pcoded-mtext">사용자</span>
 						</a>
 					</li>
-					
+
 					<li class="nav-item pcoded-singlemenu">
 						<a href="#" data-url="" class="nav-link ">
 							<span class="pcoded-micon"><i class="feather icon-bell"></i></span>
 							<span class="pcoded-mtext">알림</span>
 						</a>
-					</li>					
-										
+					</li>
+
 					<li class="nav-item pcoded-hasmenu">
 						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">설정</span></a>
 						<ul class="pcoded-submenu">
-							<li><a href="#" data-url="/menu5/sub1/userList">사용자관리</a></li>
 							<li><a href="#" data-url="/menu5/sub2/matList">매트</a></li>
+							<li><a href="#" data-url="/menu5/sub1/userList">사용자관리</a></li>
 							<li><a href="#" data-url="/menu5/sub3/agencyList">그룹</a></li>
-							<li><a href="#" data-url="/menu5/sub4/alarmPropertyList">알람속성</a></li>
 							<li><a href="#" data-url="/menu5/sub5/">코드</a></li>
 						</ul>
-					</li>					
-					
+					</li>
+
 					<sec:authorize access="hasRole('ROLE_ADMIN')">
 					<li class="nav-item pcoded-singlemenu">
 						<a href="#" data-url="/board/boardList" class="nav-link ">
@@ -60,13 +59,13 @@
 						</a>
 					</li>
 					</sec:authorize>
-					
-					<!-- 
+
+					<!--
 					<sec:authorize access="hasRole('ROLE_ADMIN')">
 					<li class="nav-item pcoded-singlemenu"><a href="#" data-url="/member/memberList" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">User</span></a>
 					</sec:authorize>
 					-->
-					
+
 					<!--
 					<li class="nav-item pcoded-hasmenu">
 						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-layout"></i></span><span class="pcoded-mtext">Page layouts</span></a>
@@ -334,7 +333,7 @@
 					<li class="nav-item"><a href="sample-page.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">Sample page</span></a></li>
 					-->
 				</ul>
-				
+
 				<!--
 				<div class="card text-center">
 					<div class="card-block">
@@ -346,7 +345,7 @@
 					</div>
 				</div>
 				-->
-				
+
 			</div>
 		</div>
 	</nav>

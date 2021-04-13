@@ -4,17 +4,17 @@
 
 	<select id="selectAgencyAdminCombo" resultType="com.ltop.app.common.domain.CommonComboVO">
 		SELECT	mem.userid AS userId
-				, mem.username AS userName	
-		FROM	tbl_member mem, tbl_member_auth auth  
-		WHERE	mem.userid = auth.userid 
+				, mem.username AS userName
+		FROM	tbl_member mem, tbl_member_auth auth
+		WHERE	mem.userid = auth.userid
 				AND auth.auth = 'ROLE_MEMBER'
 	</select>
 
 	<select id="selectAgencyUserCombo" resultType="com.ltop.app.common.domain.CommonComboVO">
 		SELECT	mem.userid AS userId
-				, mem.username AS userName	
-		FROM	tbl_member mem, tbl_member_auth auth  
-		WHERE	mem.userid = auth.userid 
+				, mem.username AS userName
+		FROM	tbl_member mem, tbl_member_auth auth
+		WHERE	mem.userid = auth.userid
 				AND auth.auth = 'ROLE_USER'
 	</select>
 
@@ -24,5 +24,12 @@
 		FROM	tbl_mat_info
 		WHERE	use_yn = 'Y'
 	</select>
+
+	<select id="selectAgencyCombo" resultType="com.ltop.app.common.domain.CommonComboVO">
+        SELECT  agency_no AS agencyNo
+              , agency_name AS agencyName
+        FROM    tbl_agency
+        WHERE   use_yn = 'Y'
+    </select>
 
 </mapper>

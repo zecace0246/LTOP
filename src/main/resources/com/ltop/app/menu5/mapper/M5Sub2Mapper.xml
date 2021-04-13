@@ -1,61 +1,87 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ltop.app.menu5.mapper.M5Sub2Mapper">
-  		
+
 	<select id="selectMatTotalCount" resultType="int">
-		SELECT	COUNT(*) 
-		FROM 	tbl_mat_info 
+		SELECT	COUNT(*)
+		FROM 	tbl_mat_info
 		WHERE 	1 = 1
-		
+
 				<if test="searchMatId != null and searchMatId != ''">
 				AND mat_id = #{searchMatId}
 				</if>
-				
+
 				<if test="searchUseYn != null and searchUseYn != ''">
 				AND use_yn = #{searchUseYn}
 				</if>
-	</select>  		
-  		
+	</select>
+
 	<select id="selectMatList" resultType="com.ltop.app.menu5.domain.M5Sub2VO">
 		<![CDATA[
 			SELECT R.*
-			FROM 
-			(		
-				SELECT	mat_no AS matNo
-						, mat_id AS matId
-						, description
-						, use_yn AS useYn
-						, attr1
-						, attr2
-						, attr3
-						, attr4
-						, attr5
-						, attr6
-						, attr7
-						, attr8
-						, attr9
-						, attr10
-						, regid AS regId
-						, reg_date AS regDate
-				FROM	tbl_mat_info
-				WHERE	1 = 1
+			FROM
+			(
+				SELECT  A.mat_no AS matNo
+                        , A.mat_id AS matId
+                        , A.description
+                        , A.use_yn AS useYn
+                        , A.group_seq   AS groupSeq
+                        , A.agency_no   AS agencyNo
+                        , B.agency_name AS agencyName
+                        , B.group_name  AS groupName
+                        , B.group_adm_id AS groupAdmId
+                        , (SELECT username FROM tbl_member WHERE userid = B.group_adm_id) AS groupAdmName
+                        , A.attr1
+                        , A.attr2
+                        , A.attr3
+                        , A.attr4
+                        , A.attr5
+                        , A.attr6
+                        , A.attr7
+                        , A.attr8
+                        , A.attr9
+                        , A.attr10
+                        , A.regid AS regId
+                        , A.reg_date AS regDate
+                FROM    tbl_mat_info A
+               LEFT OUTER JOIN ( SELECT TAC.agency_no
+                                      , TAC.agency_name
+                                      , TAC.description AS agencyDesc
+                                      , TAC.adm_id
+                                      , TAG.group_seq
+                                      , TAG.group_name
+                                      , TAG.description AS groupDesc
+                                      , TAG.group_adm_id
+                                  FROM tbl_agency TAC
+                                 LEFT OUTER JOIN tbl_agency_group TAG ON TAG.agency_no = TAC.agency_no
+                                                                       AND TAG.use_yn = 'Y'
+                                 WHERE 1=1
+                                   AND TAC.use_yn = 'Y'
+                                ) B ON B.agency_no = A.agency_no
+
+                WHERE   1 = 1
 		]]>
-								
+
 				<if test="m5Sub2VO.searchMatId != null and m5Sub2VO.searchMatId != ''">
-				AND mat_id = #{m5Sub2VO.searchMatId}
+				AND A.mat_id = #{m5Sub2VO.searchMatId}
 				</if>
-				
+				<if test="m5Sub2VO.searchMatDesc != null and m5Sub2VO.searchMatDesc != ''">
+			    AND A.description  LIKE CONCAT('%',#{m5Sub2VO.searchMatDesc},'%')
+				</if>
+				<if test="m5Sub2VO.searchAgency != null and m5Sub2VO.searchAgency != ''">
+				AND A.agency_no = #{m5Sub2VO.searchAgency}
+				</if>
 				<if test="m5Sub2VO.searchUseYn != null and m5Sub2VO.searchUseYn != ''">
-				AND use_yn = #{m5Sub2VO.searchUseYn}
+				AND A.use_yn = #{m5Sub2VO.searchUseYn}
 				</if>
-				
-		<![CDATA[    
+
+		<![CDATA[
 			) R
 			ORDER BY R.matNo DESC
 			LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
-		]]>				
-	</select>	
-	
+		]]>
+	</select>
+
 	<select id="selectMatInfo" resultType="com.ltop.app.menu5.domain.M5Sub2VO">
 		SELECT	mat_no AS matNo
 				, mat_id AS matId
@@ -75,14 +101,14 @@
 				, reg_date AS regDate
 		FROM	tbl_mat_info
 		WHERE	mat_no = #{matNo}
-	</select>	
-	
+	</select>
+
 	<insert id="insertMat">
 		<selectKey keyProperty="matNo" order="BEFORE" resultType="Integer">
 			SELECT MAX(mat_no)+1 FROM tbl_mat_info
 		</selectKey>
-	
-		INSERT INTO tbl_mat_info 
+
+		INSERT INTO tbl_mat_info
 		(
 			mat_no
 			, mat_id
@@ -101,7 +127,7 @@
 			, regid
 			, reg_date
 		)
-		VALUES 
+		VALUES
 		(
 			IFNULL(#{matNo},1)
 			, #{matId}
@@ -121,16 +147,16 @@
 			, NOW()
 		)
 	</insert>
-		
+
 	<update id="updateMat">
-		UPDATE	tbl_mat_info 
+		UPDATE	tbl_mat_info
 		SET		description = #{description}
 				, use_yn = #{useYn}
 		WHERE	mat_no = #{matNo}
 	</update>
-	
+
 	<delete id="deleteMat">
 		DELETE FROM tbl_mat_info WHERE mat_no = #{matNo}
-	</delete>	
+	</delete>
 
 </mapper>
