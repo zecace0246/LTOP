@@ -10,7 +10,12 @@
 				<if test="searchMatId != null and searchMatId != ''">
 				AND mat_id = #{searchMatId}
 				</if>
-
+				<if test="searchMatDesc != null and searchMatDesc != ''">
+                AND A.description  LIKE CONCAT('%',#{searchMatDesc},'%')
+                </if>
+                <if test="searchAgency != null and searchAgency != ''">
+                AND A.agency_no = #{searchAgency}
+                </if>
 				<if test="searchUseYn != null and searchUseYn != ''">
 				AND use_yn = #{searchUseYn}
 				</if>
@@ -87,6 +92,8 @@
 				, mat_id AS matId
 				, description
 				, use_yn AS useYn
+				, agency_no AS agencyNo
+                , group_seq AS groupSeq
 				, attr1
 				, attr2
 				, attr3
@@ -114,6 +121,8 @@
 			, mat_id
 			, description
 			, use_yn
+			, agency_no
+			, group_seq
 			, attr1
 			, attr2
 			, attr3
@@ -133,6 +142,8 @@
 			, #{matId}
 			, #{description}
 			, #{useYn}
+			, #{agencyNo}
+			, #{groupSeq}
 			, 'attr1'
 			, 'attr2'
 			, 'attr3'
@@ -150,8 +161,10 @@
 
 	<update id="updateMat">
 		UPDATE	tbl_mat_info
-		SET		description = #{description}
+		   SET	description = #{description}
 				, use_yn = #{useYn}
+				, agency_no = #{agencyNo}
+				, group_seq = #{groupSeq}
 		WHERE	mat_no = #{matNo}
 	</update>
 

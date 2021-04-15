@@ -14,6 +14,6 @@ public interface CommonComboService {
 
 	public List<CommonComboVO> selectAgencyCombo();
 
-	public List<CommonComboVO> selectAgencyGroupCombo();
+	public List<CommonComboVO> selectAgencyGroupCombo(CommonComboVO comVo);
 
 }

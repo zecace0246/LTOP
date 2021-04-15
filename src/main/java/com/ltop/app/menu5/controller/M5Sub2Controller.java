@@ -56,10 +56,10 @@ public class M5Sub2Controller {
 	@GetMapping("/sub2/matRegister")
 	public String matRegister(Model model) {
 
-		List<CommonComboVO> comboAgCyGrpList = commonComboService.selectAgencyGroupCombo();
+		//List<CommonComboVO> comboAgCyGrpList = commonComboService.selectAgencyGroupCombo();
 		List<CommonComboVO> comboAgnyList = commonComboService.selectAgencyCombo();
 
-		model.addAttribute("comboAgCyGrpList", comboAgCyGrpList);
+		//model.addAttribute("comboAgCyGrpList", comboAgCyGrpList);
 		model.addAttribute("comboAgnyList", comboAgnyList);
 
 		return "/menu5/sub2/matRegister";
@@ -77,10 +77,22 @@ public class M5Sub2Controller {
 	// 사용자 상세 보기
 	@PostMapping("/sub2/matView")
 	public String matView(M5Sub2VO m5Sub2VO, @ModelAttribute("pageVO") PageVO pageVO, Model model) {
-		model.addAttribute("mat", m5Sub2Service.selectMatInfo(m5Sub2VO));
 
+		CommonComboVO comVo = new CommonComboVO();
+
+		comVo.setAgencyNo("");
+
+		List<CommonComboVO> comboAgCyGrpList = commonComboService.selectAgencyGroupCombo(comVo);
+		List<CommonComboVO> comboAgnyList = commonComboService.selectAgencyCombo();
+
+		model.addAttribute("comboAgCyGrpList", comboAgCyGrpList);
+		model.addAttribute("comboAgnyList", comboAgnyList);
+
+		model.addAttribute("mat", m5Sub2Service.selectMatInfo(m5Sub2VO));
 		model.addAttribute("searchMatId", m5Sub2VO.getSearchMatId());
+		model.addAttribute("searchMatDesc", m5Sub2VO.getSearchMatDesc());
 		model.addAttribute("searchUseYn", m5Sub2VO.getSearchUseYn());
+		model.addAttribute("searchAgency", m5Sub2VO.getSearchAgency());
 
 		return "/menu5/sub2/matView";
 	}
@@ -88,10 +100,22 @@ public class M5Sub2Controller {
 	// 사용자 수정 화면
 	@PostMapping("/sub2/matModify")
 	public String matModify(M5Sub2VO m5Sub2VO, @ModelAttribute("pageVO") PageVO pageVO, Model model) {
-		model.addAttribute("mat", m5Sub2Service.selectMatInfo(m5Sub2VO));
 
+		CommonComboVO comVo = new CommonComboVO();
+
+		comVo.setAgencyNo("");
+
+		List<CommonComboVO> comboAgCyGrpList = commonComboService.selectAgencyGroupCombo(comVo);
+		List<CommonComboVO> comboAgnyList = commonComboService.selectAgencyCombo();
+
+		model.addAttribute("comboAgCyGrpList", comboAgCyGrpList);
+		model.addAttribute("comboAgnyList", comboAgnyList);
+
+		model.addAttribute("mat", m5Sub2Service.selectMatInfo(m5Sub2VO));
 		model.addAttribute("searchMatId", m5Sub2VO.getSearchMatId());
+		model.addAttribute("searchMatDesc", m5Sub2VO.getSearchMatDesc());
 		model.addAttribute("searchUseYn", m5Sub2VO.getSearchUseYn());
+		model.addAttribute("searchAgency", m5Sub2VO.getSearchAgency());
 
 		return "/menu5/sub2/matModify";
 	}

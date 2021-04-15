@@ -37,6 +37,9 @@
               , group_name AS groupName
         FROM    tbl_agency_group
         WHERE   use_yn = 'Y'
+        <if test="agencyNo != null and agencyNo != ''">
+            AND agency_no = ${agencyNo}
+        </if>
     </select>
 
 </mapper>
