@@ -169,7 +169,9 @@
 	</update>
 
 	<delete id="deleteMat">
-		DELETE FROM tbl_mat_info WHERE mat_no = #{matNo}
+		DELETE FROM tbl_mat_info
+		 WHERE mat_no = #{matNo}
+		   AND mat_id = #{matId}
 	</delete>
 
 </mapper>

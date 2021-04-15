@@ -68,9 +68,9 @@
 						<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmRemoveModal">삭제</button>
 						<button type="button" class="btn btn-info" data-oper="list">목록</button>
 
-						<input type='hidden' name='matNo' value='<c:out value="${mat.matNo}"/>'>
-						<input type='hidden' name='pageNum' value='<c:out value="${pageVO.pageNum}"/>'>
-						<input type='hidden' name='amount' value='<c:out value="${pageVO.amount}"/>'>
+						<input type='hidden' name='matNo'       value='<c:out value="${mat.matNo}"/>'>
+						<input type='hidden' name='pageNum'     value='<c:out value="${pageVO.pageNum}"/>'>
+						<input type='hidden' name='amount'      value='<c:out value="${pageVO.amount}"/>'>
 						<input type='hidden' name='searchMatId' value='<c:out value="${searchMatId}"/>'>
 						<input type='hidden' name='searchUseYn' value='<c:out value="${searchUseYn}"/>'>
 					</form>
@@ -160,7 +160,10 @@
 
 			$('#confirmRemoveModal').modal('toggle');
 
-			var formData = {matId: $('input[name=matId]').val()};
+			var formData = {
+					    matId: $('input[name=matId]').val(),
+					    matNo: $('input[name=matNo]').val()
+					   };
 
 			gfn_callServer('POST', '/menu5/sub2/remove', true, formData, 'application/x-www-form-urlencoded; charset=UTF-8', 'text', callServerRemoveResult, 30000, csrfTokenValue);
 	    });
