@@ -98,7 +98,11 @@
                             <c:out value="${listStartNum - matStatus.count}" />
                           </a>
                         </td>
-                        <td class="text-center"><c:out value="${mat.matId}" /></td>
+                        <td class="text-center">
+                            <a class='move' href='<c:out value="${mat.matId}"/>'>
+                                <c:out value="${mat.matId}" />
+                            </a>
+                        </td>
                         <td class="text-center"><c:out value="${mat.description}" /></td>
                         <td class="text-center">
                           <c:if test="${mat.useYn eq 'Y'}">
