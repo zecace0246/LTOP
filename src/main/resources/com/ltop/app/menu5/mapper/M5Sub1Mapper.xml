@@ -2,60 +2,107 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ltop.app.menu5.mapper.M5Sub1Mapper">
 
-  <select id="selectUserList" resultType="com.ltop.app.menu5.domain.M5Sub1VO">
-    /* com.ltop.app.menu5.mapper.M5Sub1Mapper.selectUserList */
-    SELECT mem.userid   AS userId
-         , mem.userpw
-         , mem.username  AS userName
-         , mem.enabled
-         , mem.birthday
-         , mem.mat_id    AS matId
-         , mem.height
-         , mem.weight
-         , mem.tel
-         , mem.reguserid AS reguserId
-         , mem.agency_no AS agencyNo
-         , (SELECT agency_name FROM tbl_agency WHERE agency_no = mem.agency_no) AS agencyName
-         , (SELECT adm_id FROM tbl_agency WHERE agency_no = mem.agency_no) AS admId
-         , auth.auth
-         , mem.regdate AS regDate
-         , mem.updatedate AS updateDate
-     FROM tbl_member mem
-     LEFT OUTER JOIN tbl_member_auth auth ON auth.userid = mem.userid
-                                             AND auth.auth = 'ROLE_USER'
-    WHERE 1=1
-    <if test="searchUserName != null and searchUserName != ''">
-      AND mem.username LIKE CONCAT('%',#{searchUserName},'%')
-    </if>
+    <select id="selectUserTotalCount" resultType="int">
+        SELECT COUNT(*)
+          FROM tbl_member mem
+          LEFT OUTER JOIN tbl_member_auth auth ON auth.userid = mem.userid
+                                              AND auth.auth = 'ROLE_USER'
+          WHERE 1=1
+            <if test="searchUserName != null and searchUserName != ''">
+              AND mem.username LIKE CONCAT('%',#{searchUserName},'%')
+            </if>
 
 
-    <if test="searchMatId != null and searchMatId != ''">
-      AND mem.mat_id LIKE CONCAT('%',#{searchMatId},'%')
-    </if>
+            <if test="searchMatId != null and searchMatId != ''">
+              AND mem.mat_id LIKE CONCAT('%',#{searchMatId},'%')
+            </if>
 
-    <if test="searchEnabled != null and searchEnabled != ''">
-      AND mem.enabled = #{searchEnabled}
-    </if>
+            <if test="searchEnabled != null and searchEnabled != ''">
+              AND mem.enabled = #{searchEnabled}
+            </if>
 
-    <if test="searchAgency != null and searchAgency != ''">
-      AND mem.agency_no = #{searchAgency}
-    </if>
-    ORDER BY mem.regdate DESC
-  </select>
+            <if test="searchAgency != null and searchAgency != ''">
+              AND mem.agency_no = #{searchAgency}
+            </if>
+    </select>
 
-  <select id="selectUserInfo" resultType="com.ltop.app.menu5.domain.M5Sub1VO">
-    SELECT	mem.userid AS userId
-        , mem.username AS userName
-        , mem.tel
-        , mem.enabled
-        , mem.mat_id AS matId
-        , auth.auth
-    FROM	tbl_member mem, tbl_member_auth auth
-    WHERE	mem.userid = auth.userid
-        AND mem.userid = #{userId}
-  </select>
+    <select id="selectUserList" resultType="com.ltop.app.menu5.domain.M5Sub1VO">
+      /* com.ltop.app.menu5.mapper.M5Sub1Mapper.selectUserList */
+      <![CDATA[
+          SELECT R.*
+           FROM
+               (
+                SELECT mem.userid   AS userId
+                     , mem.userpw
+                     , mem.username  AS userName
+                     , mem.enabled
+                     , mem.birthday
+                     , mem.mat_id    AS matId
+                     , mem.height
+                     , mem.weight
+                     , mem.tel
+                     , mem.reguserid AS reguserId
+                     , mem.agency_no AS agencyNo
+                     , (SELECT agency_name FROM tbl_agency WHERE agency_no = mem.agency_no) AS agencyName
+                     , (SELECT adm_id FROM tbl_agency WHERE agency_no = mem.agency_no) AS admId
+                     , auth.auth
+                     , mem.regdate AS regDate
+                     , mem.updatedate AS updateDate
+                 FROM tbl_member mem
+                 LEFT OUTER JOIN tbl_member_auth auth ON auth.userid = mem.userid
+                                                         AND auth.auth = 'ROLE_USER'
+                WHERE 1=1
+            ]]>
+                <if test="m5Sub1VO.searchUserName != null and m5Sub1VO.searchUserName != ''">
+                  AND mem.username LIKE CONCAT('%',#{searchUserName},'%')
+                </if>
 
-  <insert id="insertUser">
+
+                <if test="m5Sub1VO.searchMatId != null and m5Sub1VO.searchMatId != ''">
+                  AND mem.mat_id LIKE CONCAT('%',#{searchMatId},'%')
+                </if>
+
+                <if test="m5Sub1VO.searchEnabled != null and m5Sub1VO.searchEnabled != ''">
+                  AND mem.enabled = #{searchEnabled}
+                </if>
+
+                <if test="m5Sub1VO.searchAgency != null and m5Sub1VO.searchAgency != ''">
+                  AND mem.agency_no = #{searchAgency}
+                </if>
+      <![CDATA[
+            ) R
+          WHERE 1=1
+           AND (userId <> 'admin' OR auth <> 'ROLE_ADMIN')
+          ORDER BY R.regdate DESC
+          LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
+        ]]>
+    </select>
+
+    <select id="selectUserInfo" resultType="com.ltop.app.menu5.domain.M5Sub1VO">
+        /* com.ltop.app.menu5.mapper.M5Sub1MapperselectUserInfo */
+        SELECT mem.userid  AS userId
+            , mem.username AS userName
+            , mem.birthday
+            , mem.tel
+            , mem.height
+            , mem.weight
+            , mem.enabled
+            , CASE WHEN mem.enabled = 'Y' THEN
+                       '사용'
+                   ELSE
+                       '미사용'
+               END AS enabledName
+            , mem.mat_id AS matId
+            , mem.agency_no
+            , (SELECT agency_name FROM tbl_agency WHERE agency_no = mem.agency_no) AS agencyName
+            , auth.auth
+        FROM tbl_member mem
+        LEFT OUTER JOIN tbl_member_auth auth ON auth.userid = mem.userid
+       WHERE 1=1
+         AND mem.userid = #{userId}
+    </select>
+
+    <insert id="insertUser">
     INSERT INTO tbl_member
     (
         userid
@@ -88,23 +135,30 @@
       , NOW()
       , NOW()
     )
-  </insert>
+    </insert>
 
-  <update id="updateUser">
-    UPDATE	tbl_member
-    SET		username = #{userName}
-        , updatedate = NOW()
-        , enabled = #{enabled}
-        , tel = #{tel}
-        , mat_id = #{matId}
-    WHERE	userid = #{userId}
-  </update>
+    <update id="updateUser">
+     UPDATE	tbl_member
+        SET	username = #{userName}
+            <if test="userPw != null and userPw != '' ">
+                , userpw = #{userPw}
+            </if>
+            , enabled = #{enabled}
+            , tel = #{tel}
+            , birthday = #{birthday}
+            , height = #{height}
+            , weight = #{weight}
+            , mat_id = #{matId}
+            , agency_no = #{agencyNo}
+            , updatedate = NOW()
+        WHERE userid = #{userId}
+    </update>
 
-  <delete id="deleteUser">
+    <delete id="deleteUser">
     DELETE FROM tbl_member WHERE userid = #{userId}
-  </delete>
+    </delete>
 
-  <insert id="insertUserAuth">
+    <insert id="insertUserAuth">
     INSERT INTO tbl_member_auth
     (
       userid
@@ -115,10 +169,10 @@
       #{userId}
       , #{auth}
     )
-  </insert>
+    </insert>
 
-  <delete id="deleteUserAuth">
+    <delete id="deleteUserAuth">
     DELETE FROM tbl_member_auth WHERE userid = #{userId}
-  </delete>
+    </delete>
 
 </mapper>
