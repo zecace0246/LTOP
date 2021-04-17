@@ -9,14 +9,14 @@ import com.ltop.app.common.domain.CommonComboVO;
 @Mapper
 public interface CommonComboMapper {
 
-	public List<CommonComboVO> selectAgencyAdminCombo();
+    public List<CommonComboVO> selectAgencyAdminCombo();
 
-	public List<CommonComboVO> selectAgencyUserCombo();
+    public List<CommonComboVO> selectAgencyUserCombo();
 
-	public List<CommonComboVO> selectMatCombo();
+    public List<CommonComboVO> selectMatCombo();
 
-	public List<CommonComboVO> selectAgencyCombo();
+    public List<CommonComboVO> selectAgencyCombo();
 
-	public List<CommonComboVO> selectAgencyGroupCombo(CommonComboVO comVo);
+    public List<CommonComboVO> selectAgencyGroupCombo(CommonComboVO comVo);
 
 }

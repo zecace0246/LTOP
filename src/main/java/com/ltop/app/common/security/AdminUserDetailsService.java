@@ -15,19 +15,19 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class AdminUserDetailsService implements UserDetailsService {
 
-	@Setter(onMethod_ = { @Autowired })
-	private MemberMapper memberMapper;
+    @Setter(onMethod_ = { @Autowired })
+    private MemberMapper memberMapper;
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		
-		MemberVO paramVO = new MemberVO();
-		
-		paramVO.setUserId(username);
-		
-		MemberVO vo = memberMapper.selectMemberInfo(paramVO);
-		
-		return vo == null ? null : new CustomUser(vo);
-	}
-	
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        MemberVO paramVO = new MemberVO();
+
+        paramVO.setUserId(username);
+
+        MemberVO vo = memberMapper.selectMemberInfo(paramVO);
+
+        return vo == null ? null : new CustomUser(vo);
+    }
+
 }

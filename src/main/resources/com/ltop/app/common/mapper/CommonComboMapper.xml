@@ -2,30 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ltop.app.common.mapper.CommonComboMapper">
 
-	<select id="selectAgencyAdminCombo" resultType="com.ltop.app.common.domain.CommonComboVO">
-		SELECT	mem.userid AS userId
-				, mem.username AS userName
-		FROM	tbl_member mem, tbl_member_auth auth
-		WHERE	mem.userid = auth.userid
-				AND auth.auth = 'ROLE_MEMBER'
-	</select>
+  <select id="selectAgencyAdminCombo" resultType="com.ltop.app.common.domain.CommonComboVO">
+   /* CommonComboMapper.selectAgencyAdminCombo */
+    SELECT	mem.userid AS userId
+        , mem.username AS userName
+    FROM	tbl_member mem, tbl_member_auth auth
+    WHERE	mem.userid = auth.userid
+        AND auth.auth = 'ROLE_MEMBER'
+  </select>
 
-	<select id="selectAgencyUserCombo" resultType="com.ltop.app.common.domain.CommonComboVO">
-		SELECT	mem.userid AS userId
-				, mem.username AS userName
-		FROM	tbl_member mem, tbl_member_auth auth
-		WHERE	mem.userid = auth.userid
-				AND auth.auth = 'ROLE_USER'
-	</select>
+  <select id="selectAgencyUserCombo" resultType="com.ltop.app.common.domain.CommonComboVO">
+    SELECT	mem.userid AS userId
+        , mem.username AS userName
+    FROM	tbl_member mem, tbl_member_auth auth
+    WHERE	mem.userid = auth.userid
+        AND auth.auth = 'ROLE_USER'
+  </select>
 
-	<select id="selectMatCombo" resultType="com.ltop.app.common.domain.CommonComboVO">
-		SELECT	mat_id AS matNo
-				, mat_id AS matId
-		FROM	tbl_mat_info
-		WHERE	use_yn = 'Y'
-	</select>
+  <select id="selectMatCombo" resultType="com.ltop.app.common.domain.CommonComboVO">
+    SELECT	mat_id AS matNo /* 실제 다른 Table은 ID로 관리*/
+          , mat_id AS matId
+    FROM	tbl_mat_info
+    WHERE	use_yn = 'Y'
 
-	<select id="selectAgencyCombo" resultType="com.ltop.app.common.domain.CommonComboVO">
+  </select>
+
+  <select id="selectAgencyCombo" resultType="com.ltop.app.common.domain.CommonComboVO">
         SELECT  agency_no AS agencyNo
               , agency_name AS agencyName
         FROM    tbl_agency

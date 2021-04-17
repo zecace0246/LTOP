@@ -16,21 +16,26 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class AdminLoginSuccessHandler implements AuthenticationSuccessHandler {
 
-	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth) throws IOException, ServletException {
-		List<String> roleNames = new ArrayList<>();
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth) throws IOException, ServletException {
+        List<String> roleNames = new ArrayList<>();
 
-		auth.getAuthorities().forEach(authority -> {
-			roleNames.add(authority.getAuthority());
-		});
+        System.out.println(" auth ::>> "+ auth);
 
-		if (roleNames.contains("ROLE_MEMBER") || roleNames.contains("ROLE_ADMIN") ) {
-			response.sendRedirect("/home");
-			return;
-		}
-		
-		response.sendRedirect("/member/adminLogin");
-	}
+        System.out.println(""+ auth.getPrincipal());
+
+        auth.getAuthorities().forEach(authority -> {
+            roleNames.add(authority.getAuthority());
+        });
+
+        if (roleNames.contains("ROLE_MEMBER") || roleNames.contains("ROLE_ADMIN") ) {
+
+            response.sendRedirect("/home");
+            return;
+        }
+
+        response.sendRedirect("/member/adminLogin");
+    }
 }
 
 

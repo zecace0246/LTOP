@@ -14,33 +14,35 @@ import lombok.Setter;
 @Service
 public class CommonComboServiceImpl implements CommonComboService {
 
-	@Setter(onMethod_ = @Autowired)
-	private CommonComboMapper commonComboMapper;
+    @Setter(onMethod_ = @Autowired)
+    private CommonComboMapper commonComboMapper;
 
 
-	@Override
-	public List<CommonComboVO> selectAgencyAdminCombo() {
-		return commonComboMapper.selectAgencyAdminCombo();
-	}
+    @Override
+    public List<CommonComboVO> selectAgencyAdminCombo() {
+        return commonComboMapper.selectAgencyAdminCombo();
+    }
 
-	@Override
-	public List<CommonComboVO> selectAgencyUserCombo() {
-		return commonComboMapper.selectAgencyUserCombo();
-	}
+    @Override
+    public List<CommonComboVO> selectAgencyUserCombo() {
+        return commonComboMapper.selectAgencyUserCombo();
+    }
 
-	@Override
-	public List<CommonComboVO> selectMatCombo() {
-		return commonComboMapper.selectMatCombo();
-	}
+    @Override
+    public List<CommonComboVO> selectMatCombo() {
+        return commonComboMapper.selectMatCombo();
+    }
 
-	@Override
-	public List<CommonComboVO> selectAgencyCombo() {
-		return commonComboMapper.selectAgencyCombo();
-	}
+    @Override
+    public List<CommonComboVO> selectAgencyCombo() {
+        return commonComboMapper.selectAgencyCombo();
+    }
 
-	@Override
-	public List<CommonComboVO> selectAgencyGroupCombo(CommonComboVO comVo) {
-		return commonComboMapper.selectAgencyGroupCombo(comVo);
-	}
+    @Override
+    public List<CommonComboVO> selectAgencyGroupCombo(CommonComboVO comVo) {
+        return commonComboMapper.selectAgencyGroupCombo(comVo);
+    }
+
+
 
 }

@@ -2,6 +2,8 @@ package com.ltop.app.menu5.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ltop.app.board.domain.BoardVO;
 import com.ltop.app.board.domain.Criteria;
+import com.ltop.app.common.domain.CommonComboVO;
+import com.ltop.app.common.service.CommonComboService;
 import com.ltop.app.menu5.domain.M5Sub1VO;
 import com.ltop.app.menu5.service.M5Sub1Service;
 
@@ -25,80 +29,91 @@ import lombok.Setter;
 @RequestMapping("/menu5")
 public class M5Sub1Controller {
 
-	@Setter(onMethod_ = @Autowired)
-	private M5Sub1Service m5Sub1Service;
-	
-	// 사용자 목록 화면
-	@GetMapping("/sub1/userList")
-	public String list(M5Sub1VO m5Sub1VO, Model model) {
-		List<M5Sub1VO> userList = m5Sub1Service.selectUserList(m5Sub1VO);
-		
-		model.addAttribute("userList", userList);
-		
-		model.addAttribute("searchUserName", m5Sub1VO.getSearchUserName());
-		model.addAttribute("searchMatId", m5Sub1VO.getSearchMatId());
-		model.addAttribute("searchEnabled", m5Sub1VO.getSearchEnabled());
-		model.addAttribute("searchGroup", m5Sub1VO.getSearchGroup());
-		
-		return "/menu5/sub1/userList";
-	}
-	
-	// 사용자 등록 화면
-	@GetMapping("/sub1/userRegister")
-	public String userRegister() {
-		return "/menu5/sub1/userRegister";
-	}
-	
-	// 사용자 등록
-	@PostMapping("/sub1/register")
-	//@ResponseBody
-	public ResponseEntity<String> register(M5Sub1VO m5Sub1VO) {		
-		boolean result = m5Sub1Service.insertUser(m5Sub1VO);
+    @Setter(onMethod_ = @Autowired)
+    private CommonComboService commonComboService;
 
-		return result ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	}	
-	
-	// 사용자 상세 보기
-	@PostMapping("/sub1/userView")
-	public String userView(@RequestParam("userId") String userId, Model model) {
-		model.addAttribute("user", m5Sub1Service.selectUserInfo(userId));
-		
-		return "/menu5/sub1/userView";
-	}
-	
-	// 사용자 수정 화면
-	@PostMapping("/sub1/userModify")
-	public String userModify(@RequestParam("userId") String userId, M5Sub1VO m5Sub1VO, Model model) {
-		model.addAttribute("user", m5Sub1Service.selectUserInfo(userId));
-		
-		model.addAttribute("searchUserName", m5Sub1VO.getSearchUserName());
-		model.addAttribute("searchMatId", m5Sub1VO.getSearchMatId());
-		model.addAttribute("searchEnabled", m5Sub1VO.getSearchEnabled());
-		model.addAttribute("searchGroup", m5Sub1VO.getSearchGroup());		
-		
-		return "/menu5/sub1/userModify";
-	}
-	
-	// 사용자 수정
-	@PostMapping("/sub1/modify")
-	@ResponseBody
-	public ResponseEntity<String> modify(M5Sub1VO m5Sub1VO, RedirectAttributes rttr) {		
-		boolean result = m5Sub1Service.updateUser(m5Sub1VO);
-		
-		rttr.addAttribute("searchUserName", m5Sub1VO.getSearchUserName());
-		rttr.addAttribute("searchMatId", m5Sub1VO.getSearchMatId());
-		rttr.addAttribute("searchEnabled", m5Sub1VO.getSearchEnabled());
-		rttr.addAttribute("searchGroup", m5Sub1VO.getSearchGroup());
-		
-		return result ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-	
-	// 사용자 삭제
-	@PostMapping("/sub1/remove")
-	public ResponseEntity<String> remove(M5Sub1VO m5Sub1VO) {		
-		boolean result = m5Sub1Service.deleteUser(m5Sub1VO);
-		
-		return result ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	}	
-	
+    @Setter(onMethod_ = @Autowired)
+    private M5Sub1Service m5Sub1Service;
+
+    // 사용자 목록 화면
+    @GetMapping("/sub1/userList")
+    public String list(M5Sub1VO m5Sub1VO, Model model) {
+
+        List<M5Sub1VO> userList = m5Sub1Service.selectUserList(m5Sub1VO);
+        List<CommonComboVO> comboAgnyList = commonComboService.selectAgencyCombo();
+
+        model.addAttribute("userList", userList);
+        model.addAttribute("comboAgnyList", comboAgnyList);
+        model.addAttribute("searchUserName", m5Sub1VO.getSearchUserName());
+        model.addAttribute("searchMatId", m5Sub1VO.getSearchMatId());
+        model.addAttribute("searchEnabled", m5Sub1VO.getSearchEnabled());
+        model.addAttribute("searchAgency", m5Sub1VO.getSearchAgency());
+
+        return "/menu5/sub1/userList";
+    }
+
+    // 사용자 등록 화면
+    @GetMapping("/sub1/userRegister")
+    public String userRegister(Model model) {
+
+        List<CommonComboVO> comboMatList = commonComboService.selectMatCombo();
+        List<CommonComboVO> comboAgnyList = commonComboService.selectAgencyCombo();
+
+        model.addAttribute("comboMatList", comboMatList);
+        model.addAttribute("comboAgnyList", comboAgnyList);
+        return "/menu5/sub1/userRegister";
+    }
+
+    // 사용자 등록
+    @PostMapping("/sub1/register")
+    //@ResponseBody
+    public ResponseEntity<String> register(M5Sub1VO m5Sub1VO) {
+        boolean result = m5Sub1Service.insertUser(m5Sub1VO);
+
+        return result ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    // 사용자 상세 보기
+    @PostMapping("/sub1/userView")
+    public String userView(@RequestParam("userId") String userId, Model model) {
+        model.addAttribute("user", m5Sub1Service.selectUserInfo(userId));
+
+        return "/menu5/sub1/userView";
+    }
+
+    // 사용자 수정 화면
+    @PostMapping("/sub1/userModify")
+    public String userModify(@RequestParam("userId") String userId, M5Sub1VO m5Sub1VO, Model model) {
+        model.addAttribute("user", m5Sub1Service.selectUserInfo(userId));
+
+        model.addAttribute("searchUserName", m5Sub1VO.getSearchUserName());
+        model.addAttribute("searchMatId", m5Sub1VO.getSearchMatId());
+        model.addAttribute("searchEnabled", m5Sub1VO.getSearchEnabled());
+        model.addAttribute("searchGroup", m5Sub1VO.getSearchGroup());
+
+        return "/menu5/sub1/userModify";
+    }
+
+    // 사용자 수정
+    @PostMapping("/sub1/modify")
+    @ResponseBody
+    public ResponseEntity<String> modify(M5Sub1VO m5Sub1VO, RedirectAttributes rttr) {
+        boolean result = m5Sub1Service.updateUser(m5Sub1VO);
+
+        rttr.addAttribute("searchUserName", m5Sub1VO.getSearchUserName());
+        rttr.addAttribute("searchMatId", m5Sub1VO.getSearchMatId());
+        rttr.addAttribute("searchEnabled", m5Sub1VO.getSearchEnabled());
+        rttr.addAttribute("searchGroup", m5Sub1VO.getSearchGroup());
+
+        return result ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    // 사용자 삭제
+    @PostMapping("/sub1/remove")
+    public ResponseEntity<String> remove(M5Sub1VO m5Sub1VO) {
+        boolean result = m5Sub1Service.deleteUser(m5Sub1VO);
+
+        return result ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }

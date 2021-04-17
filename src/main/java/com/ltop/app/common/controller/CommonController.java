@@ -21,46 +21,46 @@ import lombok.extern.log4j.Log4j;
 @Controller
 public class CommonController {
 
-	@Setter(onMethod_ = @Autowired)
-	private CommonComboService commonComboService;
+    @Setter(onMethod_ = @Autowired)
+    private CommonComboService commonComboService;
 
-	@GetMapping(value = {"/","/home"})
-	public String home(Locale locale, Model model) {
-		return "home";
-	}
+    @GetMapping(value = {"/","/home"})
+    public String home(Locale locale, Model model) {
+        return "home";
+    }
 
-	@GetMapping("/error/accessDeny")
-	public void accessDenied(Authentication auth, Model model) {
-		model.addAttribute("msg", "Access Denied");
-	}
+    @GetMapping("/error/accessDeny")
+    public void accessDenied(Authentication auth, Model model) {
+        model.addAttribute("msg", "Access Denied");
+    }
 
-	@GetMapping("/dashboardv1")
-	public String dashboardv1() {
-		return "dashboardv1";
-	}
+    @GetMapping("/dashboardv1")
+    public String dashboardv1() {
+        return "dashboardv1";
+    }
 
-	@GetMapping("/dashboardv2")
-	public String dashboardv2() {
-		return "dashboardv2";
-	}
+    @GetMapping("/dashboardv2")
+    public String dashboardv2() {
+        return "dashboardv2";
+    }
 
-	@GetMapping("/dashboardv3")
-	public String dashboardv3() {
-		return "dashboardv3";
-	}
+    @GetMapping("/dashboardv3")
+    public String dashboardv3() {
+        return "dashboardv3";
+    }
 
-	@GetMapping("/dashboardv4")
-	public String dashboardv4() {
-		return "dashboardv4";
-	}
+    @GetMapping("/dashboardv4")
+    public String dashboardv4() {
+        return "dashboardv4";
+    }
 
-	@GetMapping("/selectAgencyGroupCombo")
-	@ResponseBody
-	public Object selectAgencyGroupCombo(CommonComboVO comVo, Model model) {
+    @GetMapping("/selectAgencyGroupCombo")
+    @ResponseBody
+    public Object selectAgencyGroupCombo(CommonComboVO comVo, Model model) {
 
-		List<CommonComboVO> comboAgCyGrpList = commonComboService.selectAgencyGroupCombo(comVo);
+        List<CommonComboVO> comboAgCyGrpList = commonComboService.selectAgencyGroupCombo(comVo);
 
-		return comboAgCyGrpList ;
-	}
+        return comboAgCyGrpList ;
+    }
 
 }
