@@ -40,14 +40,14 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">생년월일</label>
-                                        <input type="text" class="form-control" id="birthday" name="birthday" placeholder="ex) 19740101">
+                                        <input type="text" class="form-control" id="birthday" name="birthday" placeholder="ex) 1974-01-01">
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">전화번호</label>
-                                        <input type="text" class="form-control" id="tel" name="tel" placeholder="ex) 01012345678">
+                                        <input type="text" class="form-control" id="tel" name="tel" placeholder="ex) 010-1234-5678">
                                     </div>
                                 </div>
 
@@ -104,9 +104,9 @@
 
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmModal">저장</button>
                             <button type="reset" data-oper="reset" class="btn btn-secondary">취소</button>
-              <button type="button" data-oper="list" class="btn btn-info">목록</button>
+                            <button type="button" data-oper="list" class="btn btn-info">목록</button>
 
-              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                         </form>
                     </div>
                 </div>
@@ -212,9 +212,8 @@ $(document).ready(function() {
         /*enabled: $('input:radio[name=radio-enabled]').is(':checked') == true ? '1' : '0',*/
         enabled: $('select[name=enabled]').val(),
         matId: $('select[name=matId]').val(),
-        group: $('select[name=group]').val()
+        agencyNo: $('select[name=agencyNo]').val()
       };
-
 
     gfn_callServer('POST', '/menu5/sub1/register', true, formData, 'application/x-www-form-urlencoded; charset=UTF-8', 'text', callServerRegisterResult, 30000, csrfTokenValue);
   });

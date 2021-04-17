@@ -20,6 +20,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ltop.app.board.domain.BoardVO;
 import com.ltop.app.board.domain.Criteria;
 import com.ltop.app.common.domain.CommonComboVO;
+import com.ltop.app.common.domain.PageDTO;
+import com.ltop.app.common.domain.PageVO;
 import com.ltop.app.common.service.CommonComboService;
 import com.ltop.app.menu5.domain.M5Sub1VO;
 import com.ltop.app.menu5.service.M5Sub1Service;
@@ -37,9 +39,10 @@ public class M5Sub1Controller {
 
     // 사용자 목록 화면
     @GetMapping("/sub1/userList")
-    public String list(M5Sub1VO m5Sub1VO, Model model) {
+    public String list(PageVO pageVO, M5Sub1VO m5Sub1VO, Model model) {
+        int total = m5Sub1Service.selectUserTotalCount(m5Sub1VO);
 
-        List<M5Sub1VO> userList = m5Sub1Service.selectUserList(m5Sub1VO);
+        List<M5Sub1VO> userList = m5Sub1Service.selectUserList(pageVO, m5Sub1VO);
         List<CommonComboVO> comboAgnyList = commonComboService.selectAgencyCombo();
 
         model.addAttribute("userList", userList);
@@ -48,6 +51,7 @@ public class M5Sub1Controller {
         model.addAttribute("searchMatId", m5Sub1VO.getSearchMatId());
         model.addAttribute("searchEnabled", m5Sub1VO.getSearchEnabled());
         model.addAttribute("searchAgency", m5Sub1VO.getSearchAgency());
+        model.addAttribute("pageMaker", new PageDTO(pageVO, total));
 
         return "/menu5/sub1/userList";
     }
@@ -75,8 +79,20 @@ public class M5Sub1Controller {
 
     // 사용자 상세 보기
     @PostMapping("/sub1/userView")
-    public String userView(@RequestParam("userId") String userId, Model model) {
+    public String userView(@RequestParam("userId") String userId, M5Sub1VO m5Sub1VO, Model model) {
+
+        List<CommonComboVO> comboMatList = commonComboService.selectMatCombo();
+        List<CommonComboVO> comboAgnyList = commonComboService.selectAgencyCombo();
+
         model.addAttribute("user", m5Sub1Service.selectUserInfo(userId));
+
+        model.addAttribute("searchUserName", m5Sub1VO.getSearchUserName());
+        model.addAttribute("searchMatId", m5Sub1VO.getSearchMatId());
+        model.addAttribute("searchEnabled", m5Sub1VO.getSearchEnabled());
+        model.addAttribute("searchAgency", m5Sub1VO.getSearchAgency());
+
+        model.addAttribute("comboMatList", comboMatList);
+        model.addAttribute("comboAgnyList", comboAgnyList);
 
         return "/menu5/sub1/userView";
     }
@@ -84,12 +100,18 @@ public class M5Sub1Controller {
     // 사용자 수정 화면
     @PostMapping("/sub1/userModify")
     public String userModify(@RequestParam("userId") String userId, M5Sub1VO m5Sub1VO, Model model) {
-        model.addAttribute("user", m5Sub1Service.selectUserInfo(userId));
 
+        List<CommonComboVO> comboMatList = commonComboService.selectMatCombo();
+        List<CommonComboVO> comboAgnyList = commonComboService.selectAgencyCombo();
+
+        model.addAttribute("user", m5Sub1Service.selectUserInfo(userId));
         model.addAttribute("searchUserName", m5Sub1VO.getSearchUserName());
         model.addAttribute("searchMatId", m5Sub1VO.getSearchMatId());
         model.addAttribute("searchEnabled", m5Sub1VO.getSearchEnabled());
-        model.addAttribute("searchGroup", m5Sub1VO.getSearchGroup());
+        model.addAttribute("searchAgency", m5Sub1VO.getSearchAgency());
+
+        model.addAttribute("comboMatList", comboMatList);
+        model.addAttribute("comboAgnyList", comboAgnyList);
 
         return "/menu5/sub1/userModify";
     }
@@ -103,7 +125,7 @@ public class M5Sub1Controller {
         rttr.addAttribute("searchUserName", m5Sub1VO.getSearchUserName());
         rttr.addAttribute("searchMatId", m5Sub1VO.getSearchMatId());
         rttr.addAttribute("searchEnabled", m5Sub1VO.getSearchEnabled());
-        rttr.addAttribute("searchGroup", m5Sub1VO.getSearchGroup());
+        rttr.addAttribute("searchAgency", m5Sub1VO.getSearchAgency());
 
         return result ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }

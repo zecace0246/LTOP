@@ -7,33 +7,33 @@ import lombok.Data;
 @Data
 public class M5Sub2VO {
 
-	private String searchMatId;
-	private String searchMatDesc;
-	private String searchAgency;
-	private String searchUseYn;
+    private String searchMatId;
+    private String searchMatDesc;
+    private String searchAgency;
+    private String searchUseYn;
 
-	private Integer matNo;
-	private String matId;
-	private String description;
-	private String useYn;
-	private String groupSeq;
-	private String agencyNo;
-	private String agencyName;
-	private String groupName;
-	private String groupAdmId;
-	private String groupAdmName;
+    private Integer matNo;
+    private String matId;
+    private String description;
+    private String useYn;
+    private String groupSeq;
+    private String agencyNo;
+    private String agencyName;
+    private String groupName;
+    private String groupAdmId;
+    private String groupAdmName;
 
-	private String attr1;
-	private String attr2;
-	private String attr3;
-	private String attr4;
-	private String attr5;
-	private String attr6;
-	private String attr7;
-	private String attr8;
-	private String attr9;
-	private String attr10;
-	private String regId;
-	private Date regDate;
+    private String attr1;
+    private String attr2;
+    private String attr3;
+    private String attr4;
+    private String attr5;
+    private String attr6;
+    private String attr7;
+    private String attr8;
+    private String attr9;
+    private String attr10;
+    private String regId;
+    private Date regDate;
 
 }

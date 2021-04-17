@@ -47,6 +47,9 @@
                           <button type="button" class="btn btn-primary"><i class="feather mr-2 icon-search"></i>검색</button>
                       </div>
                   </div>
+
+                  <input type='hidden' name='pageNum' value='<c:out value="${pageMaker.pageVO.pageNum}"/>' />
+                  <input type='hidden' name='amount' value='<c:out value="${pageMaker.pageVO.amount}"/>' />
               </form>
             </div>
         </div>
@@ -121,6 +124,31 @@
               </tbody>
             </table>
           </div>
+
+          <div class="row float-right">
+                <div class="col-sm-12">
+                    <div class="dataTables_paginate paging_simple_numbers" id="dom-jqry_paginate">
+                        <ul class="pagination">
+                            <c:if test="${pageMaker.prev}">
+                                <li class="paginate_button page-item previous disabled" id="dom-jqry_previous">
+                                    <a href="${pageMaker.startPage -1}" aria-controls="dom-jqry" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                </li>
+                            </c:if>
+                            <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+                                <li class="paginate_button page-item ${pageMaker.pageVO.pageNum == num ? 'active' : ''} ">
+                                    <a href="${num}" aria-controls="dom-jqry" data-dt-idx="1" tabindex="0" class="page-link">${num}</a>
+                                </li>
+                            </c:forEach>
+                            <c:if test="${pageMaker.next}">
+                                <li class="paginate_button page-item next" id="dom-jqry_next">
+                                    <a href="#" aria-controls="dom-jqry" data-dt-idx="3" tabindex="0" class="page-link">Next</a>
+                                </li>
+                            </c:if>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
         </div>
       </div>
     </div>
@@ -164,12 +192,29 @@ $(document).ready(function() {
         userId: $(this).attr('href'),
         searchUserName: $('input[name=searchUserName]').val(),
         searchMatId: $('input[name=searchMatId]').val(),
-        searchEnabled: $('input[name=searchEnabled]').val(),
-        searchGroup: $('input[name=searchGroup]').val()
+        searchEnabled: $('select[name=searchEnabled]').val(),
+        searchAgency: $('select[name=searchAgency]').val()
       };
 
     gfn_callServer('POST', '/menu5/sub1/userView', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
   });
+
+  //페이징 버튼 선택
+  $(".paginate_button a").on("click", function(e) {
+      e.preventDefault();
+
+      var formData = {
+              pageNum: $(this).attr("href"),
+              amount: $('input[name=amount]').val(),
+              searchUserName: $('input[name=searchUserName]').val(),
+              searchMatId: $('input[name=searchMatId]').val(),
+              searchEnabled: $('select[name=searchEnabled]').val(),
+              searchAgency: $('select[name=searchAgency]').val()
+          };
+
+      gfn_callMenu("GET", "/menu5/sub1/userList", true, formData, "text", gfn_callMenuResult, 30000);
+  });
+
 });
 
 </script>

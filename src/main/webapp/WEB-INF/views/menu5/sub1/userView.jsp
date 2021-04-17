@@ -4,113 +4,130 @@
 
 <div class="pcoded-content">
 
-	<!-- [ Main Content ] start -->
-	<div class="row">
-		<div class="col-sm-12">
-			<div class="card">
-				<div class="card-header">
-					<h5>사용자 상세 보기</h5>
-				</div>
-				<div class="card-body">
-					<form id="view">
-						<div class="row">
-							<div class="col-md-12">
-							    <div class="form-group">
-							        <label class="form-label">사용자 ID</label>
-							        <input type="text" class="form-control" name="userId" value='<c:out value="${user.userId}"/>' readonly="readonly">
-							    </div>
-							</div>
-							<div class="col-md-12">
-							    <div class="form-group">
-							        <label class="form-label">사용자 이름</label>
-							        <input type="text" class="form-control" name="userName" value='<c:out value="${user.userName}"/>' readonly="readonly">
-							    </div>
-							</div>
-							<div class="col-md-12">
-							    <div class="form-group">
-							        <label class="form-label">전화번호</label>
-							    	<input type="text" class="form-control" name="tel" value='<c:out value="${user.tel}"/>' readonly="readonly">
-							    </div>
-							</div>
-							<div class="col-md-12">
-	                            <div class="form-group">
-	                                <label class="form-label">사용유무</label>
-	                                <div class="form-check">
-	                                    <label class="form-check-label">
-	                                        <input class="form-check-input" type="radio" name="radio-enabled" disabled <c:if test="${user.enabled eq '1'}">checked</c:if>> 사용
-	                                    </label>
-	                                </div>
-	                                <div class="form-check">
-	                                    <label class="form-check-label">
-	                                        <input class="form-check-input" type="radio" name="radio-enabled" disabled <c:if test="${user.enabled ne '1'}">checked</c:if>> 미사용
-	                                    </label>
-	                                </div>
-	                            </div>
-							</div>
-							<div class="col-md-12">
-							    <div class="form-group">
-							        <label class="form-label">매트ID</label>
-							    	<input type="text" class="form-control" name="matId" value='<c:out value="${user.matId}"/>' readonly="readonly">
-							    </div>
-							</div>
-							<div class="col-md-12">
-							    <div class="form-group">
-							        <label class="form-label">그룹</label>
-							    	<input type="text" class="form-control" name="group" readonly="readonly">
-							    </div>
-							</div>														
-						</div>
-												
-						<button type="button" data-oper='modify' class="btn btn-primary">수정</button>
-						<button type="button" data-oper='list' class="btn btn-info">목록</button>
-						                     							
-						<input type='hidden' name='searchUserName' value='<c:out value="${searchUserName}"/>'> 
-						<input type='hidden' name='searchMatId' value='<c:out value="${searchMatId}"/>'>
-						<input type='hidden' name='searchEnabled' value='<c:out value="${searchEnabled}"/>'>
-						<input type='hidden' name='searchGroup' value='<c:out value="${searchGroup}"/>'>
-						
-						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-					</form>
-				</div>
-								
-			</div>
-		</div>
-	</div>
-	<!-- [ Main Content ] end -->
-	
+  <!-- [ Main Content ] start -->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h5>사용자 상세 보기</h5>
+        </div>
+        <div class="card-body">
+          <form id="view">
+            <div class="row">
+              <div class="col-md-12">
+                  <div class="form-group">
+                      <label class="form-label">사용자 ID</label>
+                      <input type="text" class="form-control" id="userId" name="userId" value="<c:out value="${user.userId}"/>" readonly="readonly">
+                  </div>
+              </div>
+
+              <div class="col-md-6">
+                  <div class="form-group">
+                      <label class="form-label">사용자 이름</label>
+                      <input type="text" class="form-control" id="userName" name="userName" value="<c:out value="${user.userName}"/>" readonly="readonly">
+                  </div>
+              </div>
+
+              <div class="col-md-6">
+                  <div class="form-group">
+                      <label class="form-label">생년월일</label>
+                      <input type="text" class="form-control" id="birthday" name="birthday" value="<c:out value="${user.birthday}"/>" readonly="readonly">
+                  </div>
+              </div>
+
+              <div class="col-md-6">
+                  <div class="form-group">
+                      <label class="form-label">전화번호</label>
+                      <input type="text" class="form-control" id="tel" name="tel" value="<c:out value="${user.tel}"/>" readonly="readonly">
+                  </div>
+              </div>
+
+              <div class="col-md-6">
+                  <div class="form-group">
+                      <label class="form-label">키</label>
+                      <input type="text" class="form-control" id="height" name="height" value="<c:out value="${user.height}"/>" readonly="readonly">
+                  </div>
+              </div>
+
+              <div class="col-md-6">
+                  <div class="form-group">
+                      <label class="form-label">몸무게</label>
+                      <input type="text" class="form-control" id="weight" name="weight" value="<c:out value="${user.weight}"/>" readonly="readonly">
+                  </div>
+              </div>
+
+              <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="form-label">사용유무</label>
+                    <input type="text" class="form-control" id="enabled" name="enabled" value="<c:out value="${user.enabledName}"/>" readonly="readonly">
+                  </div>
+              </div>
+
+              <div class="col-md-6">
+                  <div class="form-group">
+                      <label class="form-label">매트 ID</label>
+                      <input type="text" class="form-control" id="matId" name="matId" value="<c:out value="${user.matId}"/>" readonly="readonly">
+                  </div>
+              </div>
+
+              <div class="col-md-6">
+                  <div class="form-group">
+                      <label class="form-label">기관</label>
+                      <input type="text" class="form-control" id="agencyName" name="agencyName" value="<c:out value="${user.agencyName}"/>" readonly="readonly">
+                  </div>
+              </div>
+            </div>
+
+            <button type="button" data-oper='modify' class="btn btn-primary">수정</button>
+            <button type="button" data-oper='list' class="btn btn-info">목록</button>
+
+            <input type='hidden' name='searchUserName' value='<c:out value="${searchUserName}"/>'>
+            <input type='hidden' name='searchMatId' value='<c:out value="${searchMatId}"/>'>
+            <input type='hidden' name='searchEnabled' value='<c:out value="${searchEnabled}"/>'>
+            <input type='hidden' name='searchGroup' value='<c:out value="${searchGroup}"/>'>
+
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- [ Main Content ] end -->
+
 </div>
 
 <script>
 
-$(document).ready(function() {	
-	var csrfTokenValue = '${_csrf.token}';
-    
-	$('button[data-oper=modify]').on('click', function(e){
-		e.preventDefault();
-		
-		var formData = {
-				userId: $('input[name=userId]').val(),
-				searchUserName: $('input[name=searchUserName]').val(), 
-				searchMatId: $('input[name=searchMatId]').val(), 
-				searchEnabled: $('input[name=searchEnabled]').val(),
-				searchGroup: $('input[name=searchGroup]').val()
-			};
-		
-		gfn_callServer('POST', '/menu5/sub1/userModify', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
+$(document).ready(function() {
+  var csrfTokenValue = '${_csrf.token}';
+
+  $('button[data-oper=modify]').on('click', function(e){
+    e.preventDefault();
+
+    var formData = {
+        userId: $('input[name=userId]').val(),
+        searchUserName: $('input[name=searchUserName]').val(),
+        searchMatId: $('input[name=searchMatId]').val(),
+        searchEnabled: $('select[name=searchEnabled]').val(),
+        searchAgency: $('select[name=searchAgency]').val()
+      };
+
+    gfn_callServer('POST', '/menu5/sub1/userModify', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
     });
-      
-	$('button[data-oper=list]').on('click', function(e){
-		e.preventDefault();
-		
-		var formData = {
-				searchUserName: $('input[name=searchUserName]').val(), 
-				searchMatId: $('input[name=searchMatId]').val(), 
-				searchEnabled: $('input[name=searchEnabled]').val(),
-				searchGroup: $('input[name=searchGroup]').val()
-			};
-		
-		gfn_callMenu('GET', '/menu5/sub1/userList', true, formData, 'text', gfn_callMenuResult, 30000);
-    });   
+
+  $('button[data-oper=list]').on('click', function(e){
+    e.preventDefault();
+
+    var formData = {
+        searchUserName: $('input[name=searchUserName]').val(),
+            searchMatId: $('input[name=searchMatId]').val(),
+            searchEnabled: $('select[name=searchEnabled]').val(),
+            searchAgency: $('select[name=searchAgency]').val()
+      };
+
+    gfn_callMenu('GET', '/menu5/sub1/userList', true, formData, 'text', gfn_callMenuResult, 30000);
+    });
 });
 
 </script>

@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ltop.app.common.domain.PageVO;
 import com.ltop.app.member.domain.MemberVO;
 import com.ltop.app.menu5.domain.M5Sub1VO;
 import com.ltop.app.menu5.mapper.M5Sub1Mapper;
@@ -32,10 +33,15 @@ public class M5Sub1ServiceImpl implements M5Sub1Service {
     @Setter(onMethod_ = @Autowired)
     private M5Sub1Mapper m5Sub1Mapper;
 
+    @Override
+    public int selectUserTotalCount(M5Sub1VO m5Sub1VO) {
+
+       return m5Sub1Mapper.selectUserTotalCount(m5Sub1VO);
+    }
 
     @Override
-    public List<M5Sub1VO> selectUserList(M5Sub1VO m5Sub1VO) {
-        return m5Sub1Mapper.selectUserList(m5Sub1VO);
+    public List<M5Sub1VO> selectUserList(PageVO pageVO, M5Sub1VO m5Sub1VO) {
+        return m5Sub1Mapper.selectUserList(pageVO, m5Sub1VO);
     }
 
     @Override
@@ -78,6 +84,11 @@ public class M5Sub1ServiceImpl implements M5Sub1Service {
     @Transactional
     @Override
     public boolean updateUser(M5Sub1VO m5Sub1VO) {
+
+        if(m5Sub1VO.getUserPw() != null || !m5Sub1VO.getUserPw().equals("")) {
+            m5Sub1VO.setUserPw(pwencoder.encode(m5Sub1VO.getUserPw()));
+        }
+
         return m5Sub1Mapper.updateUser(m5Sub1VO) == 1;
     }
 

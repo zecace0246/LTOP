@@ -16,6 +16,7 @@ public class M5Sub1VO {
     private String userPw;
     private String tel;
     private String enabled;
+    private String enabledName;
     private String matId;
     private String auth;
     private String birthday;
