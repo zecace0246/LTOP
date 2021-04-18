@@ -47,7 +47,7 @@ public interface CommonComboMapper {
 	//alarm Of Menu
 	public int selectAlarmTotalCountA(AlarmVO alarmVO);
 	public int selectAlarmTotalCountU(AlarmVO alarmVO);
-	public int selectAlarmTotalCountP(AlarmVO alarmVO);
+	public int selectAlarmTotalCountP(AlarmVO alarmVO); 
 	
 	public List<AlarmVO> selectMenuAlarmListA(@Param("pageVO") PageVO pageVO, @Param("alarmVO") AlarmVO alarmVO);
 	public List<AlarmVO> selectMenuAlarmListU(@Param("pageVO") PageVO pageVO, @Param("alarmVO") AlarmVO alarmVO);
