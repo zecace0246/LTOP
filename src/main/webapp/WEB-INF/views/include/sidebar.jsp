@@ -11,11 +11,11 @@
 						<label>Navigation</label>
 					</li>
 					<li class="nav-item pcoded-hasmenu" id="introMenu">
-						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
-						<ul class="pcoded-submenu">
+						<a href="/dashboardv1" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
+						<!-- ul class="pcoded-submenu">
 							<li id="introSubMenu"><a href="#" data-url="/dashboardv1">Analytics</a></li>
 							<li><a href="#" data-url="/dashboardv2">Sales</a></li>
-						</ul>
+						</ul-->
 					</li>
 
 					<li class="nav-item pcoded-hasmenu">
@@ -28,14 +28,14 @@
 					</li>
 
 					<li class="nav-item pcoded-singlemenu">
-						<a href="#" data-url="" class="nav-link ">
+						<a href="#" data-url="/user" class="nav-link ">
 							<span class="pcoded-micon"><i class="feather icon-users"></i></span>
 							<span class="pcoded-mtext">사용자</span>
 						</a>
 					</li>
 
 					<li class="nav-item pcoded-singlemenu">
-						<a href="#" data-url="" class="nav-link ">
+						<a href="#" data-url="/alarm" class="nav-link ">
 							<span class="pcoded-micon"><i class="feather icon-bell"></i></span>
 							<span class="pcoded-mtext">알림</span>
 						</a>
