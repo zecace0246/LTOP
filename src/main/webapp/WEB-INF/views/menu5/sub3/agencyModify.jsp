@@ -84,7 +84,7 @@
     </div>
   </div>
 </div>
-<!--
+
 <div id="confirmRemoveModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmRemoveModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -102,7 +102,7 @@
     </div>
   </div>
 </div>
-
+<!--
 <div id="detailCUDModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="detailCUDModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -215,8 +215,8 @@
           agencyNo: $('input[name=agencyNo]').val(),
           agencyName: $('input[name=agencyName]').val(),
           description: $('textarea[name=description]').val(),
-          admId: $('select[name=agencyUserCombo]').val(),
-          useYn: $('input:radio[name=radio-useYn]:checked').val()
+          admId: $('select[name=agencyAdminCombo]').val(),
+          useYn: $('select[name=useYn]').val()
         };
 
       gfn_callServer('POST', '/menu5/sub3/modify', true, formData, 'application/x-www-form-urlencoded; charset=UTF-8', 'text', callServerModifyResult, 30000, csrfTokenValue);
@@ -231,7 +231,7 @@
       var formData = {agencyNo: $('input[name=agencyNo]').val()};
 
       gfn_callServer('POST', '/menu5/sub3/remove', true, formData, 'application/x-www-form-urlencoded; charset=UTF-8', 'text', callServerRemoveResult, 30000, csrfTokenValue);
-      });
+     });
 
     // 목록 버튼 선택
     $('button[data-oper=list]').on('click', function(e) {
@@ -246,88 +246,6 @@
         };
 
       gfn_callMenu('GET', '/menu5/sub3/agencyList', true, formData, 'text', gfn_callMenuResult, 30000);
-      });
-
-    // 그룹 상세 등록
-    $('#regDtl').on('click', function(e) {
-      e.preventDefault();
-
-      $('#detailModify')[0].reset();
-
-      $('input[name=detailCUDFlag]').val('');
-
-      $('button[data-oper=detailRemove]').css({display: 'none'});
-
-      $('#detailCUDModal').modal('toggle');
-    });
-
-    // 그룹 상세 보기
-    $('.detailModal').on('click', function(e) {
-      e.preventDefault();
-
-      var formData = {
-          agencyNo: $('input[name=agencyNo]').val(),
-          matId: $(this).attr('href')
-        };
-
-      gfn_callServer('POST', '/menu5/sub3/agencyDetailModify', true, formData, 'application/x-www-form-urlencoded', 'json', callServerDetailModalResult, 30000, csrfTokenValue);
-    });
-
-    // 그룹 상세 저장
-    $('button[data-oper=detailSave]').on('click', function(e) {
-      e.preventDefault();
-
-      if ($('select[name=matCombo]').val() == '선택') {
-        $('.toast-body').text(' 매트ID를 선택해 주세요 ');
-        $('.toast-center').toast('show');
-        return false;
-      }
-
-      if (gfn_isNull($('textarea[name=detailDescription]').val())) {
-        $('.toast-body').text(' 설명을 입력해 주세요 ');
-        $('.toast-center').toast('show');
-        return false;
-      }
-
-      if ($('select[name=agencyUserCombo]').val() == '선택') {
-        $('.toast-body').text(' 사용자를 선택해 주세요 ');
-        $('.toast-center').toast('show');
-        return false;
-      }
-
-      if ($('input:radio[name=radio-detailUseYn]').is(':checked') == false) {
-        $('.toast-body').text(' 사용유무를 선택해 주세요 ');
-        $('.toast-center').toast('show');
-        return false;
-      }
-
-      var formData = {
-          agencyNo: $('input[name=agencyNo]').val(),
-          matId: $('select[name=matCombo]').val(),
-          description: $('textarea[name=detailDescription]').val(),
-          userId: $('select[name=agencyUserCombo]').val(),
-          useYn: $('input:radio[name=radio-detailUseYn]:checked').val()
-        };
-
-      var actionUrl = '/menu5/sub3/detailRegister';
-
-      if (!gfn_isNull($('input[name=detailCUDFlag]').val())) {
-        actionUrl = '/menu5/sub3/detailModify';
-      }
-
-      gfn_callServer('POST', actionUrl, true, formData, 'application/x-www-form-urlencoded; charset=UTF-8', 'json', callServerDetailCudResult, 30000, csrfTokenValue);
-      });
-
-    // 그룹 상세 삭제 버튼 선택
-    $('button[data-oper=detailRemove]').on('click', function(e) {
-      e.preventDefault();
-
-      var formData = {
-          agencyNo: $('input[name=agencyNo]').val(),
-          matId: $('select[name=matCombo]').val()
-        };
-
-      gfn_callServer('POST', '/menu5/sub3/detailRemove', true, formData, 'application/x-www-form-urlencoded; charset=UTF-8', 'json', callServerDetailCudResult, 30000, csrfTokenValue);
       });
 
   });
