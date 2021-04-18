@@ -75,7 +75,7 @@
             <table id="simpletable" class="table table-striped table-bordered nowrap">
               <thead>
                 <tr>
-                  <th class="text-center">NO</th>
+                  <th class="text-center">No.</th>
                   <th class="text-center">매트 ID</th>
                   <th class="text-center">설명</th>
                   <th class="text-center">사용유무</th>
@@ -89,14 +89,12 @@
                 <c:choose>
                   <c:when test="${matList ne null && fn:length(matList) > 0}">
 
-                    <c:set var="listStartNum" value="${pageMaker.total - (pageMaker.pageVO.amount * (pageMaker.pageVO.pageNum - 1)) + 1}" />
+                    <c:set var="listStartNum" value="${pageMaker.total - (pageMaker.pageVO.amount * (pageMaker.pageVO.pageNum - 1)) +1 }" />
 
                     <c:forEach items="${matList}" var="mat" varStatus="matStatus">
                       <tr>
                         <td class="text-center">
-                          <a class='move' href='<c:out value="${mat.matNo}"/>'>
                             <c:out value="${listStartNum - matStatus.count}" />
-                          </a>
                         </td>
                         <td class="text-center">
                             <a class='move' href='<c:out value="${mat.matNo}"/>'>

@@ -8,6 +8,9 @@
           LEFT OUTER JOIN tbl_member_auth auth ON auth.userid = mem.userid
                                               AND auth.auth = 'ROLE_USER'
           WHERE 1=1
+            <![CDATA[
+              AND (mem.userid <> 'admin' OR auth.auth <> 'ROLE_ADMIN')
+            ]]>
             <if test="searchUserName != null and searchUserName != ''">
               AND mem.username LIKE CONCAT('%',#{searchUserName},'%')
             </if>
@@ -68,7 +71,7 @@
       <![CDATA[
             ) R
           WHERE 1=1
-           AND (userId <> 'admin' OR auth <> 'ROLE_ADMIN')
+           AND (R.userId <> 'admin' OR R.auth <> 'ROLE_ADMIN')
           ORDER BY R.regdate DESC
           LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
         ]]>
