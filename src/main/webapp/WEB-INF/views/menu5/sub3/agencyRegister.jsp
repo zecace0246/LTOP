@@ -9,14 +9,14 @@
 		<div class="col-sm-12">
 			<div class="card select-card">
 				<div class="card-header">
-					<h5>그룹 등록</h5>
+					<h5>기관 등록</h5>
 				</div>
 				<div class="card-body">
 					<form id="register">
 						<div class="row">
 							<div class="col-md-12">
 							    <div class="form-group">
-							        <label class="form-label">그룹명</label>
+							        <label class="form-label">기관명</label>
 							        <input type="text" class="form-control" name="agencyName" placeholder="그룹명">
 							    </div>
 							</div>
@@ -26,38 +26,33 @@
 							        <textarea class="form-control" name="description" rows="5" placeholder="설명"></textarea>
 							    </div>
 							</div>
-							<div class="col-md-12">
+							<div class="col-md-6">
 							    <div class="form-group">
 							        <label class="form-label">관리자</label>
 	                                <select class="form-control js-example-placeholder-multiple col-sm-12" name="agencyAdminCombo">
 	                                    <option>선택</option>
 							        	<c:forEach items="${agencyAdminCombo}" var="agencyAdminCombo">
-	                                    	<option value="${agencyAdminCombo.userId}">${agencyAdminCombo.userName}</option>
-										</c:forEach>	                                    
+	                                    	<option value="${agencyAdminCombo.userId}">${agencyAdminCombo.userName} (${agencyAdminCombo.userId})</option>
+										</c:forEach>
 	                                </select>
 							    </div>
-							</div>							
-							<div class="col-md-12">
+							</div>
+							<div class="col-md-6">
 							    <div class="form-group">
 							        <label class="form-label">사용유무</label>
-							        <div class="form-check">
-							            <label class="form-check-label">
-							                <input class="form-check-input" type="radio" name="radio-useYn" value="Y" checked> 사용
-							            </label>
-							        </div>
-							        <div class="form-check">
-							            <label class="form-check-label">
-							                <input class="form-check-input" type="radio" name="radio-useYn" value="N"> 미사용
-							            </label>
-							        </div>
+							        <select class="form-control js-example-placeholder-multiple " id="useYn" name="useYn" onChange="">
+                                        <option value="" >선택</option>
+                                        <option value="Y" >사용</option>
+                                        <option value="N" >미사용</option>
+                                    </select>
 							    </div>
 							</div>
 						</div>
 
-						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmModal">저장</button>	
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmModal">저장</button>
 						<button type="reset" data-oper="reset" class="btn btn-secondary">취소</button>
 						<button type="button" data-oper="list" class="btn btn-info">목록</button>
-						
+
 						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					</form>
 				</div>
@@ -76,7 +71,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			</div>
 			<div class="modal-body">
-				<p>그룹을 등록 하시겠습니까?</p>
+				<p>기관을 등록 하시겠습니까?</p>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
@@ -85,11 +80,11 @@
 		</div>
 	</div>
 </div>
-		
+
 <!-- sweet alert Js -->
 <script src="/resources/assets/js/plugins/sweetalert.min.js"></script>
-<script src="/resources/assets/js/pages/ac-alert.js"></script>	
-	
+<script src="/resources/assets/js/pages/ac-alert.js"></script>
+
 <script type="text/javascript">
 
 $(document).ready(function() {
@@ -98,50 +93,50 @@ $(document).ready(function() {
 	// 저장 버튼 선택
 	$('button[data-oper=register]').on('click', function(e) {
 		e.preventDefault();
-		
-		$('#confirmModal').modal('toggle'); 
-   		
+
+		$('#confirmModal').modal('toggle');
+
 		if (gfn_isNull($('input[name=agencyName]').val())) {
 			$('.toast-body').text(' 그룹명을 입력해 주세요 ');
 			$('.toast-center').toast('show');
 			return false;
 		}
-		
+
 		if (gfn_isNull($('textarea[name=description]').val())) {
 			$('.toast-body').text(' 설명을 입력해 주세요 ');
 			$('.toast-center').toast('show');
 			return false;
 		}
-		
+
 		if ($('select[name=agencyAdminCombo]').val() == '선택') {
 			$('.toast-body').text(' 관리자를 선택해 주세요 ');
 			$('.toast-center').toast('show');
 			return false;
-		}		
-				
-		if ($('input:radio[name=radio-useYn]').is(':checked') == false) {
+		}
+
+		if ($('select[name=useYn]').val() == '선택') {
 			$('.toast-body').text(' 사용유무를 선택해 주세요 ');
 			$('.toast-center').toast('show');
 			return false;
-		}		
-				
+		}
+
 		var formData = {
 				agencyName: $('input[name=agencyName]').val(),
 				description: $('textarea[name=description]').val(),
 				admId: $('select[name=agencyAdminCombo]').val(),
-				useYn: $('input:radio[name=radio-useYn]:checked').val()
+				useYn: $('select[name=useYn]').val()
 			};
-		
+
 		gfn_callServer('POST', '/menu5/sub3/register', true, formData, 'application/x-www-form-urlencoded; charset=UTF-8', 'text', callServerRegisterResult, 30000, csrfTokenValue);
-	});		
-	
+	});
+
 	// 목록 버튼 선택
 	$('button[data-oper=list]').on('click', function(e){
 		e.preventDefault();
-		
+
 		gfn_callMenu('GET', '/menu5/sub3/agencyList', true, '', 'text', gfn_callMenuResult, 30000);
-    });  
-	
+    });
+
 });
 
 // 저장 알림 후 목록 페이지 이동
@@ -157,5 +152,5 @@ function callServerRegisterResult(data) {
 		});
 	}
 }
-		
+
 </script>

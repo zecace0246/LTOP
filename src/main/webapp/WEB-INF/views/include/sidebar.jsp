@@ -46,7 +46,7 @@
 						<ul class="pcoded-submenu">
 							<li><a href="#" data-url="/menu5/sub2/matList">매트</a></li>
 							<li><a href="#" data-url="/menu5/sub1/userList">사용자관리</a></li>
-							<li><a href="#" data-url="/menu5/sub3/agencyList">그룹</a></li>
+							<li><a href="#" data-url="/menu5/sub3/agencyList">기관</a></li>
 							<li><a href="#" data-url="/menu5/sub5/">코드</a></li>
 						</ul>
 					</li>
