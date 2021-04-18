@@ -99,7 +99,7 @@
                           </a>
                         </td>
                         <td class="text-center">
-                            <a class='move' href='<c:out value="${mat.matId}"/>'>
+                            <a class='move' href='<c:out value="${mat.matNo}"/>'>
                                 <c:out value="${mat.matId}" />
                             </a>
                         </td>
@@ -205,7 +205,9 @@ $(document).ready(function() {
         pageNum: $('input[name=pageNum]').val(),
         amount: $('input[name=amount]').val(),
         searchMatId: $('input[name=searchMatId]').val(),
-        searchUseYn: $('input[name=searchUseYn]').val()
+        searchMatDesc: $('input[name=searchMatDesc]').val(),
+        searchAgency: $('select[name=searchAgency]').val(),
+        searchUseYn: $('select[name=searchUseYn]').val()
       };
 
     gfn_callServer('POST', '/menu5/sub2/matView', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
@@ -219,7 +221,9 @@ $(document).ready(function() {
         pageNum: $(this).attr("href"),
         amount: $('input[name=amount]').val(),
         searchMatId: $('input[name=searchMatId]').val(),
-        searchUseYn: $('input[name=searchUseYn]').val()
+        searchMatDesc: $('input[name=searchMatDesc]').val(),
+        searchAgency: $('select[name=searchAgency]').val(),
+        searchUseYn: $('select[name=searchUseYn]').val()
       };
 
     gfn_callMenu("GET", "/menu5/sub2/matList", true, formData, "text", gfn_callMenuResult, 30000);

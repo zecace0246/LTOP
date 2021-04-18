@@ -11,16 +11,12 @@
             <if test="searchUserName != null and searchUserName != ''">
               AND mem.username LIKE CONCAT('%',#{searchUserName},'%')
             </if>
-
-
             <if test="searchMatId != null and searchMatId != ''">
               AND mem.mat_id LIKE CONCAT('%',#{searchMatId},'%')
             </if>
-
             <if test="searchEnabled != null and searchEnabled != ''">
               AND mem.enabled = #{searchEnabled}
             </if>
-
             <if test="searchAgency != null and searchAgency != ''">
               AND mem.agency_no = #{searchAgency}
             </if>

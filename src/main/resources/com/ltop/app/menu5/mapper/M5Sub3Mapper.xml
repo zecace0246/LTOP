@@ -2,175 +2,175 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ltop.app.menu5.mapper.M5Sub3Mapper">
 
-	<select id="selectAgencyTotalCount" resultType="int">
-		SELECT	COUNT(*)
-		  FROM  tbl_agency ta
-         INNER JOIN tbl_member tm ON tm.userid = ta.adm_id
-         WHERE 1=1
-		 <if test="searchAgencyName != null and searchAgencyName != ''">
-		 	AND ta.agency_name LIKE CONCAT('%',#{searchAgencyName},'%')
-		 </if>
+  <select id="selectAgencyTotalCount" resultType="int">
+    SELECT	COUNT(*)
+      FROM  tbl_agency ta
+      LEFT OUTER JOIN tbl_member tm ON tm.userid = ta.adm_id
+     WHERE 1=1
+     <if test="searchAgencyName != null and searchAgencyName != ''">
+       AND ta.agency_name LIKE CONCAT('%',#{searchAgencyName},'%')
+     </if>
+     <if test="searchAdmName != null and searchAdmName != ''">
+      AND tm.username LIKE CONCAT('%',#{searchAdmName},'%')
+     </if>
+  </select>
 
-		 <if test="searchAdmName != null and searchAdmName != ''">
-			AND tm.username LIKE CONCAT('%',#{searchAdmName},'%')
-		 </if>
-	</select>
-
-	<select id="selectAgencyList" resultType="com.ltop.app.menu5.domain.M5Sub3VO">
-		<![CDATA[
-			SELECT R.*
-			FROM
-			( SELECT ta.agency_no AS agencyNo
-				   , ta.agency_name AS agencyName
-				   , ta.description
-				   , ta.adm_id AS admId
-				   , tm.username AS admName
-				   , ta.use_yn AS useYn
-				   , ta.reg_date AS regDate
-				   , ( SELECT COUNT(*)  FROM tbl_mat_info
+  <select id="selectAgencyList" resultType="com.ltop.app.menu5.domain.M5Sub3VO">
+    <![CDATA[
+      SELECT R.*
+      FROM
+      ( SELECT ta.agency_no AS agencyNo
+           , ta.agency_name AS agencyName
+           , ta.description
+           , ta.adm_id AS admId
+           , tm.username AS admName
+           , ta.use_yn AS useYn
+           , ta.reg_date AS regDate
+           , ( SELECT COUNT(*)  FROM tbl_mat_info
                         WHERE agency_no = ta.agency_no
-		]]>
-						<if test="m5Sub3VO.searchMatId != null and m5Sub3VO.searchMatId != ''">
-						  AND mat_id = #{m5Sub3VO.searchMatId}
-						</if>
-		<![CDATA[
-						) AS agencyMatCnt
-                   , ( SELECT COUNT(*)  FROM tbl_member
-                        WHERE agency_no = ta.agency_no
-         ]]>
-                        <if test="m5Sub3VO.searchMatId != null and m5Sub3VO.searchMatId != ''">
-                          AND mat_id = #{m5Sub3VO.searchMatId}
-                        </if>
+    ]]>
+            <if test="m5Sub3VO.searchMatId != null and m5Sub3VO.searchMatId != ''">
+              AND mat_id = #{m5Sub3VO.searchMatId}
+            </if>
+    <![CDATA[
+            ) AS agencyMatCnt
+           , ( SELECT COUNT(*)  FROM tbl_member
+                WHERE agency_no = ta.agency_no
+    ]]>
+            <if test="m5Sub3VO.searchMatId != null and m5Sub3VO.searchMatId != ''">
+                  AND mat_id = #{m5Sub3VO.searchMatId}
+            </if>
         <![CDATA[
                       ) AS agencyUserCnt
-			   FROM	tbl_agency ta
-			  INNER JOIN tbl_member tm ON tm.userid = ta.adm_id
-               WHERE 1=1
-		]]>
+         FROM	tbl_agency ta
+        LEFT OUTER JOIN tbl_member tm ON tm.userid = ta.adm_id
+        WHERE 1=1
+    ]]>
 
-				<if test="m5Sub3VO.searchAgencyName != null and m5Sub3VO.searchAgencyName != ''">
-				AND ta.agency_name LIKE CONCAT('%',#{m5Sub3VO.searchAgencyName},'%')
-				</if>
+        <if test="m5Sub3VO.searchAgencyName != null and m5Sub3VO.searchAgencyName != ''">
+        AND ta.agency_name LIKE CONCAT('%',#{m5Sub3VO.searchAgencyName},'%')
+        </if>
 
-				<if test="m5Sub3VO.searchAdmName != null and m5Sub3VO.searchAdmName != ''">
-				AND tm.username LIKE CONCAT('%',#{m5Sub3VO.searchAdmName},'%')
-				</if>
+        <if test="m5Sub3VO.searchAdmName != null and m5Sub3VO.searchAdmName != ''">
+        AND tm.username LIKE CONCAT('%',#{m5Sub3VO.searchAdmName},'%')
+        </if>
 
-		<![CDATA[
-			) R
-			ORDER BY R.agencyNo DESC
-			LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
-		]]>
-	</select>
+    <![CDATA[
+      ) R
+      ORDER BY R.agencyNo DESC
+      LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
+    ]]>
+  </select>
 
-	<select id="selectAgencyInfo" resultType="com.ltop.app.menu5.domain.M5Sub3VO">
-		SELECT agency_no  AS agencyNo
-			, agency_name AS agencyName
-			, description
-			, adm_id      AS admId
-			, use_yn      AS useYn
-			, reg_date    AS regDate
-		 FROM tbl_agency
-		WHERE agency_no = #{agencyNo}
-	</select>
+  <select id="selectAgencyInfo" resultType="com.ltop.app.menu5.domain.M5Sub3VO">
+    SELECT agency_no  AS agencyNo
+      , agency_name AS agencyName
+      , description
+      , adm_id      AS admId
+      , use_yn      AS useYn
+      , reg_date    AS regDate
+     FROM tbl_agency
+    WHERE agency_no = #{agencyNo}
+  </select>
 
-	<insert id="insertAgency">
-		<selectKey keyProperty="agencyNo" order="BEFORE" resultType="Integer">
-			SELECT MAX(agency_no)+1 FROM tbl_agency
-		</selectKey>
+  <insert id="insertAgency">
+    <selectKey keyProperty="agencyNo" order="BEFORE" resultType="Integer">
+      SELECT MAX(agency_no)+1 FROM tbl_agency
+    </selectKey>
 
-		INSERT INTO tbl_agency
-		(
-			agency_no
-			, agency_name
-			, description
-			, adm_id
-			, use_yn
-			, reg_date
-		)
-		VALUES
-		(
-			IFNULL(#{agencyNo},1)
-			, #{agencyName}
-			, #{description}
-			, #{admId}
-			, #{useYn}
-			, NOW()
-		)
-	</insert>
+    INSERT INTO tbl_agency
+    (
+      agency_no
+      , agency_name
+      , description
+      , adm_id
+      , use_yn
+      , reg_date
+    )
+    VALUES
+    (
+      IFNULL(#{agencyNo},1)
+      , #{agencyName}
+      , #{description}
+      , #{admId}
+      , #{useYn}
+      , NOW()
+    )
+  </insert>
 
-	<update id="updateAgency">
-		UPDATE	tbl_agency
-		SET		description = #{description}
-				, adm_id = #{admId}
-				, use_yn = #{useYn}
-		WHERE	agency_no = #{agencyNo}
-	</update>
+  <update id="updateAgency">
+    UPDATE	tbl_agency
+       SET agency_name = #{agencyName}
+        , description = #{description}
+        , adm_id = #{admId}
+        , use_yn = #{useYn}
+    WHERE	agency_no = #{agencyNo}
+  </update>
 
-	<delete id="deleteAgency">
-		DELETE FROM tbl_agency WHERE agency_no = #{agencyNo}
-	</delete>
+  <delete id="deleteAgency">
+    DELETE FROM tbl_agency WHERE agency_no = #{agencyNo}
+  </delete>
 
-	<select id="selectAgencyMathList" resultType="com.ltop.app.menu5.domain.M5Sub3VO">
-		SELECT	agency_no
-				, mat_id
-				, description
-				, use_yn
-				, date_format(reg_date, '%Y-%m-%d') AS reg_date
-				, userid AS userId
-		FROM	tbl_agency_math
-		WHERE	agency_no = #{agencyNo}
-	</select>
+  <select id="selectAgencyMathList" resultType="com.ltop.app.menu5.domain.M5Sub3VO">
+    SELECT	agency_no
+        , mat_id
+        , description
+        , use_yn
+        , date_format(reg_date, '%Y-%m-%d') AS reg_date
+        , userid AS userId
+    FROM	tbl_agency_math
+    WHERE	agency_no = #{agencyNo}
+  </select>
 
-	<select id="selectAgencyMathInfo" resultType="com.ltop.app.menu5.domain.M5Sub3VO">
-		SELECT	agency_no
-				, mat_id
-				, description
-				, use_yn
-				, date_format(reg_date, '%Y-%m-%d') AS reg_date
-				, userid AS userId
-		FROM	tbl_agency_math
-		WHERE	agency_no = #{agencyNo}
-				AND mat_id = #{matId}
-	</select>
+  <select id="selectAgencyMathInfo" resultType="com.ltop.app.menu5.domain.M5Sub3VO">
+    SELECT	agency_no
+        , mat_id
+        , description
+        , use_yn
+        , date_format(reg_date, '%Y-%m-%d') AS reg_date
+        , userid AS userId
+    FROM	tbl_agency_math
+    WHERE	agency_no = #{agencyNo}
+        AND mat_id = #{matId}
+  </select>
 
-	<insert id="insertAgencyMath">
-		INSERT INTO tbl_agency_math
-		(
-			agency_no
-			, mat_id
-			, description
-			, use_yn
-			, reg_date
-			, userid
-		)
-		VALUES
-		(
-			#{agencyNo}
-			, #{matId}
-			, #{description}
-			, #{useYn}
-			, NOW()
-			, #{userId}
-		)
-	</insert>
+  <insert id="insertAgencyMath">
+    INSERT INTO tbl_agency_math
+    (
+      agency_no
+      , mat_id
+      , description
+      , use_yn
+      , reg_date
+      , userid
+    )
+    VALUES
+    (
+      #{agencyNo}
+      , #{matId}
+      , #{description}
+      , #{useYn}
+      , NOW()
+      , #{userId}
+    )
+  </insert>
 
-	<update id="updateAgencyMath">
-		UPDATE	tbl_agency_math
-		SET		description = #{description}
-				, use_yn = #{useYn}
-				, userid = #{userId}
-		WHERE	agency_no = #{agencyNo}
-				AND mat_id = #{matId}
-	</update>
+  <update id="updateAgencyMath">
+    UPDATE	tbl_agency_math
+    SET		description = #{description}
+        , use_yn = #{useYn}
+        , userid = #{userId}
+    WHERE	agency_no = #{agencyNo}
+        AND mat_id = #{matId}
+  </update>
 
-	<delete id="deleteAgencyMath">
-		DELETE FROM tbl_agency_math
-		WHERE agency_no = #{agencyNo}
+  <delete id="deleteAgencyMath">
+    DELETE FROM tbl_agency_math
+    WHERE agency_no = #{agencyNo}
 
-		<if test="matId != null and matId != ''">
-		AND mat_id = #{matId}
-		</if>
-	</delete>
+    <if test="matId != null and matId != ''">
+    AND mat_id = #{matId}
+    </if>
+  </delete>
 
 </mapper>
