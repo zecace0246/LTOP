@@ -1,59 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ltop.app.menu5.mapper.M5Sub3Mapper">
+<mapper namespace="com.ltop.app.menu5.mapper.M5Sub5Mapper">
 
-  <select id="selectAgencyTotalCount" resultType="int">
+  <select id="selectGroupTotalCount" resultType="int">
     SELECT	COUNT(*)
-      FROM  tbl_agency ta
-      LEFT OUTER JOIN tbl_member tm ON tm.userid = ta.adm_id
+      FROM  tbl_agency_group tag
+      INNER JOIN tbl_agency tac ON tac.agency_no = tag.agency_no
+      LEFT OUTER JOIN tbl_member tm ON tm.userid = tag.group_adm_id
      WHERE 1=1
      <if test="searchAgencyName != null and searchAgencyName != ''">
-       AND ta.agency_name LIKE CONCAT('%',#{searchAgencyName},'%')
+       AND tac.agency_name LIKE CONCAT('%',#{searchAgencyName},'%')
+     </if>
+     <if test="searchGroupName != null and searchGroupName != ''">
+       AND tag.group_name LIKE CONCAT('%',#{searchGroupName},'%')
      </if>
      <if test="searchAdmName != null and searchAdmName != ''">
       AND tm.username LIKE CONCAT('%',#{searchAdmName},'%')
      </if>
   </select>
 
-  <select id="selectAgencyList" resultType="com.ltop.app.menu5.domain.M5Sub3VO">
+  <select id="selectGroupList" resultType="com.ltop.app.menu5.domain.M5Sub5VO">
     <![CDATA[
       SELECT R.*
       FROM
-      ( SELECT ta.agency_no AS agencyNo
-           , ta.agency_name AS agencyName
-           , ta.description
-           , ta.adm_id AS admId
-           , tm.username AS admName
-           , ta.use_yn AS useYn
-           , ta.reg_date AS regDate
-           , ( SELECT COUNT(*)  FROM tbl_mat_info
-                        WHERE agency_no = ta.agency_no
+      (
     ]]>
-            <if test="m5Sub3VO.searchMatId != null and m5Sub3VO.searchMatId != ''">
-              AND mat_id = #{m5Sub3VO.searchMatId}
-            </if>
-    <![CDATA[
-            ) AS agencyMatCnt
-           , ( SELECT COUNT(*)  FROM tbl_member
-                WHERE agency_no = ta.agency_no
-    ]]>
-            <if test="m5Sub3VO.searchMatId != null and m5Sub3VO.searchMatId != ''">
-                  AND mat_id = #{m5Sub3VO.searchMatId}
-            </if>
-    <![CDATA[
-              ) AS agencyUserCnt
-         FROM	tbl_agency ta
-        LEFT OUTER JOIN tbl_member tm ON tm.userid = ta.adm_id
-        WHERE 1=1
-    ]]>
-
-        <if test="m5Sub3VO.searchAgencyName != null and m5Sub3VO.searchAgencyName != ''">
-        AND ta.agency_name LIKE CONCAT('%',#{m5Sub3VO.searchAgencyName},'%')
-        </if>
-
-        <if test="m5Sub3VO.searchAdmName != null and m5Sub3VO.searchAdmName != ''">
-        AND tm.username LIKE CONCAT('%',#{m5Sub3VO.searchAdmName},'%')
-        </if>
+	      SELECT tag.group_seq   AS groupSeq
+			  , tag.agency_no    AS agencyNo
+			  , tag.group_name   AS groupName
+			  , tag.description  AS description
+			  , tag.group_adm_id AS groupAdmId
+			  , tag.use_yn       AS useYn
+			  , tag.reg_date     AS regDate
+	          , tac.agency_name  AS agencyName
+	          , tm.username      AS groupAdmName
+	          , ( SELECT COUNT(*)  FROM tbl_mat_info
+                   WHERE agency_no = tag.agency_no
+                 ) AS agencyMatCnt
+              , ( SELECT COUNT(*)  FROM tbl_member
+                   WHERE agency_no = tag.agency_no
+                ) AS agencyUserCnt
+	      FROM  tbl_agency_group tag
+	      INNER JOIN tbl_agency tac ON tac.agency_no = tag.agency_no
+	      LEFT OUTER JOIN tbl_member tm ON tm.userid = tag.group_adm_id
+	     WHERE 1=1
+	     <if test="m5Sub5VO.searchAgencyName != null and m5Sub5VO.searchAgencyName != ''">
+	       AND tac.agency_name LIKE CONCAT('%',#{m5Sub5VO.searchAgencyName},'%')
+	     </if>
+	     <if test="m5Sub5VO.searchGroupName != null and m5Sub5VO.searchGroupName != ''">
+	       AND tag.group_name LIKE CONCAT('%',#{m5Sub5VO.searchGroupName},'%')
+	     </if>
+	     <if test="m5Sub5VO.searchAdmName != null and m5Sub5VO.searchAdmName != ''">
+	      AND tm.username LIKE CONCAT('%',#{m5Sub5VO.searchAdmName},'%')
+	     </if>
 
     <![CDATA[
       ) R
@@ -62,7 +61,7 @@
     ]]>
   </select>
 
-  <select id="selectAgencyInfo" resultType="com.ltop.app.menu5.domain.M5Sub3VO">
+  <select id="selectAgencyInfo" resultType="com.ltop.app.menu5.domain.M5Sub5VO">
     SELECT agency_no  AS agencyNo
       , agency_name AS agencyName
       , description
@@ -111,7 +110,7 @@
     DELETE FROM tbl_agency WHERE agency_no = #{agencyNo}
   </delete>
 
-  <select id="selectAgencyMathList" resultType="com.ltop.app.menu5.domain.M5Sub3VO">
+  <select id="selectAgencyMathList" resultType="com.ltop.app.menu5.domain.M5Sub5VO">
     SELECT	agency_no
         , mat_id
         , description
@@ -122,7 +121,7 @@
     WHERE	agency_no = #{agencyNo}
   </select>
 
-  <select id="selectAgencyMathInfo" resultType="com.ltop.app.menu5.domain.M5Sub3VO">
+  <select id="selectAgencyMathInfo" resultType="com.ltop.app.menu5.domain.M5Sub5VO">
     SELECT	agency_no
         , mat_id
         , description

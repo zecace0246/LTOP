@@ -77,10 +77,13 @@
                   <th class="text-center">No.</th>
                   <th class="text-center">사용자 ID</th>
                   <th class="text-center">사용자 이름</th>
+                  <th class="text-center">성별</th>
                   <th class="text-center">전화번호</th>
                   <th class="text-center">사용유무</th>
                   <th class="text-center">매트 ID</th>
-                  <th class="text-center">그룹</th>
+                  <th class="text-center">기관</th>
+                  <th class="text-center">수면시작시간</th>
+                  <th class="text-center">자세유지시간</th>
                   <th class="text-center">관리자ID</th>
                 </tr>
               </thead>
@@ -101,6 +104,10 @@
                           </a>
                         </td>
                         <td class="text-center"><c:out value="${user.userName}" /></td>
+                        <td class="text-center">
+                            <c:if test="${user.sexName eq 'M'}">남</c:if>
+                            <c:if test="${user.sexName eq 'F'}">여</c:if>
+                        </td>
                         <td class="text-center"><c:out value="${user.tel}" /></td>
                         <td class="text-center">
                           <c:if test="${user.enabled eq 'Y'}">
@@ -112,6 +119,8 @@
                         </td>
                         <td class="text-center"><c:out value="${user.matId}" /></td>
                         <td class="text-center"><c:out value="${user.agencyName}" /></td>
+                        <td class="text-center"><c:out value="${user.sleepTime}" /></td>
+                        <td class="text-center"><c:out value="${user.positionTime}" /></td>
                         <td class="text-center"><c:out value="${user.admId}" /></td>
                       </tr>
                       <input type="hidden" id="agencyNo" name="agencyNo" value="<c:out value="${user.agencyNo}" />">

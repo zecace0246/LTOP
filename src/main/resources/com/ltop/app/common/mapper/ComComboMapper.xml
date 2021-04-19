@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ltop.app.common.mapper.ComComboMapper">
+
+    <select id="selectSexGbCombo" resultType="com.ltop.app.common.domain.ComComboVO">
+        SELECT 'M' AS sexCd
+             , '남자' AS sexName
+        UNION ALL
+        SELECT 'F' AS sexCd
+             , '여자' AS sexName
+    </select>
+
+    <select id="selectSleepTimeCombo" resultType="com.ltop.app.common.domain.ComComboVO">
+    </select>
+
+    <select id="selectPositionTimeCombo" resultType="com.ltop.app.common.domain.ComComboVO">
+    </select>
+
+</mapper>
