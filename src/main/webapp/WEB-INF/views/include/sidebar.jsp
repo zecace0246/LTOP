@@ -10,8 +10,8 @@
 					<li class="nav-item pcoded-menu-caption">
 						<label>Navigation</label>
 					</li>
-					<li class="nav-item pcoded-hasmenu" id="introMenu">
-						<a href="/dashboardv1" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
+					<li class="nav-item pcoded-singlemenu" id="introMenu">
+						<a href="#" data-url="/dashboardv1" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span>Dashboard</a>
 						<!-- ul class="pcoded-submenu">
 							<li id="introSubMenu"><a href="#" data-url="/dashboardv1">Analytics</a></li>
 							<li><a href="#" data-url="/dashboardv2">Sales</a></li>
