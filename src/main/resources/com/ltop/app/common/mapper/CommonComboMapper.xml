@@ -6,9 +6,12 @@
    /* CommonComboMapper.selectAgencyAdminCombo */
     SELECT	mem.userid AS userId
         , mem.username AS userName
-    FROM	tbl_member mem, tbl_member_auth auth
+    FROM  tbl_member mem, tbl_member_auth auth
     WHERE	mem.userid = auth.userid
         AND auth.auth = 'ROLE_MEMBER'
+     <if test="agencyNo != null and agencyNo != ''">
+        AND mem.agency_no = ${agencyNo}
+     </if>
   </select>
 
   <select id="selectAgencyUserCombo" resultType="com.ltop.app.common.domain.CommonComboVO">
@@ -53,15 +56,15 @@
 		       , ifnull(sum(case when confirm_yn = 'Y' then 1 ELSE 0 END ),0) confirmcnt
 		       , (
 				 	SELECT	COUNT(1) cnt
-					FROM		tbl_mat_info b 
+					FROM		tbl_mat_info b
 					WHERE		1=1
 					AND		b.use_yn = 'Y'
 					) totmatcnt
 		       , (
-		         SELECT	COUNT(1) cnt 
+		         SELECT	COUNT(1) cnt
 		         FROM		(
 							 	SELECT	sc.mat_id
-								FROM		tbl_mat_info sb 
+								FROM		tbl_mat_info sb
 								       , bcg sc
 								WHERE		1=1
 								AND		sb.use_yn = 'Y'
@@ -84,7 +87,7 @@
 		WHERE  1=1
 		AND    DATE_FORMAT(a.reg_date, '%Y%m') = DATE_FORMAT(NOW(), '%Y%m')
 	</select>
-	
+
 	<select id="dashBoardv1U" resultType="com.ltop.app.common.domain.DashBoardVO">
 		SELECT	ifnull(sum(case when event_num = '10001' then 1 ELSE 0 END ),0) tdayr
 		       , ifnull(sum(case when event_num = '20001' then 1 ELSE 0 END ),0) tdayh
@@ -95,7 +98,7 @@
 		       , (
 				 	SELECT	COUNT(1) cnt
 					FROM		tbl_mat_info a
-					       , tbl_agency b 
+					       , tbl_agency b
 					WHERE		1=1
 					AND		b.adm_id = #{userId}
 					AND		a.agency_no = b.agency_no
@@ -103,11 +106,11 @@
 					AND		b.use_yn = 'Y'
 					) totmatcnt
 		       , (
-		         SELECT	COUNT(1) cnt 
+		         SELECT	COUNT(1) cnt
 		         FROM		(
 							 	SELECT	c.mat_id
-								FROM		tbl_mat_info a 
-								       , tbl_agency b 
+								FROM		tbl_mat_info a
+								       , tbl_agency b
 								       , bcg c
 								WHERE		1=1
 								AND		b.adm_id = #{userId}
@@ -153,7 +156,7 @@
 		       , (
 				 	SELECT	COUNT(1) cnt3
 					FROM		tbl_member a
-					       , tbl_mat_info b 
+					       , tbl_mat_info b
 					WHERE		1=1
 					AND		a.userid = #{userId}
 					AND		a.mat_id = b.mat_id
@@ -164,7 +167,7 @@
 		         FROM		(
 							 	SELECT	sc.mat_id
 								FROM		tbl_member sa
-								       , tbl_mat_info sb 
+								       , tbl_mat_info sb
 								       , bcg sc
 								WHERE		1=1
 								AND		sa.userid = #{userId}
@@ -201,12 +204,12 @@
 		select	a.alarm_no  as alarmNo
 		      , a.mat_id    as matId
 		      , a.event_num as eventNum
-		      , case 
-		      		when a.event_num='10001' then '심박이상' 
+		      , case
+		      		when a.event_num='10001' then '심박이상'
 		      		when a.event_num='20001' then '호흡이상'
 		      		when a.event_num='30001' then '낙상감지'
 		        end as eventNm
-		      , a.value 
+		      , a.value
 		      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
 		      , a.confirm_yn as confirmYn
 		      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d') as confirmDate
@@ -237,12 +240,12 @@
 		select	a.alarm_no  as alarmNo
 		      , a.mat_id    as matId
 		      , a.event_num as eventNum
-		      , case 
-		      		when a.event_num='10001' then '심박이상' 
+		      , case
+		      		when a.event_num='10001' then '심박이상'
 		      		when a.event_num='20001' then '호흡이상'
 		      		when a.event_num='30001' then '낙상감지'
 		        end as eventNm
-		      , a.value 
+		      , a.value
 		      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
 		      , a.confirm_yn as confirmYn
 		      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d') as confirmDate
@@ -265,7 +268,7 @@
 		where   1=1
 		and     a.mat_id = b.mat_id
 		and     a.mat_id = e.mat_id
-		and     f.adm_id = #{userId} 
+		and     f.adm_id = #{userId}
 		and     b.agency_no = f.agency_no
 		AND    	DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),'18')
 		AND    	DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
@@ -276,12 +279,12 @@
 		select	a.alarm_no  as alarmNo
 		      , a.mat_id    as matId
 		      , a.event_num as eventNum
-		      , case 
-		      		when a.event_num='10001' then '심박이상' 
+		      , case
+		      		when a.event_num='10001' then '심박이상'
 		      		when a.event_num='20001' then '호흡이상'
 		      		when a.event_num='30001' then '낙상감지'
 		        end as eventNm
-		      , a.value 
+		      , a.value
 		      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
 		      , a.confirm_yn as confirmYn
 		      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d') as confirmDate
@@ -303,7 +306,7 @@
 		where   1=1
 		and     a.mat_id = b.mat_id
 		and     a.mat_id = e.mat_id
-		and     e.userid = #{userId} 
+		and     e.userid = #{userId}
 		AND    	DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),'18')
 		AND    	DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
 		order by a.reg_date DESC
@@ -323,22 +326,22 @@
 		where   1=1
 		and     a.mat_id = b.mat_id
 		and     a.mat_id = e.mat_id
-		
+
 		<if test="searchDateFrom != null and searchDateFrom != ''">
 		AND 	DATE_FORMAT(a.reg_date, '%Y-%m-%d') <![CDATA[>=]]> #{searchDateFrom}
 		</if>
-		
+
 		<if test="searchDateTo != null and searchDateTo != ''">
 		AND 	DATE_FORMAT(a.reg_date, '%Y-%m-%d') <![CDATA[<=]]> #{searchDateTo}
 		</if>
-		
+
 		<if test="searchType != null and searchType != ''">
 		AND 	a.event_num = #{searchType}
 		</if>
 	</select>
-	
+
 	<select id="selectAlarmTotalCountU" resultType="int">
-		SELECT	COUNT(*) 
+		SELECT	COUNT(*)
 		from	mat_alarm a
 		      , tbl_mat_info b
 		        left outer join tbl_agency c
@@ -351,24 +354,24 @@
 		where   1=1
 		and     a.mat_id = b.mat_id
 		and     a.mat_id = e.mat_id
-		and     f.adm_id = #{userId} 
+		and     f.adm_id = #{userId}
 		and     b.agency_no = f.agency_no
-		
+
 		<if test="searchDateFrom != null and searchDateFrom != ''">
 		AND 	DATE_FORMAT(a.reg_date, '%Y-%m-%d') <![CDATA[>=]]> #{searchDateFrom}
 		</if>
-		
+
 		<if test="searchDateTo != null and searchDateTo != ''">
 		AND 	DATE_FORMAT(a.reg_date, '%Y-%m-%d') <![CDATA[<=]]> #{searchDateTo}
 		</if>
-		
+
 		<if test="searchType != null and searchType != ''">
 		AND 	a.event_num = #{searchType}
 		</if>
 	</select>
-	
+
 	<select id="selectAlarmTotalCountP" resultType="int">
-		SELECT	COUNT(*) 
+		SELECT	COUNT(*)
 		from	mat_alarm a
 		      , tbl_mat_info b
 		        left outer join tbl_agency c
@@ -380,35 +383,35 @@
 		where   1=1
 		and     a.mat_id = b.mat_id
 		and     a.mat_id = e.mat_id
-		and     e.userid = #{userId} 
-		
+		and     e.userid = #{userId}
+
 		<if test="searchDateFrom != null and searchDateFrom != ''">
 		AND 	DATE_FORMAT(a.reg_date, '%Y-%m-%d') <![CDATA[>=]]> #{searchDateFrom}
 		</if>
-		
+
 		<if test="searchDateTo != null and searchDateTo != ''">
 		AND 	DATE_FORMAT(a.reg_date, '%Y-%m-%d') <![CDATA[<=]]> #{searchDateTo}
 		</if>
-		
+
 		<if test="searchType != null and searchType != ''">
 		AND 	a.event_num = #{searchType}
 		</if>
 	</select>
-	
+
 	<select id="selectMenuAlarmListA" resultType="com.ltop.app.common.domain.AlarmVO">
 		<![CDATA[
 			SELECT R.*
-			FROM 
+			FROM
 			(
 				select	a.alarm_no  as alarmNo
 				      , a.mat_id    as matId
 				      , a.event_num as eventNum
-				      , case 
-				      		when a.event_num='10001' then '심박이상' 
+				      , case
+				      		when a.event_num='10001' then '심박이상'
 				      		when a.event_num='20001' then '호흡이상'
 				      		when a.event_num='30001' then '낙상감지'
 				        end as eventNm
-				      , a.value 
+				      , a.value
 				      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
 				      , a.confirm_yn as confirmYn
 				      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d') as confirmDate
@@ -434,35 +437,35 @@
 				<if test="alarmVO.searchDateFrom != null and alarmVO.searchDateFrom != ''">
 				AND 	DATE_FORMAT(a.reg_date, '%Y-%m-%d') <![CDATA[>=]]> #{alarmVO.searchDateFrom}
 				</if>
-				
+
 				<if test="alarmVO.searchDateTo != null and alarmVO.searchDateTo != ''">
 				AND 	DATE_FORMAT(a.reg_date, '%Y-%m-%d') <![CDATA[<=]]> #{alarmVO.searchDateTo}
 				</if>
-				
+
 				<if test="alarmVO.searchType != null and alarmVO.searchType != ''">
 				AND 	a.event_num = #{alarmVO.searchType}
 				</if>
-		<![CDATA[    
+		<![CDATA[
 			) R
 			ORDER BY R.alarmNo DESC
 			LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
-		]]>	
+		]]>
 	</select>
 
 	<select id="selectMenuAlarmListU" resultType="com.ltop.app.common.domain.AlarmVO">
 		<![CDATA[
 			SELECT R.*
-			FROM 
+			FROM
 			(
 				select	a.alarm_no  as alarmNo
 				      , a.mat_id    as matId
 				      , a.event_num as eventNum
-				      , case 
-				      		when a.event_num='10001' then '심박이상' 
+				      , case
+				      		when a.event_num='10001' then '심박이상'
 				      		when a.event_num='20001' then '호흡이상'
 				      		when a.event_num='30001' then '낙상감지'
 				        end as eventNm
-				      , a.value 
+				      , a.value
 				      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
 				      , a.confirm_yn as confirmYn
 				      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d') as confirmDate
@@ -485,41 +488,41 @@
 				where   1=1
 				and     a.mat_id = b.mat_id
 				and     a.mat_id = e.mat_id
-				and     f.adm_id = #{userId} 
+				and     f.adm_id = #{userId}
 				and     b.agency_no = f.agency_no
 		]]>
 				<if test="alarmVO.searchDateFrom != null and alarmVO.searchDateFrom != ''">
 				AND 	DATE_FORMAT(a.reg_date, '%Y-%m-%d') <![CDATA[>=]]> #{alarmVO.searchDateFrom}
 				</if>
-				
+
 				<if test="alarmVO.searchDateTo != null and alarmVO.searchDateTo != ''">
 				AND 	DATE_FORMAT(a.reg_date, '%Y-%m-%d') <![CDATA[<=]]> #{alarmVO.searchDateTo}
 				</if>
-				
+
 				<if test="alarmVO.searchType != null and alarmVO.searchType != ''">
 				AND 	a.event_num = #{alarmVO.searchType}
 				</if>
-		<![CDATA[    
+		<![CDATA[
 			) R
 			ORDER BY R.alarmNo DESC
 			LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
-		]]>	
+		]]>
 	</select>
 
 	<select id="selectMenuAlarmListP" resultType="com.ltop.app.common.domain.AlarmVO">
 		<![CDATA[
 			SELECT R.*
-			FROM 
+			FROM
 			(
 				select	a.alarm_no  as alarmNo
 				      , a.mat_id    as matId
 				      , a.event_num as eventNum
-				      , case 
-				      		when a.event_num='10001' then '심박이상' 
+				      , case
+				      		when a.event_num='10001' then '심박이상'
 				      		when a.event_num='20001' then '호흡이상'
 				      		when a.event_num='30001' then '낙상감지'
 				        end as eventNm
-				      , a.value 
+				      , a.value
 				      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
 				      , a.confirm_yn as confirmYn
 				      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d') as confirmDate
@@ -541,26 +544,26 @@
 				where   1=1
 				and     a.mat_id = b.mat_id
 				and     a.mat_id = e.mat_id
-				and     e.userid = #{userId} 
+				and     e.userid = #{userId}
 		]]>
 				<if test="alarmVO.searchDateFrom != null and alarmVO.searchDateFrom != ''">
 				AND 	DATE_FORMAT(a.reg_date, '%Y-%m-%d') <![CDATA[>=]]> #{alarmVO.searchDateFrom}
 				</if>
-				
+
 				<if test="alarmVO.searchDateTo != null and alarmVO.searchDateTo != ''">
 				AND 	DATE_FORMAT(a.reg_date, '%Y-%m-%d') <![CDATA[<=]]> #{alarmVO.searchDateTo}
 				</if>
-				
+
 				<if test="alarmVO.searchType != null and alarmVO.searchType != ''">
 				AND 	a.event_num = #{alarmVO.searchType}
 				</if>
-		<![CDATA[    
+		<![CDATA[
 			) R
 			ORDER BY R.alarmNo DESC
 			LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
-		]]>	
+		]]>
 	</select>
-	
+
 	<select id="selectUserTotalCountA" resultType="int">
 		SELECT		COUNT(*) cnt
 		FROM		(
@@ -584,13 +587,13 @@
 														) b
 											WHERE    1=1
 											AND      a.mat_id = b.mat_id
-											AND      a.bno = b.bno			
+											AND      a.bno = b.bno
 										  ) b
 		      	ON	a.mat_id = b.mat_id
 		       LEFT OUTER join tbl_agency c
 		       ON	a.agency_no = c.agency_no
 	</select>
-	
+
 	<select id="selectUserTotalCountU" resultType="int">
 		SELECT		COUNT(*) cnt
 		FROM		(
@@ -618,17 +621,17 @@
 														) b
 											WHERE    1=1
 											AND      a.mat_id = b.mat_id
-											AND      a.bno = b.bno			
+											AND      a.bno = b.bno
 										  ) b
 		      	ON	a.mat_id = b.mat_id
 		       LEFT OUTER join tbl_agency c
 		       ON	a.agency_no = c.agency_no
 	</select>
-	
+
 	<select id="selectUserTotalCountP" resultType="int">
 		SELECT		COUNT(*) cnt
 		FROM   tbl_member a
-		       LEFT OUTER join bcg b 
+		       LEFT OUTER join bcg b
 		       ON	a.mat_id = b.mat_id
 		       AND  DATE_FORMAT(b.reg_date, '%Y%m%d%H%i') >= DATE_FORMAT(date_add(NOW(),INTERVAL -5 minute), '%Y%m%d%H%i')
 		       LEFT OUTER join tbl_agency c
@@ -642,13 +645,13 @@
 		ORDER BY b.reg_date desc
 		LIMIT 1
 	</select>
-	
+
 	<select id="selectMenuUserListA" resultType="com.ltop.app.common.domain.UserVO">
 		<![CDATA[
 			SELECT R.*
-			FROM 
+			FROM
 			(
-				SELECT a.userid 
+				SELECT a.userid
 				      , a.username
 				      , c.agency_name AS agencyName
 				      , a.group_name AS groupName
@@ -678,26 +681,26 @@
 																) b
 													WHERE    1=1
 													AND      a.mat_id = b.mat_id
-													AND      a.bno = b.bno			
+													AND      a.bno = b.bno
 												  ) b
 				      	ON	a.mat_id = b.mat_id
 				       LEFT OUTER join tbl_agency c
 				       ON	a.agency_no = c.agency_no
 		]]>
 
-		<![CDATA[    
+		<![CDATA[
 			) R
 			ORDER BY R.agencyName, R.groupName ASC
 			LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
-		]]>	
+		]]>
 	</select>
-	
+
 	<select id="selectMenuUserListU" resultType="com.ltop.app.common.domain.UserVO">
 		<![CDATA[
 			SELECT R.*
-			FROM 
+			FROM
 			(
-				SELECT a.userid 
+				SELECT a.userid
 				      , a.username
 				      , c.agency_name AS agencyName
 				      , a.group_name AS groupName
@@ -731,26 +734,26 @@
 																) b
 													WHERE    1=1
 													AND      a.mat_id = b.mat_id
-													AND      a.bno = b.bno			
+													AND      a.bno = b.bno
 												  ) b
 				      	ON	a.mat_id = b.mat_id
 				       LEFT OUTER join tbl_agency c
 				       ON	a.agency_no = c.agency_no
 		]]>
 
-		<![CDATA[    
+		<![CDATA[
 			) R
 			ORDER BY R.agencyName, R.groupName ASC
 			LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
 		]]>
 	</select>
-	
+
 	<select id="selectMenuUserListP" resultType="com.ltop.app.common.domain.UserVO">
 		<![CDATA[
 			SELECT R.*
-			FROM 
+			FROM
 			(
-				SELECT a.userid 
+				SELECT a.userid
 				      , a.username
 				      , c.agency_name AS agencyName
 				      , e.group_name AS groupName
@@ -760,7 +763,7 @@
 						, b.sleep_mode  AS sleepMode
 					  , ( select case when count(1) > 0 then 'Y' else 'N' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d%H') >= concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),'18') ) fallAlarm
 				FROM   tbl_member a
-				       LEFT OUTER join bcg b 
+				       LEFT OUTER join bcg b
 				       ON	a.mat_id = b.mat_id
 				       AND  DATE_FORMAT(b.reg_date, '%Y%m%d%H%i') >= DATE_FORMAT(date_add(NOW(),INTERVAL -5 minute), '%Y%m%d%H%i')
 				       LEFT OUTER join tbl_agency c
@@ -775,11 +778,11 @@
 				LIMIT 1
 		]]>
 
-		<![CDATA[    
+		<![CDATA[
 			) R
 			ORDER BY R.agencyName, R.groupName ASC
 			LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
 		]]>
 	</select>
-	
+
 </mapper>
