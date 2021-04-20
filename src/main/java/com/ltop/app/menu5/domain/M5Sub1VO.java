@@ -14,6 +14,10 @@ public class M5Sub1VO {
     private String userId;
     private String userName;
     private String userPw;
+    private String sexCd;
+    private String sexName;
+    private String sleepTime;
+    private String positionTime;
     private String tel;
     private String enabled;
     private String enabledName;

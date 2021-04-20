@@ -25,7 +25,7 @@
                   </div>
 
                   <input type='hidden' name='pageNum' value='<c:out value="${pageMaker.pageVO.pageNum}"/>' />
-          <input type='hidden' name='amount' value='<c:out value="${pageMaker.pageVO.amount}"/>' />
+                  <input type='hidden' name='amount' value='<c:out value="${pageMaker.pageVO.amount}"/>' />
               </form>
             </div>
         </div>
@@ -52,7 +52,7 @@
             <table id="simpletable" class="table table-striped table-bordered nowrap">
               <thead>
                 <tr>
-                  <th class="text-center">NO</th>
+                  <th class="text-center">No.</th>
                   <th class="text-center">기관명</th>
                   <th class="text-center">관리자</th>
                   <th class="text-center">등록된 매트수</th>
@@ -65,7 +65,7 @@
                 <c:choose>
                   <c:when test="${agencyList ne null && fn:length(agencyList) > 0}">
 
-                    <c:set var="listStartNum" value="${pageMaker.total - (pageMaker.pageVO.amount * (pageMaker.pageVO.pageNum - 1)) + 1}" />
+                    <c:set var="listStartNum" value="${pageMaker.total - (pageMaker.pageVO.amount * (pageMaker.pageVO.pageNum - 1)) +1}" />
 
                     <c:forEach items="${agencyList}" var="agency" varStatus="agencyStatus">
                       <tr>

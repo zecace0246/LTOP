@@ -8,6 +8,9 @@
           LEFT OUTER JOIN tbl_member_auth auth ON auth.userid = mem.userid
                                               AND auth.auth = 'ROLE_USER'
           WHERE 1=1
+            <![CDATA[
+              AND (mem.userid <> 'admin' OR auth.auth <> 'ROLE_ADMIN')
+            ]]>
             <if test="searchUserName != null and searchUserName != ''">
               AND mem.username LIKE CONCAT('%',#{searchUserName},'%')
             </if>
@@ -31,6 +34,9 @@
                 SELECT mem.userid   AS userId
                      , mem.userpw
                      , mem.username  AS userName
+                     , mem.sex AS sexName
+                     , mem.sleep_time AS sleepTime
+                     , mem.position_time AS positionTime
                      , mem.enabled
                      , mem.birthday
                      , mem.mat_id    AS matId
@@ -68,7 +74,7 @@
       <![CDATA[
             ) R
           WHERE 1=1
-           AND (userId <> 'admin' OR auth <> 'ROLE_ADMIN')
+           AND (R.userId <> 'admin' OR R.auth <> 'ROLE_ADMIN')
           ORDER BY R.regdate DESC
           LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
         ]]>
@@ -78,10 +84,19 @@
         /* com.ltop.app.menu5.mapper.M5Sub1MapperselectUserInfo */
         SELECT mem.userid  AS userId
             , mem.username AS userName
+            , mem.sex AS sexCd
+            , CASE WHEN mem.sex = 'M' THEN
+                    '남자'
+                   WHEN mem.sex = 'F' THEN
+                    '여자'
+                   ELSE ''
+               END AS sexName
             , mem.birthday
             , mem.tel
             , mem.height
             , mem.weight
+            , sleep_time AS sleepTime
+            , position_time AS positionTime
             , mem.enabled
             , CASE WHEN mem.enabled = 'Y' THEN
                        '사용'
@@ -89,7 +104,7 @@
                        '미사용'
                END AS enabledName
             , mem.mat_id AS matId
-            , mem.agency_no
+            , mem.agency_no AS agencyNo
             , (SELECT agency_name FROM tbl_agency WHERE agency_no = mem.agency_no) AS agencyName
             , auth.auth
         FROM tbl_member mem
@@ -104,12 +119,15 @@
         userid
        , userpw
        , username
+       , sex
        , enabled
        , birthday
        , mat_id
        , height
        , weight
        , tel
+       , sleep_time
+       , position_time
        , reguserid
        , agency_no
        , regdate
@@ -120,12 +138,15 @@
         #{userId}
       , #{userPw}
       , #{userName}
+      , #{sexCd}
       , #{enabled}
       , #{birthday}
       , #{matId}
       , #{height}
       , #{weight}
       , #{tel}
+      , #{sleepTime}
+      , #{positionTime}
       , #{reguserId}
       , #{agencyNo}
       , NOW()
@@ -139,6 +160,7 @@
             <if test="userPw != null and userPw != '' ">
                 , userpw = #{userPw}
             </if>
+            , sex = #{sexCd}
             , enabled = #{enabled}
             , tel = #{tel}
             , birthday = #{birthday}
@@ -146,6 +168,8 @@
             , weight = #{weight}
             , mat_id = #{matId}
             , agency_no = #{agencyNo}
+            , sleep_time = #{sleepTime}
+            , position_time = #{positionTime}
             , updatedate = NOW()
         WHERE userid = #{userId}
     </update>

@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <div class="pcoded-content">
 
@@ -12,41 +13,17 @@
               <form id="searchForm">
                   <div class="form-group row">
                       <div class="col-sm-3">
-                          <input type="text" class="form-control" placeholder="매트 ID" id="searchMatId" name="searchMatId" value='<c:out value="${searchMatId}"/>'>
+                          <input type="text" class="form-control" placeholder="기관명" name="searchAgencyName" value='<c:out value="${searchAgencyName}"/>'>
                       </div>
                       <div class="col-sm-3">
-                          <input type="text" class="form-control" placeholder="매트설명" id="searchMatDesc" name="searchMatDesc" value='<c:out value="${searchMatDesc}"/>'>
+                          <input type="text" class="form-control" placeholder="그룹명" name="searchGroupName" value='<c:out value="${searchGroupName}"/>'>
                       </div>
                       <div class="col-sm-3">
+                          <input type="text" class="form-control" placeholder="그룹관리자명" name="searchAdmName" value='<c:out value="${searchAdmName}"/>'>
                       </div>
                       <div class="col-sm-3" align="right">
-
+                          <button type="button" class="btn btn-primary"><i class="feather mr-2 icon-search"></i>검색</button>
                       </div>
-                  </div>
-
-                  <div class="form-group row">
-                      <div class="col-sm-3">
-                          <select class="form-control js-example-placeholder-multiple col-sm-12" id="searchAgency" name="searchAgency">
-                              <option value="">기관 전체</option>
-                              <c:forEach items="${comboAgnyList}" var="agencyCombo">
-                                  <option value="${agencyCombo.agencyNo}"
-                                          <c:if test="${searchAgency==agencyCombo.agencyNo}">selected</c:if> >${agencyCombo.agencyName}</option>
-                              </c:forEach>
-                          </select>
-                        </div>
-                        <div class="col-sm-3">
-                            <select class="form-control js-example-placeholder-multiple col-sm-12" id="searchUseYn" name="searchUseYn">
-                                <option value="">사용유무</option>
-                                <option value="Y" <c:if test="${searchUseYn=='Y'}">selected</c:if> >사용</option>
-                                <option value="N" <c:if test="${searchUseYn=='N'}">selected</c:if> >미사용</option>
-                            </select>
-
-                        </div>
-                        <div class="col-sm-3">
-                        </div>
-                        <div class="col-sm-3" align="right">
-                            <button type="button" class="btn btn-primary"><i class="feather mr-2 icon-search"></i>검색</button>
-                        </div>
                   </div>
 
                   <input type='hidden' name='pageNum' value='<c:out value="${pageMaker.pageVO.pageNum}"/>' />
@@ -62,58 +39,59 @@
     <div class="col-sm-12">
       <div class="card">
         <div class="card-header">
-          <h5>매트 관리</h5>
+          <h5>그룹 관리</h5>
         </div>
 
         <div class="card-body">
+          <sec:authorize access="hasRole('ROLE_ADMIN')">
           <div class="row float-right">
             <div class="col-sm-12 input-group mb-3 w-25">
-              <button type="button" id="regBtn" class="btn waves-effect waves-light btn-secondary btn-icon btn-msg-send">매트 등록</button>
+              <button type="button" id="regBtn" class="btn waves-effect waves-light btn-secondary btn-icon btn-msg-send">그룹 등록</button>
             </div>
           </div>
+          </sec:authorize>
           <div class="dt-responsive table-responsive">
             <table id="simpletable" class="table table-striped table-bordered nowrap">
               <thead>
                 <tr>
                   <th class="text-center">No.</th>
-                  <th class="text-center">매트 ID</th>
-                  <th class="text-center">설명</th>
-                  <th class="text-center">사용유무</th>
-                  <th class="text-center">기관</th>
-                  <th class="text-center">그룹</th>
+                  <th class="text-center">기관명</th>
+                  <th class="text-center">그룹명</th>
                   <th class="text-center">그룹관리자</th>
+                  <th class="text-center">등록된 매트수</th>
+                  <th class="text-center">등록된 사용자수</th>
+                  <th class="text-center">사용유무</th>
                   <th class="text-center">등록일자</th>
                 </tr>
               </thead>
               <tbody>
                 <c:choose>
-                  <c:when test="${matList ne null && fn:length(matList) > 0}">
+                  <c:when test="${groupList ne null && fn:length(groupList) > 0}">
 
-                    <c:set var="listStartNum" value="${pageMaker.total - (pageMaker.pageVO.amount * (pageMaker.pageVO.pageNum - 1)) +1 }" />
+                    <c:set var="listStartNum" value="${pageMaker.total - (pageMaker.pageVO.amount * (pageMaker.pageVO.pageNum - 1)) +1}" />
 
-                    <c:forEach items="${matList}" var="mat" varStatus="matStatus">
+                    <c:forEach items="${groupList}" var="group" varStatus="groupStatus">
                       <tr>
-                        <td class="text-center">
-                            <c:out value="${listStartNum - matStatus.count}" />
+                        <td class="text-center"><c:out value="${listStartNum - groupStatus.count}" /></td>
+                        <td class="text-center"><c:out value="${group.agencyName}" /></a>
                         </td>
                         <td class="text-center">
-                            <a class='move' href='<c:out value="${mat.matNo}"/>'>
-                                <c:out value="${mat.matId}" />
-                            </a>
+                          <a class='move' href='<c:out value="${group.groupSeq}"/>'>
+                            <c:out value="${group.groupName}" />
+                          </a>
                         </td>
-                        <td class="text-center"><c:out value="${mat.description}" /></td>
+                        <td class="text-center"><c:out value="${group.groupAdmName}" /></td>
+                        <td class="text-center"><c:out value="${group.agencyMatCnt}" /></td>
+                        <td class="text-center"><c:out value="${group.agencyUserCnt}" /></td>
                         <td class="text-center">
-                          <c:if test="${mat.useYn eq 'Y'}">
+                          <c:if test="${group.useYn eq 'Y'}">
                             사용
                           </c:if>
-                          <c:if test="${mat.useYn ne 'Y'}">
+                          <c:if test="${group.useYn eq 'N'}">
                             미사용
                           </c:if>
                         </td>
-                        <td class="text-center"><c:out value="${mat.agencyName}" /></td>
-                        <td class="text-center"><c:out value="${mat.groupName}" /></td>
-                        <td class="text-center"><c:out value="${mat.groupAdmName}" /></td>
-                        <td class="text-center"><fmt:formatDate pattern="yyyy-MM-dd" value="${mat.regDate}" /></td>
+                        <td class="text-center"><fmt:formatDate pattern="yyyy-MM-dd" value="${group.regDate}" /></td>
                       </tr>
                     </c:forEach>
 
@@ -176,22 +154,19 @@ $(document).ready(function() {
     var formData = {
         pageNum: $('input[name=pageNum]').val(),
         amount: $('input[name=amount]').val(),
-        searchMatId: $('input[name=searchMatId]').val(),
-        searchMatDesc: $('input[name=searchMatDesc]').val(),
-        searchAgency: $('select[name=searchAgency]').val(),
-        searchUseYn: $('select[name=searchUseYn]').val()
+        searchAgencyName: $('input[name=searchAgencyName]').val(),
+        searchGroupName: $('input[name=searchGroupName]').val(),
+        searchAdmName: $('input[name=searchAdmName]').val()
       };
 
-    console.log("검색 Parameter ::>>> " + JSON.stringify(formData) );
-
-    gfn_callMenu('GET', '/menu5/sub2/matList', true, formData, 'text', gfn_callMenuResult, 30000);
+    gfn_callMenu('GET', '/menu5/sub5/groupList', true, formData, 'text', gfn_callMenuResult, 30000);
   });
 
   // 등록 버튼 선택
   $('#regBtn').on('click', function(e) {
     e.preventDefault();
 
-    gfn_callMenu('GET', '/menu5/sub2/matRegister', true, '', 'text', gfn_callMenuResult, 30000);
+    gfn_callMenu('GET', '/menu5/sub5/groupRegister', true, '', 'text', gfn_callMenuResult, 30000);
   });
 
   // 상세 내용 선택
@@ -199,16 +174,15 @@ $(document).ready(function() {
     e.preventDefault();
 
     var formData = {
-        matNo: $(this).attr('href'),
+    	groupSeq: $(this).attr('href'),
         pageNum: $('input[name=pageNum]').val(),
         amount: $('input[name=amount]').val(),
-        searchMatId: $('input[name=searchMatId]').val(),
-        searchMatDesc: $('input[name=searchMatDesc]').val(),
-        searchAgency: $('select[name=searchAgency]').val(),
-        searchUseYn: $('select[name=searchUseYn]').val()
+        searchAgencyName: $('input[name=searchAgencyName]').val(),
+        searchGroupName: $('input[name=searchGroupName]').val(),
+        searchAdmName: $('input[name=searchAdmName]').val()
       };
 
-    gfn_callServer('POST', '/menu5/sub2/matView', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
+    gfn_callServer('POST', '/menu5/sub5/groupView', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
   });
 
   // 페이징 버튼 선택
@@ -218,13 +192,12 @@ $(document).ready(function() {
     var formData = {
         pageNum: $(this).attr("href"),
         amount: $('input[name=amount]').val(),
-        searchMatId: $('input[name=searchMatId]').val(),
-        searchMatDesc: $('input[name=searchMatDesc]').val(),
-        searchAgency: $('select[name=searchAgency]').val(),
-        searchUseYn: $('select[name=searchUseYn]').val()
+        searchAgencyName: $('input[name=searchAgencyName]').val(),
+        searchGroupName: $('input[name=searchGroupName]').val(),
+        searchAdmName: $('input[name=searchAdmName]').val()
       };
 
-    gfn_callMenu("GET", "/menu5/sub2/matList", true, formData, "text", gfn_callMenuResult, 30000);
+    gfn_callMenu("GET", "/menu5/sub5/groupList", true, formData, "text", gfn_callMenuResult, 30000);
   });
 });
 

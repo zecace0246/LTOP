@@ -37,6 +37,17 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label class="form-label">성별</label>
+                                        <select class="form-control js-example-placeholder-multiple " id="sexCd" name="sexCd" onChange="">
+                                          <option value="" >선택</option>
+                                          <option value="M" <c:if test="${user.sexCd eq 'M'}">selected</c:if>>남</option>
+                                          <option value="F" <c:if test="${user.sexCd eq 'F'}">selected</c:if>>여</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label class="form-label">생년월일</label>
                                         <input type="text" class="form-control" id="birthday" name="birthday" value="<c:out value="${user.birthday}"/>">
                                     </div>
@@ -65,11 +76,35 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label class="form-label">수면시작시간</label>
+                                        <select class="form-control js-example-placeholder-multiple " id="sleepTime" name="sleepTime" onChange="">
+                                          <option value="" >선택</option>
+                                          <c:forEach var="i" begin="12" end="24">
+                                              <option value="${i}" <c:if test="${user.sleepTime == i}">selected</c:if>>${i}</option>
+                                          </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">자세유지시간</label>
+                                        <select class="form-control js-example-placeholder-multiple " id="positionTime" name="positionTime" onChange="">
+                                          <option value="" >선택</option>
+                                          <c:forEach var="k" begin="1" end="8">
+                                              <option value="${k}" <c:if test="${user.positionTime == k}">selected</c:if>>${k}</option>
+                                          </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                       <label class="form-label">사용유무</label>
                                       <select class="form-control js-example-placeholder-multiple " id="enabled" name="enabled" >
                                           <option value="" >선택</option>
-                                          <option value="Y" <c:if test="${user.enabled=='Y'}">selected</c:if>>사용</option>
-                                          <option value="N" <c:if test="${user.enabled=='N'}">selected</c:if>>미사용</option>
+                                          <option value="Y" <c:if test="${user.enabled eq 'Y'}">selected</c:if>>사용</option>
+                                          <option value="N" <c:if test="${user.enabled eq 'N'}">selected</c:if>>미사용</option>
                                       </select>
                                     </div>
                                 </div>
@@ -205,10 +240,13 @@
              userId: $('input[name=userId]').val(),
              userPw: $('input[name=userPw]').val(),
              userName: $('input[name=userName]').val(),
+             sexCd: $('select[name=sexCd]').val(),
              birthday: $('input[name=birthday]').val(),
              tel: $('input[name=tel]').val(),
              height: $('input[name=height]').val(),
              weight: $('input[name=weight]').val(),
+             sleepTime: $('select[name=sleepTime]').val(),
+             positionTime: $('select[name=positionTime]').val(),
              /*enabled: $('input:radio[name=radio-enabled]').is(':checked') == true ? '1' : '0',*/
              enabled: $('select[name=enabled]').val(),
              matId: $('select[name=matId]').val(),
