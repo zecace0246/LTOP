@@ -72,9 +72,9 @@
             <input type='hidden' name='pageNum'     value='<c:out value="${pageVO.pageNum}"/>'>
             <input type='hidden' name='amount'      value='<c:out value="${pageVO.amount}"/>'>
             <input type='hidden' name='searchMatId' value='<c:out value="${searchMatId}"/>'>
-                        <input type='hidden' name='searchMatDesc' value='<c:out value="${searchMatDesc}"/>'>
-                        <input type='hidden' name='searchUseYn' value='<c:out value="${searchUseYn}"/>'>
-                        <input type='hidden' name='searchAgency' value='<c:out value="${searchAgency}"/>'>
+            <input type='hidden' name='searchMatDesc' value='<c:out value="${searchMatDesc}"/>'>
+            <input type='hidden' name='searchUseYn' value='<c:out value="${searchUseYn}"/>'>
+            <input type='hidden' name='searchAgency' value='<c:out value="${searchAgency}"/>'>
           </form>
         </div>
       </div>
@@ -140,7 +140,19 @@
         return false;
       }
 
-      if ($('input:radio[name=radio-useYn]').is(':checked') == false) {
+      if ($('select[name=agencyNo]').val() == '선택') {
+          $('.toast-body').text(' 기관을 선택해 주세요 ');
+          $('.toast-center').toast('show');
+          return false;
+        }
+
+      if ($('select[name=groupSeq]').val() == '선택') {
+          $('.toast-body').text(' 그룹을 선택해 주세요 ');
+          $('.toast-center').toast('show');
+          return false;
+        }
+
+      if ($('select[name=useYn]').val() == '선택') {
         $('.toast-body').text(' 사용유무를 선택해 주세요 ');
         $('.toast-center').toast('show');
         return false;
@@ -150,7 +162,9 @@
           matNo: $('input[name=matNo]').val(),
           matId: $('input[name=matId]').val(),
           description: $('textarea[name=description]').val(),
-          useYn: $('input:radio[name=radio-useYn]:checked').val()
+          agencyNo : $('select[name=agencyNo]').val(),
+          groupSeq : $('select[name=groupSeq]').val(),
+          useYn: $('select[name=useYn]').val()
         };
 
       gfn_callServer('POST', '/menu5/sub2/modify', true, formData, 'application/x-www-form-urlencoded; charset=UTF-8', 'text', callServerModifyResult, 30000, csrfTokenValue);
@@ -178,6 +192,8 @@
           pageNum: $('input[name=pageNum]').val(),
           amount: $('input[name=amount]').val(),
           searchMatId: $('input[name=searchMatId]').val(),
+          searchMatDesc: $('input[name=searchMatDesc]').val(),
+          searchAgency: $('input[name=searchAgency]').val(),
           searchUseYn: $('input[name=searchUseYn]').val()
         };
 
@@ -232,6 +248,8 @@ function callServerModifyResult(data) {
           pageNum: $('input[name=pageNum]').val(),
           amount: $('input[name=amount]').val(),
           searchMatId: $('input[name=searchMatId]').val(),
+          searchMatDesc: $('input[name=searchMatDesc]').val(),
+          searchAgency: $('input[name=searchAgency]').val(),
           searchUseYn: $('input[name=searchUseYn]').val()
         };
 

@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ltop.app.common.domain.CommonComboVO;
 import com.ltop.app.common.domain.PageDTO;
 import com.ltop.app.common.domain.PageVO;
+import com.ltop.app.common.service.CommonComboService;
 import com.ltop.app.menu5.domain.M5Sub5VO;
 import com.ltop.app.menu5.service.M5Sub5Service;
 
@@ -24,6 +26,9 @@ import lombok.Setter;
 @Controller
 @RequestMapping("/menu5")
 public class M5Sub5Controller {
+
+	@Setter(onMethod_ = @Autowired)
+	private CommonComboService commonComboService;
 
 	@Setter(onMethod_ = @Autowired)
 	private M5Sub5Service m5Sub5Service;
@@ -46,7 +51,15 @@ public class M5Sub5Controller {
 
 	// 그룹 등록 화면
 	@GetMapping("/sub5/groupRegister")
-	public String alarmPropertyRegister() {
+	public String groupRegister(Model model) {
+		CommonComboVO comVo = new CommonComboVO();
+
+        List<CommonComboVO> agencyAdminCombo = commonComboService.selectAgencyAdminCombo(comVo);
+        List<CommonComboVO> comboAgnyList = commonComboService.selectAgencyCombo();
+
+        model.addAttribute("comboAgnyList", comboAgnyList);
+		model.addAttribute("agencyAdminCombo", agencyAdminCombo);
+
 		return "/menu5/sub5/groupRegister";
 	}
 
@@ -62,7 +75,14 @@ public class M5Sub5Controller {
 	// 그룹 상세 보기
 	@PostMapping("/sub5/groupView")
 	public String alarmPropertyView(M5Sub5VO m5Sub5VO, @ModelAttribute("pageVO") PageVO pageVO, Model model) {
-		model.addAttribute("groupInfo", m5Sub5Service.selectGroupInfo(m5Sub5VO));
+		CommonComboVO comVo = new CommonComboVO();
+
+        List<CommonComboVO> agencyAdminCombo = commonComboService.selectAgencyAdminCombo(comVo);
+		List<CommonComboVO> comboAgnyList = commonComboService.selectAgencyCombo();
+
+		model.addAttribute("group", m5Sub5Service.selectGroupInfo(m5Sub5VO));
+		model.addAttribute("comboAgnyList", comboAgnyList);
+		model.addAttribute("agencyAdminCombo", agencyAdminCombo);
 
 		model.addAttribute("searchAgencyName", m5Sub5VO.getSearchAgencyName());
 		model.addAttribute("searchGroupName", m5Sub5VO.getSearchGroupName());
@@ -74,7 +94,14 @@ public class M5Sub5Controller {
 	// 그룹 수정 화면
 	@PostMapping("/sub5/groupModify")
 	public String alarmPropertyModify(M5Sub5VO m5Sub5VO, @ModelAttribute("pageVO") PageVO pageVO, Model model) {
-		model.addAttribute("groupInfo", m5Sub5Service.selectGroupInfo(m5Sub5VO));
+		CommonComboVO comVo = new CommonComboVO();
+
+        List<CommonComboVO> agencyAdminCombo = commonComboService.selectAgencyAdminCombo(comVo);
+		List<CommonComboVO> comboAgnyList = commonComboService.selectAgencyCombo();
+
+		model.addAttribute("group", m5Sub5Service.selectGroupInfo(m5Sub5VO));
+		model.addAttribute("comboAgnyList", comboAgnyList);
+		model.addAttribute("agencyAdminCombo", agencyAdminCombo);
 
 		model.addAttribute("searchAgencyName", m5Sub5VO.getSearchAgencyName());
 		model.addAttribute("searchGroupName", m5Sub5VO.getSearchGroupName());

@@ -12,7 +12,7 @@ import com.ltop.app.menu5.domain.M5Sub2VO;
 
 public interface CommonComboService {
 
-    public List<CommonComboVO> selectAgencyAdminCombo();
+    public List<CommonComboVO> selectAgencyAdminCombo(CommonComboVO comVo);
 
     public List<CommonComboVO> selectAgencyUserCombo();
 
@@ -24,17 +24,17 @@ public interface CommonComboService {
 
 	public DashBoardVO dashBoardv1(DashBoardVO dashBoardVO);
 	public DashBoardMVO dashBoardv2(DashBoardVO dashBoardVO);
-	
+
 	public List<AlarmVO> selectAlarmList(DashBoardVO dashBoardVO);
-	
+
 	//alarm Of Main Menu
 	public int selectAlarmTotalCount(AlarmVO alarmVO);
-	
+
 	public List<AlarmVO> selectAlarmList(PageVO pageVO, AlarmVO alarmVO);
 
 	//user Of Main Menu
 	public int selectUserTotalCount(UserVO userVO);
-	
+
 	public List<UserVO> selectUserList(PageVO pageVO, UserVO userVO);
 
 }

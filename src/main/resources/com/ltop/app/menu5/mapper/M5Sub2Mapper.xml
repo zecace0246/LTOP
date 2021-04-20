@@ -62,7 +62,7 @@
                                                                        AND TAG.use_yn = 'Y'
                                  WHERE 1=1
                                    AND TAC.use_yn = 'Y'
-                                ) B ON B.agency_no = A.agency_no
+                                ) B ON B.agency_no = A.agency_no AND B.group_seq = A.group_seq
 
                 WHERE   1 = 1
     ]]>
@@ -166,7 +166,8 @@
         , use_yn = #{useYn}
         , agency_no = #{agencyNo}
         , group_seq = #{groupSeq}
-    WHERE	mat_no = #{matNo}
+    WHERE mat_no = #{matNo}
+      AND mat_id = #{matId}
   </update>
 
   <delete id="deleteMat">

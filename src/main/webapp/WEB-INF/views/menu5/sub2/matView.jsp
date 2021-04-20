@@ -90,11 +90,13 @@ $(document).ready(function() {
 
     var formData = {
         matNo: $('input[name=matNo]').val(),
+        matId: $('input[name=matId]').val(),
         pageNum: $('input[name=pageNum]').val(),
         amount: $('input[name=amount]').val(),
         searchMatId: $('input[name=searchMatId]').val(),
         searchMatDesc: $('input[name=searchMatDesc]').val(),
-        searchAgency: $('input[name=searchAgency]').val()
+        searchAgency: $('input[name=searchAgency]').val(),
+        searchUseYn: $('input[name=searchUseYn]').val()
       };
 
     gfn_callServer('POST', '/menu5/sub2/matModify', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
@@ -107,6 +109,8 @@ $(document).ready(function() {
         pageNum: $('input[name=pageNum]').val(),
         amount: $('input[name=amount]').val(),
         searchMatId: $('input[name=searchMatId]').val(),
+        searchMatDesc: $('input[name=searchMatDesc]').val(),
+        searchAgency: $('input[name=searchAgency]').val(),
         searchUseYn: $('input[name=searchUseYn]').val()
       };
 
