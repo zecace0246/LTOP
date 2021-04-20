@@ -45,12 +45,12 @@
     </select>
 
 	<select id="dashBoardv1A" resultType="com.ltop.app.common.domain.DashBoardVO">
-		SELECT	sum(case when event_num = '10001' then 1 ELSE 0 END ) tdayr
-		       , sum(case when event_num = '20001' then 1 ELSE 0 END ) tdayh
+		SELECT	ifnull(sum(case when event_num = '10001' then 1 ELSE 0 END ),0) tdayr
+		       , ifnull(sum(case when event_num = '20001' then 1 ELSE 0 END ),0) tdayh
 		       , 0 AS tdays
-		       , sum(case when event_num = '30001' then 1 ELSE 0 END ) tdayx
+		       , ifnull(sum(case when event_num = '30001' then 1 ELSE 0 END ),0) tdayx
 		       , COUNT(1) toteventcnt
-		       , sum(case when confirm_yn = 'Y' then 1 ELSE 0 END ) confirmcnt
+		       , ifnull(sum(case when confirm_yn = 'Y' then 1 ELSE 0 END ),0) confirmcnt
 		       , (
 				 	SELECT	COUNT(1) cnt
 					FROM		tbl_mat_info b 
@@ -76,29 +76,29 @@
 		AND    DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
 	</select>
 	<select id="dashBoardv2A" resultType="com.ltop.app.common.domain.DashBoardMVO">
-		SELECT	sum(case when event_num = '10001' then 1 ELSE 0 END ) tmonthr
-		       , sum(case when event_num = '20001' then 1 ELSE 0 END ) tmonthh
+		SELECT	ifnull(sum(case when event_num = '10001' then 1 ELSE 0 END ),0) tmonthr
+		       , ifnull(sum(case when event_num = '20001' then 1 ELSE 0 END ),0) tmonthh
 		       , 0 AS tmonths
-		       , sum(case when event_num = '30001' then 1 ELSE 0 END ) tmonthx
+		       , ifnull(sum(case when event_num = '30001' then 1 ELSE 0 END ),0) tmonthx
 		FROM   mat_alarm a
 		WHERE  1=1
 		AND    DATE_FORMAT(a.reg_date, '%Y%m') = DATE_FORMAT(NOW(), '%Y%m')
 	</select>
 	
 	<select id="dashBoardv1U" resultType="com.ltop.app.common.domain.DashBoardVO">
-		SELECT	sum(case when event_num = '10001' then 1 ELSE 0 END ) tdayr
-		       , sum(case when event_num = '20001' then 1 ELSE 0 END ) tdayh
+		SELECT	ifnull(sum(case when event_num = '10001' then 1 ELSE 0 END ),0) tdayr
+		       , ifnull(sum(case when event_num = '20001' then 1 ELSE 0 END ),0) tdayh
 		       , 0 AS tdays
-		       , sum(case when event_num = '30001' then 1 ELSE 0 END ) tdayx
+		       , ifnull(sum(case when event_num = '30001' then 1 ELSE 0 END ),0) tdayx
 		       , COUNT(1) toteventcnt
-		       , sum(case when confirm_yn = 'Y' then 1 ELSE 0 END ) confirmcnt
+		       , ifnull(sum(case when confirm_yn = 'Y' then 1 ELSE 0 END ),0) confirmcnt
 		       , (
 				 	SELECT	COUNT(1) cnt
 					FROM		tbl_mat_info a
 					       , tbl_agency b 
 					WHERE		1=1
 					AND		b.adm_id = #{userId}
-					AND		c.agency_no = b.agency_no
+					AND		a.agency_no = b.agency_no
 					AND      a.use_yn = 'Y'
 					AND		b.use_yn = 'Y'
 					) totmatcnt
@@ -130,10 +130,10 @@
 		AND    DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
 	</select>
 	<select id="dashBoardv2U" resultType="com.ltop.app.common.domain.DashBoardMVO">
-		SELECT	sum(case when event_num = '10001' then 1 ELSE 0 END ) tmonthr
-		       , sum(case when event_num = '20001' then 1 ELSE 0 END ) tmonthh
+		SELECT	ifnull(sum(case when event_num = '10001' then 1 ELSE 0 END ),0) tmonthr
+		       , ifnull(sum(case when event_num = '20001' then 1 ELSE 0 END ),0) tmonthh
 		       , 0 AS tmonths
-		       , sum(case when event_num = '30001' then 1 ELSE 0 END ) tmonthx
+		       , ifnull(sum(case when event_num = '30001' then 1 ELSE 0 END ),0) tmonthx
 		FROM   mat_alarm a
 		     , tbl_mat_info b
 		     , tbl_agency c
@@ -144,12 +144,12 @@
 		AND    DATE_FORMAT(a.reg_date, '%Y%m') = DATE_FORMAT(NOW(), '%Y%m')
 	</select>
 	<select id="dashBoardv1P" resultType="com.ltop.app.common.domain.DashBoardVO">
-		SELECT	sum(case when event_num = '10001' then 1 ELSE 0 END ) AS tdayr
-		       , sum(case when event_num = '20001' then 1 ELSE 0 END ) AS tdayh
+		SELECT	ifnull(sum(case when event_num = '10001' then 1 ELSE 0 END ),0) AS tdayr
+		       , ifnull(sum(case when event_num = '20001' then 1 ELSE 0 END ),0) AS tdayh
 		       , 0 AS tdays
-		       , sum(case when event_num = '30001' then 1 ELSE 0 END ) AS tdayx
+		       , ifnull(sum(case when event_num = '30001' then 1 ELSE 0 END ),0) AS tdayx
 		       , COUNT(1) AS toteventcnt
-		       , sum(case when confirm_yn = 'Y' then 1 ELSE 0 END ) AS confirmcnt
+		       , ifnull(sum(case when confirm_yn = 'Y' then 1 ELSE 0 END ),0) AS confirmcnt
 		       , (
 				 	SELECT	COUNT(1) cnt3
 					FROM		tbl_member a
@@ -185,10 +185,10 @@
 	</select>
 
 	<select id="dashBoardv2P" resultType="com.ltop.app.common.domain.DashBoardMVO">
-		SELECT	sum(case when event_num = '10001' then 1 ELSE 0 END ) AS tmonthr
-		       , sum(case when event_num = '20001' then 1 ELSE 0 END ) AS tmonthh
+		SELECT	ifnull(sum(case when event_num = '10001' then 1 ELSE 0 END ),0) AS tmonthr
+		       , ifnull(sum(case when event_num = '20001' then 1 ELSE 0 END ),0) AS tmonthh
 		       , 0 AS tmonths
-		       , sum(case when event_num = '30001' then 1 ELSE 0 END ) AS tmonthx
+		       , ifnull(sum(case when event_num = '30001' then 1 ELSE 0 END ),0) AS tmonthx
 		FROM   mat_alarm a
 		     , tbl_member b
 		WHERE  1=1
