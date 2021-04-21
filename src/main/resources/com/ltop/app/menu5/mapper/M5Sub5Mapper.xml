@@ -61,115 +61,56 @@
     ]]>
   </select>
 
-  <select id="selectAgencyInfo" resultType="com.ltop.app.menu5.domain.M5Sub5VO">
-    SELECT agency_no  AS agencyNo
-      , agency_name AS agencyName
-      , description
-      , adm_id      AS admId
-      , use_yn      AS useYn
-      , reg_date    AS regDate
-     FROM tbl_agency
-    WHERE agency_no = #{agencyNo}
+  <select id="selectGroupInfo" resultType="com.ltop.app.menu5.domain.M5Sub5VO">
+    SELECT group_seq AS groupSeq
+         , agency_no  AS agencyNo
+         , group_name AS groupName
+         , description
+         , group_adm_id AS groupAdmId
+         , use_yn      AS useYn
+         , reg_date    AS regDate
+     FROM tbl_agency_group
+    WHERE group_seq = #{groupSeq}
   </select>
 
-  <insert id="insertAgency">
-    <selectKey keyProperty="agencyNo" order="BEFORE" resultType="Integer">
-      SELECT MAX(agency_no)+1 FROM tbl_agency
+  <insert id="insertGroup">
+    <selectKey keyProperty="groupSeq" order="BEFORE" resultType="Integer">
+      SELECT MAX(group_seq)+1 FROM tbl_agency_group
     </selectKey>
 
-    INSERT INTO tbl_agency
-    (
-      agency_no
-      , agency_name
+    INSERT INTO tbl_agency_group
+    (   group_seq
+      , agency_no
+      , group_name
       , description
-      , adm_id
+      , group_adm_id
       , use_yn
       , reg_date
     )
     VALUES
     (
-      IFNULL(#{agencyNo},1)
-      , #{agencyName}
+      IFNULL(#{groupSeq},1)
+      , #{agencyNo}
+      , #{groupName}
       , #{description}
-      , #{admId}
+      , #{groupAdmId}
       , #{useYn}
       , NOW()
     )
   </insert>
 
-  <update id="updateAgency">
-    UPDATE	tbl_agency
-       SET agency_name = #{agencyName}
-        , description = #{description}
-        , adm_id = #{admId}
-        , use_yn = #{useYn}
-    WHERE	agency_no = #{agencyNo}
+  <update id="updateGroup">
+    UPDATE tbl_agency_group
+       SET agency_no = #{agencyNo}
+         , group_name = #{groupName}
+         , description = #{description}
+         , group_adm_id = #{groupAdmId}
+         , use_yn = #{useYn}
+    WHERE group_seq = #{groupSeq}
   </update>
 
-  <delete id="deleteAgency">
-    DELETE FROM tbl_agency WHERE agency_no = #{agencyNo}
-  </delete>
-
-  <select id="selectAgencyMathList" resultType="com.ltop.app.menu5.domain.M5Sub5VO">
-    SELECT	agency_no
-        , mat_id
-        , description
-        , use_yn
-        , date_format(reg_date, '%Y-%m-%d') AS reg_date
-        , userid AS userId
-    FROM	tbl_agency_math
-    WHERE	agency_no = #{agencyNo}
-  </select>
-
-  <select id="selectAgencyMathInfo" resultType="com.ltop.app.menu5.domain.M5Sub5VO">
-    SELECT	agency_no
-        , mat_id
-        , description
-        , use_yn
-        , date_format(reg_date, '%Y-%m-%d') AS reg_date
-        , userid AS userId
-    FROM	tbl_agency_math
-    WHERE	agency_no = #{agencyNo}
-        AND mat_id = #{matId}
-  </select>
-
-  <insert id="insertAgencyMath">
-    INSERT INTO tbl_agency_math
-    (
-      agency_no
-      , mat_id
-      , description
-      , use_yn
-      , reg_date
-      , userid
-    )
-    VALUES
-    (
-      #{agencyNo}
-      , #{matId}
-      , #{description}
-      , #{useYn}
-      , NOW()
-      , #{userId}
-    )
-  </insert>
-
-  <update id="updateAgencyMath">
-    UPDATE	tbl_agency_math
-    SET		description = #{description}
-        , use_yn = #{useYn}
-        , userid = #{userId}
-    WHERE	agency_no = #{agencyNo}
-        AND mat_id = #{matId}
-  </update>
-
-  <delete id="deleteAgencyMath">
-    DELETE FROM tbl_agency_math
-    WHERE agency_no = #{agencyNo}
-
-    <if test="matId != null and matId != ''">
-    AND mat_id = #{matId}
-    </if>
+  <delete id="deleteGroup">
+    DELETE FROM tbl_agency_group WHERE group_seq = #{groupSeq}
   </delete>
 
 </mapper>

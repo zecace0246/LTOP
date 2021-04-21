@@ -28,8 +28,9 @@ public class CommonComboServiceImpl implements CommonComboService {
 
 
     @Override
-    public List<CommonComboVO> selectAgencyAdminCombo() {
-        return commonComboMapper.selectAgencyAdminCombo();
+    public List<CommonComboVO> selectAgencyAdminCombo(CommonComboVO comVo) {
+
+        return commonComboMapper.selectAgencyAdminCombo(comVo);
     }
 
     @Override
@@ -59,9 +60,9 @@ public class CommonComboServiceImpl implements CommonComboService {
 		String userId = user.getUsername();
 
 		dashBoardVO.setUserId(userId);
-		
+
 		DashBoardVO dashBoard = new DashBoardVO();
-		
+
 		//dashBoard = commonComboMapper.dashBoardv1P(dashBoardVO);
 
 		List<String> roleNames = new ArrayList<>();
@@ -88,9 +89,9 @@ public class CommonComboServiceImpl implements CommonComboService {
 		String userId = user.getUsername();
 
 		dashBoardVO.setUserId(userId);
-		
+
 		DashBoardMVO dashBoard = new DashBoardMVO();
-		
+
 		//dashBoard = commonComboMapper.dashBoardv1P(dashBoardVO);
 
 		List<String> roleNames = new ArrayList<>();
@@ -110,21 +111,21 @@ public class CommonComboServiceImpl implements CommonComboService {
 		}
 		return dashBoard;
 	}
-	
+
 	@Override
 	public List<AlarmVO> selectAlarmList(DashBoardVO dashBoardVO) {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 		String userId = user.getUsername();
 		dashBoardVO.setUserId(userId);
-		
+
 		List<String> roleNames = new ArrayList<>();
 
 		user.getAuthorities().forEach(authority -> {
 			roleNames.add(authority.getAuthority());
 		});
 		List<AlarmVO> alarmVO = null;
-		
+
 		if (roleNames.contains("ROLE_ADMIN") ) {
 			alarmVO = commonComboMapper.selectAlarmListA(dashBoardVO);
 		}
@@ -144,14 +145,14 @@ public class CommonComboServiceImpl implements CommonComboService {
 
 		String userId = user.getUsername();
 		alarmVO.setUserId(userId);
-		
+
 		List<String> roleNames = new ArrayList<>();
 
 		user.getAuthorities().forEach(authority -> {
 			roleNames.add(authority.getAuthority());
 		});
 		int rVal = 0;
-		
+
 		if (roleNames.contains("ROLE_ADMIN") ) {
 			rVal = commonComboMapper.selectAlarmTotalCountA(alarmVO);
 		}
@@ -163,15 +164,15 @@ public class CommonComboServiceImpl implements CommonComboService {
 		}
 		return rVal;
 		//return commonComboMapper.selectAlarmTotalCount(alarmVO);
-	}	
-	
+	}
+
 	@Override
 	public List<AlarmVO> selectAlarmList(PageVO pageVO, AlarmVO alarmVO) {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 		String userId = user.getUsername();
 		alarmVO.setUserId(userId);
-		
+
 		List<String> roleNames = new ArrayList<>();
 
 		user.getAuthorities().forEach(authority -> {
@@ -182,8 +183,8 @@ public class CommonComboServiceImpl implements CommonComboService {
 		System.out.println("CCCCCCCCCCCCC");
 		System.out.println("impll>>"+alarmVO.getSearchDateFrom());
 		System.out.println("DDDDDDDDDDDDDD");
-		
-		
+
+
 		if (roleNames.contains("ROLE_ADMIN") ) {
 			System.out.println("EEEEEEEEEEEEEEEEEEEEEE");
 			alarmVOR = commonComboMapper.selectMenuAlarmListA(pageVO, alarmVO);
@@ -207,14 +208,14 @@ public class CommonComboServiceImpl implements CommonComboService {
 
 		String userId = user.getUsername();
 		userVO.setUserId(userId);
-		
+
 		List<String> roleNames = new ArrayList<>();
 
 		user.getAuthorities().forEach(authority -> {
 			roleNames.add(authority.getAuthority());
 		});
 		int rVal = 0;
-		
+
 		if (roleNames.contains("ROLE_ADMIN") ) {
 			rVal = commonComboMapper.selectUserTotalCountA(userVO);
 		}
@@ -226,7 +227,7 @@ public class CommonComboServiceImpl implements CommonComboService {
 		}
 		return rVal;
 		//return commonComboMapper.selectAlarmTotalCount(alarmVO);
-	}	
+	}
 
 	@Override
 	public List<UserVO> selectUserList(PageVO pageVO, UserVO userVO) {
@@ -234,7 +235,7 @@ public class CommonComboServiceImpl implements CommonComboService {
 
 		String userId = user.getUsername();
 		userVO.setUserId(userId);
-		
+
 		List<String> roleNames = new ArrayList<>();
 
 		user.getAuthorities().forEach(authority -> {
@@ -242,7 +243,7 @@ public class CommonComboServiceImpl implements CommonComboService {
 		});
 		List<UserVO> userVOR = null;
 
-		
+
 		if (roleNames.contains("ROLE_ADMIN") ) {
 			userVOR = commonComboMapper.selectMenuUserListA(pageVO, userVO);
 		}

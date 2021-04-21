@@ -97,7 +97,7 @@ $(document).ready(function() {
     $('#confirmModal').modal('toggle');
 
     if (gfn_isNull($('input[name=agencyName]').val())) {
-      $('.toast-body').text(' 그룹명을 입력해 주세요 ');
+      $('.toast-body').text(' 기관명을 입력해 주세요 ');
       $('.toast-center').toast('show');
       return false;
     }
@@ -144,7 +144,7 @@ function callServerRegisterResult(data) {
   if (data == 'success') {
     swal({
          title: 'SUCCESS',
-         text: '그룹 등록 완료',
+         text: '기관 등록 완료',
          icon: 'success',
          buttons: 'OK'
     }).then(function () {

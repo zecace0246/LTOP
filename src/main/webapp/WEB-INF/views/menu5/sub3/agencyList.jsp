@@ -16,7 +16,7 @@
                           <input type="text" class="form-control" placeholder="기관명" name="searchAgencyName" value='<c:out value="${searchAgencyName}"/>'>
                       </div>
                       <div class="col-sm-4">
-                          <input type="text" class="form-control" placeholder="관리자" name="searchAdmName" value='<c:out value="${searchAdmName}"/>'>
+                          <input type="text" class="form-control" placeholder="기관관리자" name="searchAdmName" value='<c:out value="${searchAdmName}"/>'>
                       </div>
 
                       <div class="col-sm-4" align="right">
@@ -54,7 +54,7 @@
                 <tr>
                   <th class="text-center">No.</th>
                   <th class="text-center">기관명</th>
-                  <th class="text-center">관리자</th>
+                  <th class="text-center">기관관리자</th>
                   <th class="text-center">등록된 매트수</th>
                   <th class="text-center">등록된 사용자수</th>
                   <th class="text-center">사용유무</th>

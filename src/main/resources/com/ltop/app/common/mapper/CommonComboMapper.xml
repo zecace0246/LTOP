@@ -8,7 +8,8 @@
         , mem.username AS userName
     FROM  tbl_member mem, tbl_member_auth auth
     WHERE	mem.userid = auth.userid
-        AND auth.auth = 'ROLE_MEMBER'
+        AND mem.enabled = 'Y'
+        AND auth.auth = 'ROLE_USER'
      <if test="agencyNo != null and agencyNo != ''">
         AND mem.agency_no = ${agencyNo}
      </if>
@@ -19,7 +20,8 @@
         , mem.username AS userName
     FROM	tbl_member mem, tbl_member_auth auth
     WHERE	mem.userid = auth.userid
-        AND auth.auth = 'ROLE_USER'
+        AND mem.enabled = 'Y'
+        AND auth.auth = 'ROLE_MEMBER'
   </select>
 
   <select id="selectMatCombo" resultType="com.ltop.app.common.domain.CommonComboVO">

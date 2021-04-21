@@ -42,44 +42,44 @@ public class CommonController {
 
 	@GetMapping("/dashboardv1")
 	public String dashBoardv1(DashBoardVO dashBoardVO, Model model) {
-		
+
 		model.addAttribute("dashboard", commonComboService.dashBoardv1(dashBoardVO));
 		model.addAttribute("dashboardm", commonComboService.dashBoardv2(dashBoardVO));
 
 		List<AlarmVO> alarmList = commonComboService.selectAlarmList(dashBoardVO);
-		
+
 		model.addAttribute("alarmList", alarmList);
-		
+
 		return "dashboardv1";
 	}
-	
+
 	@GetMapping("/alarm")
 	public String alarmList(PageVO pageVO, AlarmVO alarmVO, Model model) {
 		int total = commonComboService.selectAlarmTotalCount(alarmVO);
-		
+
 		List<AlarmVO> alarmList = commonComboService.selectAlarmList(pageVO, alarmVO);
-		
+
 		model.addAttribute("alarmList", alarmList);
 		model.addAttribute("searchDateFrom", alarmVO.getSearchDateFrom());
 		model.addAttribute("searchDateTo", alarmVO.getSearchDateTo());
 		model.addAttribute("searchType", alarmVO.getSearchType());
 		model.addAttribute("pageMaker", new PageDTO(pageVO, total));
-		
+
 		return "alarmList";
 	}
 
 	@GetMapping("/user")
 	public String userList(PageVO pageVO, UserVO userVO, Model model) {
 		int total = commonComboService.selectUserTotalCount(userVO);
-		
+
 		List<UserVO> userList = commonComboService.selectUserList(pageVO, userVO);
-		
+
 		model.addAttribute("userList", userList);
 		//model.addAttribute("searchDateFrom", userVO.getSearchDateFrom());
 		//model.addAttribute("searchDateTo", userVO.getSearchDateTo());
 		//model.addAttribute("searchType", userVO.getSearchType());
 		model.addAttribute("pageMaker", new PageDTO(pageVO, total));
-		
+
 		return "userList";
 	}
 
@@ -100,6 +100,15 @@ public class CommonController {
         List<CommonComboVO> comboAgCyGrpList = commonComboService.selectAgencyGroupCombo(comVo);
 
         return comboAgCyGrpList ;
+    }
+
+    @GetMapping("/selectAgencyAdminCombo")
+    @ResponseBody
+    public Object selectAgencyAdminCombo(CommonComboVO comVo, Model model) {
+
+        List<CommonComboVO> comboAgCyAdmList = commonComboService.selectAgencyAdminCombo(comVo);
+
+        return comboAgCyAdmList ;
     }
 
 }
