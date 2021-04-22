@@ -166,7 +166,7 @@ $(document).ready(function() {
 
   $('#agencyNo').change(function(e){
         var $target = $('select[name=groupSeq]');
-    var selectType=$(this).val();
+        var selectType=$(this).val();
 
         $.ajax({
             type : "GET",
