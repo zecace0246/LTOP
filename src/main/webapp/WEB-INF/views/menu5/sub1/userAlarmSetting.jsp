@@ -37,7 +37,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                       <label class="form-label">사용유무</label>
-                                      <select class="form-control js-example-placeholder-multiple " id="enabled" name="enabled" >
+                                      <select class="form-control js-example-placeholder-multiple " id="useYn" name="useYn" >
                                           <option value="" >선택</option>
                                           <option value="Y" <c:if test="${alarm.useYn eq 'Y'}">selected</c:if>>사용</option>
                                           <option value="N" <c:if test="${alarm.useYn eq 'N'}">selected</c:if>>미사용</option>
@@ -52,6 +52,10 @@
 
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                             <input type='hidden' name='seq' value='<c:out value="${alarm.seq}"/>'>
+                            <input type='hidden' name='searchUserName' value='<c:out value="${searchUserName}"/>'>
+				            <input type='hidden' name='searchMatId' value='<c:out value="${searchMatId}"/>'>
+				            <input type='hidden' name='searchEnabled' value='<c:out value="${searchEnabled}"/>'>
+				            <input type='hidden' name='searchGroup' value='<c:out value="${searchGroup}"/>'>
                         </form>
                     </div>
                 </div>
@@ -156,10 +160,10 @@ $(document).ready(function() {
 	    }
 
 	    if (gfn_isNull($('select[name=useYn]').val())) {
-	          $('.toast-body').text(' 사용유무를 선택해 주세요 ');
-	          $('.toast-center').toast('show');
-	          return false;
-	    }
+	        $('.toast-body').text(' 사용유무를 선택해 주세요 ');
+	        $('.toast-center').toast('show');
+	        return false;
+	      }
 
 	    var formData = {
 	    		userId: $('input[name=userId]').val(),
@@ -170,13 +174,14 @@ $(document).ready(function() {
 	    };
 
 	    $.ajax({
-            type : "POST",
+            type : "GET",
             url : "/menu5/sub1/userAlarmregister",
             async : false,
             data : formData,
             dataType : "json",
             success : function(result){
-                        console.log(JSON.stringify(result));
+                        console.log(" result ::>>> "+ JSON.stringify(result));
+
                         callServerModifyResult('success');
                 },
             error: function(xhr){
@@ -184,6 +189,8 @@ $(document).ready(function() {
                 }
             });
 
+	    //debugger;
+	    callServerModifyResult('success');
 
     });
 
@@ -191,17 +198,38 @@ $(document).ready(function() {
 
 //등록 후 처리
 function callServerModifyResult(data) {
-	  if (data == 'success') {
-	    swal({
-	         title: 'SUCCESS',
-	         text: '사용자 알람 등록 완료',
-	         icon: 'success',
-	         buttons: 'OK'
-	    }).then(function () {
+	var csrfTokenValue = '${_csrf.token}';
 
-	    	location.reload(true);
-	    	$("#divAlarmList").load(window.location.href + "#divAlarmList");
+	if (data == 'success') {
+	  swal({
+	       title: 'SUCCESS',
+	       text: '사용자 알람 등록 완료',
+	       icon: 'success',
+	       buttons: 'OK'
+	  }).then(function () {
 
-	    });
-	  }
+		  goView();
+
+	      /*var formData = {
+	          userId: $('input[name=userId]').val(),
+	          seq: $('input[name=seq]').val()
+	       };
+
+	      gfn_callServer('GET', '/menu5/sub1/userAlarmSetting', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
+	      */
+
+	  });
 	}
+}
+
+function goView(){
+	var formData = {
+		userId: $('input[name=userId]').val(),
+        searchUserName: $('input[name=searchUserName]').val(),
+        searchMatId: $('input[name=searchMatId]').val(),
+        searchEnabled: $('input[name=searchEnabled]').val(),
+        searchAgency: $('input[name=searchAgency]').val()
+      };
+
+    gfn_callServer('POST', '/menu5/sub1/userView', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
+}

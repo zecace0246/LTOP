@@ -125,8 +125,9 @@ public class M5Sub1ServiceImpl implements M5Sub1Service {
 	@Transactional
 	@Override
 	public int insertUserAlarm(M5Sub1VO m5Sub1VO) {
+		int result =0;
 
-		int result = m5Sub1Mapper.insertUserAlarm(m5Sub1VO);
+		result = m5Sub1Mapper.insertUserAlarm(m5Sub1VO);
 
 		return result;
 	}

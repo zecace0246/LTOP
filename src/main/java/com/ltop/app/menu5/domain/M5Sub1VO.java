@@ -1,5 +1,7 @@
 package com.ltop.app.menu5.domain;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -30,8 +32,8 @@ public class M5Sub1VO {
     private String agencyNo  ;
     private String agencyName;
     private String admId     ;
-    private String regDate   ;
-    private String updateDate;
+    private Date regDate;
+    private Date updateDate;
 
     //알람
     private Integer seq;

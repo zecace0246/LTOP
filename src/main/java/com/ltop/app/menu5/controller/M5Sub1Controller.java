@@ -145,8 +145,11 @@ public class M5Sub1Controller {
     	System.out.println(" Controller seq ::>> "+ seq);
 
     	model.addAttribute("alarm", m5Sub1Service.selectUserAlarmInfo(userId,seq));
-
     	model.addAttribute("userAlarmList", m5Sub1Service.selectUserAlarmList(userId));
+    	model.addAttribute("searchUserName", m5Sub1VO.getSearchUserName());
+        model.addAttribute("searchMatId", m5Sub1VO.getSearchMatId());
+        model.addAttribute("searchEnabled", m5Sub1VO.getSearchEnabled());
+        model.addAttribute("searchAgency", m5Sub1VO.getSearchAgency());
 
     	return "/menu5/sub1/userAlarmSetting";
     }
@@ -154,7 +157,7 @@ public class M5Sub1Controller {
     //userAlarmregister
     @GetMapping("/sub1/userAlarmregister")
     @ResponseBody
-    public String userAlarmregister(M5Sub1VO m5Sub1VO, Model model) {
+    public Object userAlarmregister(M5Sub1VO m5Sub1VO, Model model, RedirectAttributes rttr) {
         int result = 0;
         String rstStr = "";
 
@@ -164,7 +167,11 @@ public class M5Sub1Controller {
         	rstStr = "success";
         }
 
+        System.out.println(" result :::>>  "+ result);
+        System.out.println(" rstStr :::>>  "+ rstStr);
+
         return rstStr ;
+        //return result ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
