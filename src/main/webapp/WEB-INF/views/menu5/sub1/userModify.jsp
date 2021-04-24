@@ -55,7 +55,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label">전화번호</label>
+                                        <label class="form-label">연락처</label>
                                         <input type="text" class="form-control" id="tel" name="tel" value="<c:out value="${user.tel}"/>">
                                     </div>
                                 </div>
@@ -100,17 +100,6 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label">사용유무</label>
-                                      <select class="form-control js-example-placeholder-multiple " id="enabled" name="enabled" >
-                                          <option value="" >선택</option>
-                                          <option value="Y" <c:if test="${user.enabled eq 'Y'}">selected</c:if>>사용</option>
-                                          <option value="N" <c:if test="${user.enabled eq 'N'}">selected</c:if>>미사용</option>
-                                      </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
                                         <label class="form-label">매트 ID</label>
                                         <select class="form-control js-example-placeholder-multiple " id="matId" name="matId" >
                                             <option value="">선택</option>
@@ -130,6 +119,17 @@
                                               <option value="${agencyCombo.agencyNo}" <c:if test="${agencyCombo.agencyNo == user.agencyNo}">selected</c:if>>${agencyCombo.agencyName}</option>
                                             </c:forEach>
                                         </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label">사용유무</label>
+                                      <select class="form-control js-example-placeholder-multiple " id="enabled" name="enabled" >
+                                          <option value="" >선택</option>
+                                          <option value="Y" <c:if test="${user.enabled eq 'Y'}">selected</c:if>>사용</option>
+                                          <option value="N" <c:if test="${user.enabled eq 'N'}">selected</c:if>>미사용</option>
+                                      </select>
                                     </div>
                                 </div>
 
@@ -225,7 +225,7 @@
           }
 
         if (gfn_isNull($('input[name=tel]').val())) {
-          $('.toast-body').text(' 전화번호를 입력해 주세요 ');
+          $('.toast-body').text(' 연락처를 입력해 주세요 ');
           $('.toast-center').toast('show');
           return false;
         }

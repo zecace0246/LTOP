@@ -33,4 +33,8 @@ public class M5Sub1VO {
     private String regDate   ;
     private String updateDate;
 
+    //알람
+    private Integer seq;
+    private String useYn;
+
 }

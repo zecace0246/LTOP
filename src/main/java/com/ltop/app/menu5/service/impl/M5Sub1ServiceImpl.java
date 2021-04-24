@@ -104,4 +104,31 @@ public class M5Sub1ServiceImpl implements M5Sub1Service {
         return result > 0;
     }
 
+	@Override
+	public M5Sub1VO selectUserAlarmInfo(String userId, int seq) {
+
+		System.out.println(" serviceImpl seq :::> " + seq);
+
+		M5Sub1VO vo = new M5Sub1VO();
+
+		vo.setUserId(userId);
+		vo.setSeq(seq);
+
+		return m5Sub1Mapper.selectUserAlarmInfo(vo);
+	}
+
+	@Override
+	public List<M5Sub1VO> selectUserAlarmList(String userId) {
+		return m5Sub1Mapper.selectUserAlarmList(userId);
+	}
+
+	@Transactional
+	@Override
+	public int insertUserAlarm(M5Sub1VO m5Sub1VO) {
+
+		int result = m5Sub1Mapper.insertUserAlarm(m5Sub1VO);
+
+		return result;
+	}
+
 }

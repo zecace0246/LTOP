@@ -21,4 +21,10 @@ public interface M5Sub1Service {
 
     public int selectUserTotalCount(M5Sub1VO m5Sub1VO);
 
+	public M5Sub1VO selectUserAlarmInfo(String userId, int seq);
+
+	public List<M5Sub1VO> selectUserAlarmList(String userId);
+
+	public int insertUserAlarm(M5Sub1VO m5Sub1VO);
+
 }

@@ -107,6 +107,7 @@
             , mem.agency_no AS agencyNo
             , (SELECT agency_name FROM tbl_agency WHERE agency_no = mem.agency_no) AS agencyName
             , auth.auth
+            , (SELECT seq FROM tbl_alarm WHERE userid = mem.userid ORDER BY seq DESC LIMIT 1) AS seq
         FROM tbl_member mem
         LEFT OUTER JOIN tbl_member_auth auth ON auth.userid = mem.userid
        WHERE 1=1
@@ -194,5 +195,58 @@
     <delete id="deleteUserAuth">
     DELETE FROM tbl_member_auth WHERE userid = #{userId}
     </delete>
+
+    <select id="selectUserAlarmInfo" resultType="com.ltop.app.menu5.domain.M5Sub1VO">
+        SELECT A.userid AS userId
+		     , A.username AS userName
+		     , B.seq
+		     , IFNULL(B.tel, A.tel) AS tel
+		     , B.use_yn AS useYn
+		     , B.regdate AS regDate
+		  FROM tbl_member A
+		 LEFT OUTER JOIN tbl_alarm B ON B.userid = A.userid
+		  WHERE 1=1
+		    AND A.userid = #{userId}
+		    <if test="seq != null and seq != '' ">
+		        AND B.seq = #{seq}
+		    </if>
+		  ORDER BY B.seq DESC LIMIT 1
+    </select>
+
+    <select id="selectUserAlarmList" resultType="com.ltop.app.menu5.domain.M5Sub1VO">
+        SELECT A.userid AS userId
+             , B.username AS userName
+             , A.seq
+             , A.tel
+             , A.use_yn AS useYn
+             , A.regdate AS regDate
+          FROM tbl_alarm A
+         INNER JOIN tbl_member B ON B.userid = A.userid
+          WHERE 1=1
+            AND A.userid = #{userId}
+           ORDER BY seq DESC
+    </select>
+
+    <insert id="insertUserAlarm">
+        <selectKey keyProperty="seq" order="BEFORE" resultType="Integer">
+            SELECT MAX(seq)+1 FROM tbl_alarm WHERE userid= #{userId}
+        </selectKey>
+
+        INSERT INTO tbl_alarm
+            (  userid
+			 , seq
+			 , tel
+			 , use_yn
+			 , regdate
+			 )
+			 VALUES
+             (
+               #{userId}
+              , IFNULL(#{seq},1)
+              , #{tel}
+              , #{useYn}
+              , NOW()
+             )
+    </insert>
 
 </mapper>

@@ -138,4 +138,33 @@ public class M5Sub1Controller {
         return result ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    //사용자 알람 설정
+    @PostMapping("/sub1/userAlarmSetting")
+    String userAlarmSetting(@RequestParam("userId") String userId, @RequestParam("seq") int seq, M5Sub1VO m5Sub1VO, Model model) {
+
+    	System.out.println(" Controller seq ::>> "+ seq);
+
+    	model.addAttribute("alarm", m5Sub1Service.selectUserAlarmInfo(userId,seq));
+
+    	model.addAttribute("userAlarmList", m5Sub1Service.selectUserAlarmList(userId));
+
+    	return "/menu5/sub1/userAlarmSetting";
+    }
+
+    //userAlarmregister
+    @GetMapping("/sub1/userAlarmregister")
+    @ResponseBody
+    public String userAlarmregister(M5Sub1VO m5Sub1VO, Model model) {
+        int result = 0;
+        String rstStr = "";
+
+        result = m5Sub1Service.insertUserAlarm(m5Sub1VO);
+
+        if( result >0 ) {
+        	rstStr = "success";
+        }
+
+        return rstStr ;
+    }
+
 }
