@@ -36,5 +36,10 @@ public interface CommonComboService {
 	public int selectUserTotalCount(UserVO userVO);
 
 	public List<UserVO> selectUserList(PageVO pageVO, UserVO userVO);
+	
+	//summary Of Main Menu
+	public int selectSummaryTotalCount(UserVO userVO);
+
+	public List<UserVO> selectSummaryList(PageVO pageVO, UserVO userVO);
 
 }

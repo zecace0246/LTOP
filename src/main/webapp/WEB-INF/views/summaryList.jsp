@@ -44,7 +44,7 @@
 		<div class="col-sm-12">
 			<div class="card">
 				<div class="card-header">
-					<h5>사용자 목록</h5>
+					<h5>통계 목록</h5>
 				</div>
 					
 				<div class="card-body">                     
@@ -72,11 +72,7 @@
 	                                           	   <td><c:out value="${listStartNum - userStatus.count}" /></td>
 	                                               <td><c:out value="${user.agencyName}" /></td>
 	                                               <td><c:out value="${user.groupName}" /></td>
-	                                               <td>
-                          								<a class='move' href='<c:out value="${user.userId}"/>'>
-	                                               			<c:out value="${user.userName}" />
-	                                               		</a>
-	                                               	</td>
+	                                               <td><c:out value="${user.userName}" /></td>
 	                                               <td><c:out value="${user.respirationRate}" />
 	                                                   <div class="progress mt-1" style="height:4px;">
 	                                                       <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
@@ -173,17 +169,17 @@ $(document).ready(function() {
 	
 	// 상세 내용 선택
 	$('.move').on('click', function(e) {
-	    e.preventDefault();
-
-	    var formData = {
-	        userId: $(this).attr('href'),
-	        searchUserName: $('input[name=searchUserName]').val(),
-	        searchMatId: $('input[name=searchMatId]').val(),
-	        searchEnabled: $('select[name=searchEnabled]').val(),
-	        searchAgency: $('select[name=searchAgency]').val()
-	      };
-
-	    gfn_callServer('POST', '/user/userDetail', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
+		e.preventDefault();
+		
+		var formData = {
+				matNo: $(this).attr('href'),
+				pageNum: $('input[name=pageNum]').val(), 
+				amount: $('input[name=amount]').val(), 
+				searchMatId: $('input[name=searchMatId]').val(), 
+				searchUseYn: $('input[name=searchUseYn]').val()
+			};
+		
+		gfn_callServer('POST', '/menu5/sub2/matView', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
 	});
 	
 	// 페이징 버튼 선택

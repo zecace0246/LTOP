@@ -76,8 +76,12 @@
 								) sub
 					) usecnt
 		FROM   mat_alarm a
+		     , tbl_member b
 		WHERE  1=1
-		AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),'18')
+		AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= case when b.sleep_time = NULL OR b.sleep_time ='' 
+		                                                   then concat(DATE_FORMAT(NOW(), '%Y%m%d'),'00')
+		                                                   ELSE concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),b.sleep_time)
+		                                              end
 		AND    DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
 	</select>
 	<select id="dashBoardv2A" resultType="com.ltop.app.common.domain.DashBoardMVO">
@@ -127,11 +131,16 @@
 		FROM   mat_alarm a
 		     , tbl_mat_info b
 		     , tbl_agency c
+		     , tbl_member e
 		WHERE  1=1
 		AND    c.adm_id = #{userId}
 		AND    c.agency_no = b.agency_no
 		AND    a.mat_id = b.mat_id
-		AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),'18')
+		AND    a.mat_id = e.mat_id
+		AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= case when e.sleep_time = NULL OR e.sleep_time ='' 
+		                                                   then concat(DATE_FORMAT(NOW(), '%Y%m%d'),'00')
+		                                                   ELSE concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),e.sleep_time)
+		                                              end
 		AND    DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
 	</select>
 	<select id="dashBoardv2U" resultType="com.ltop.app.common.domain.DashBoardMVO">
@@ -185,7 +194,10 @@
 		WHERE  1=1
 		AND    b.userid = #{userId}
 		AND    a.mat_id = b.mat_id
-		AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),'18')
+		AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= case when b.sleep_time = NULL OR b.sleep_time ='' 
+		                                                   then concat(DATE_FORMAT(NOW(), '%Y%m%d'),'00')
+		                                                   ELSE concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),b.sleep_time)
+		                                              end
 		AND    DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
 	</select>
 
@@ -233,9 +245,10 @@
 		where   1=1
 		and     a.mat_id = b.mat_id
 		and     a.mat_id = e.mat_id
-		AND    	DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),'18')
-		AND    	DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
+		#AND    	DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),'18')
+		#AND    	DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
 		order by a.reg_date DESC
+		limit 10
 	</select>
 
 	<select id="selectAlarmListU" resultType="com.ltop.app.common.domain.AlarmVO">
@@ -272,9 +285,10 @@
 		and     a.mat_id = e.mat_id
 		and     f.adm_id = #{userId}
 		and     b.agency_no = f.agency_no
-		AND    	DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),'18')
-		AND    	DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
+		#AND    	DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),'18')
+		#AND    	DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
 		order by a.reg_date DESC
+		limit 10
 	</select>
 
 	<select id="selectAlarmListP" resultType="com.ltop.app.common.domain.AlarmVO">
@@ -309,9 +323,10 @@
 		and     a.mat_id = b.mat_id
 		and     a.mat_id = e.mat_id
 		and     e.userid = #{userId}
-		AND    	DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),'18')
-		AND    	DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
+		#AND    	DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),'18')
+		#AND    	DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
 		order by a.reg_date DESC
+		limit 10
 	</select>
 
 
@@ -490,7 +505,7 @@
 				where   1=1
 				and     a.mat_id = b.mat_id
 				and     a.mat_id = e.mat_id
-				and     f.adm_id = #{userId}
+				and     f.adm_id = #{alarmVO.userId}
 				and     b.agency_no = f.agency_no
 		]]>
 				<if test="alarmVO.searchDateFrom != null and alarmVO.searchDateFrom != ''">
@@ -546,7 +561,7 @@
 				where   1=1
 				and     a.mat_id = b.mat_id
 				and     a.mat_id = e.mat_id
-				and     e.userid = #{userId}
+				and     e.userid = #{alarmVO.userId}
 		]]>
 				<if test="alarmVO.searchDateFrom != null and alarmVO.searchDateFrom != ''">
 				AND 	DATE_FORMAT(a.reg_date, '%Y-%m-%d') <![CDATA[>=]]> #{alarmVO.searchDateFrom}
@@ -661,7 +676,7 @@
 						, b.respiration_rate  AS respirationRate
 						, b.heart_rate AS heartRate
 						, b.sleep_mode  AS sleepMode
-				       , ( select case when count(1) > 0 then 'Y' else 'N' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d%H') >= concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),'18') ) fallAlarm
+				       , ( select case when count(1) > 0 then 'Y' else 'N' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
 				FROM		(
 							SELECT	c.userid, c.username, c.mat_id, c.agency_no, d.group_name
 							FROM		tbl_mat_info b
@@ -710,7 +725,7 @@
 						, b.respiration_rate AS respirationRate
 						, b.heart_rate AS heartRate
 						, b.sleep_mode  AS sleepMode
-				      , ( select case when count(1) > 0 then 'Y' else 'N' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d%H') >= concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),'18') ) fallAlarm
+				      , ( select case when count(1) > 0 then 'Y' else 'N' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
 				FROM		(
 							SELECT	c.userid, c.username, c.mat_id, c.agency_no, d.group_name
 							FROM		tbl_agency a
@@ -719,7 +734,7 @@
 							         on b.group_seq = d.group_seq
 							       , tbl_member c
 							WHERE    1=1
-							AND      a.adm_id =#{userId}
+							AND      a.adm_id =#{alarmVO.userId}
 							AND      a.agency_no = b.agency_no
 							AND      a.use_yn = 'Y'
 							AND      b.use_yn = 'Y'
@@ -763,7 +778,7 @@
 						, b.respiration_rate AS respirationRate
 						, b.heart_rate AS heartRate
 						, b.sleep_mode  AS sleepMode
-					  , ( select case when count(1) > 0 then 'Y' else 'N' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d%H') >= concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),'18') ) fallAlarm
+					  , ( select case when count(1) > 0 then 'Y' else 'N' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
 				FROM   tbl_member a
 				       LEFT OUTER join bcg b
 				       ON	a.mat_id = b.mat_id
@@ -774,7 +789,7 @@
 				       left outer join tbl_agency_group e
 				       on  d.group_seq = e.group_seq
 				WHERE  1=1
-				and	   a.userid = #{userId}
+				and	   a.userid = #{alarmVO.userId}
 				and    a.mat_id = d.mat_id
 				ORDER BY b.reg_date desc
 				LIMIT 1
@@ -786,5 +801,227 @@
 			LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
 		]]>
 	</select>
+
+	<select id="selectSummaryTotalCountA" resultType="int">
+		SELECT		COUNT(*) cnt
+		FROM		(
+					SELECT	c.userid, c.username, c.mat_id, c.agency_no, d.group_name
+					FROM		tbl_mat_info b
+					         left outer join tbl_agency_group d
+					         on b.group_seq = d.group_seq
+					       , tbl_member c
+					WHERE    1=1
+					AND      b.use_yn = 'Y'
+					AND      b.mat_id = c.mat_id
+					) a
+					LEFT OUTER JOIN (	SELECT	a.*
+											FROM		bcg a
+							      				, (
+														SELECT  mat_id, MAX(bno) bno
+														FROM   bcg a
+														WHERE   1=1
+														AND  DATE_FORMAT(a.reg_date, '%Y%m%d%H%i') >= DATE_FORMAT(date_add(NOW(),INTERVAL -5 minute), '%Y%m%d%H%i')
+														GROUP BY mat_id
+														) b
+											WHERE    1=1
+											AND      a.mat_id = b.mat_id
+											AND      a.bno = b.bno
+										  ) b
+		      	ON	a.mat_id = b.mat_id
+		       LEFT OUTER join tbl_agency c
+		       ON	a.agency_no = c.agency_no
+	</select>
+
+	<select id="selectSummaryTotalCountU" resultType="int">
+		SELECT		COUNT(*) cnt
+		FROM		(
+					SELECT	c.userid, c.username, c.mat_id, c.agency_no, d.group_name
+					FROM		tbl_agency a
+					       , tbl_mat_info b
+					         left outer join tbl_agency_group d
+					         on b.group_seq = d.group_seq
+					       , tbl_member c
+					WHERE    1=1
+					AND      a.adm_id = #{userId}
+					AND      a.agency_no = b.agency_no
+					AND      a.use_yn = 'Y'
+					AND      b.use_yn = 'Y'
+					AND      b.mat_id = c.mat_id
+					) a
+					LEFT OUTER JOIN (	SELECT	a.*
+											FROM		bcg a
+							      				, (
+														SELECT  mat_id, MAX(bno) bno
+														FROM   bcg a
+														WHERE   1=1
+														AND  DATE_FORMAT(a.reg_date, '%Y%m%d%H%i') >= DATE_FORMAT(date_add(NOW(),INTERVAL -5 minute), '%Y%m%d%H%i')
+														GROUP BY mat_id
+														) b
+											WHERE    1=1
+											AND      a.mat_id = b.mat_id
+											AND      a.bno = b.bno
+										  ) b
+		      	ON	a.mat_id = b.mat_id
+		       LEFT OUTER join tbl_agency c
+		       ON	a.agency_no = c.agency_no
+	</select>
+
+	<select id="selectSummaryTotalCountP" resultType="int">
+		SELECT		COUNT(*) cnt
+		FROM   tbl_member a
+		       LEFT OUTER join bcg b
+		       ON	a.mat_id = b.mat_id
+		       AND  DATE_FORMAT(b.reg_date, '%Y%m%d%H%i') >= DATE_FORMAT(date_add(NOW(),INTERVAL -5 minute), '%Y%m%d%H%i')
+		       LEFT OUTER join tbl_agency c
+		       ON	a.agency_no = c.agency_no
+		     , tbl_mat_info d
+		       left outer join tbl_agency_group e
+		       on  d.group_seq = e.group_seq
+		WHERE  1=1
+		and	   a.userid = #{userId}
+		and    a.mat_id = d.mat_id
+		ORDER BY b.reg_date desc
+		LIMIT 1
+	</select>
+
+	<select id="selectMenuSummaryListA" resultType="com.ltop.app.common.domain.UserVO">
+		<![CDATA[
+			SELECT R.*
+			FROM
+			(
+				SELECT a.userid
+				      , a.username
+				      , c.agency_name AS agencyName
+				      , a.group_name AS groupName
+						, b.mat_id  AS matId
+						, b.respiration_rate  AS respirationRate
+						, b.heart_rate AS heartRate
+						, b.sleep_mode  AS sleepMode
+				       , ( select case when count(1) > 0 then 'Y' else 'N' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
+				FROM		(
+							SELECT	c.userid, c.username, c.mat_id, c.agency_no, d.group_name
+							FROM		tbl_mat_info b
+							         left outer join tbl_agency_group d
+							         on b.group_seq = d.group_seq
+							       , tbl_member c
+							WHERE    1=1
+							AND      b.use_yn = 'Y'
+							AND      b.mat_id = c.mat_id
+							) a
+							LEFT OUTER JOIN (	SELECT	a.*
+													FROM		bcg a
+									      				, (
+																SELECT  mat_id, MAX(bno) bno
+																FROM   bcg a
+																WHERE   1=1
+																AND  DATE_FORMAT(a.reg_date, '%Y%m%d%H%i') >= DATE_FORMAT(date_add(NOW(),INTERVAL -5 minute), '%Y%m%d%H%i')
+																GROUP BY mat_id
+																) b
+													WHERE    1=1
+													AND      a.mat_id = b.mat_id
+													AND      a.bno = b.bno
+												  ) b
+				      	ON	a.mat_id = b.mat_id
+				       LEFT OUTER join tbl_agency c
+				       ON	a.agency_no = c.agency_no
+		]]>
+
+		<![CDATA[
+			) R
+			ORDER BY R.agencyName, R.groupName ASC
+			LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
+		]]>
+	</select>
+
+	<select id="selectMenuSummaryListU" resultType="com.ltop.app.common.domain.UserVO">
+		<![CDATA[
+			SELECT R.*
+			FROM
+			(
+				SELECT a.userid
+				      , a.username
+				      , c.agency_name AS agencyName
+				      , a.group_name AS groupName
+						, b.mat_id AS matId
+						, b.respiration_rate AS respirationRate
+						, b.heart_rate AS heartRate
+						, b.sleep_mode  AS sleepMode
+				      , ( select case when count(1) > 0 then 'Y' else 'N' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
+				FROM		(
+							SELECT	c.userid, c.username, c.mat_id, c.agency_no, d.group_name
+							FROM		tbl_agency a
+							       , tbl_mat_info b
+							         left outer join tbl_agency_group d
+							         on b.group_seq = d.group_seq
+							       , tbl_member c
+							WHERE    1=1
+							AND      a.adm_id =#{alarmVO.userId}
+							AND      a.agency_no = b.agency_no
+							AND      a.use_yn = 'Y'
+							AND      b.use_yn = 'Y'
+							AND      b.mat_id = c.mat_id
+							) a
+							LEFT OUTER JOIN (	SELECT	a.*
+													FROM		bcg a
+									      				, (
+																SELECT  mat_id, MAX(bno) bno
+																FROM   bcg a
+																WHERE   1=1
+																AND  DATE_FORMAT(a.reg_date, '%Y%m%d%H%i') >= DATE_FORMAT(date_add(NOW(),INTERVAL -5 minute), '%Y%m%d%H%i')
+																GROUP BY mat_id
+																) b
+													WHERE    1=1
+													AND      a.mat_id = b.mat_id
+													AND      a.bno = b.bno
+												  ) b
+				      	ON	a.mat_id = b.mat_id
+				       LEFT OUTER join tbl_agency c
+				       ON	a.agency_no = c.agency_no
+		]]>
+
+		<![CDATA[
+			) R
+			ORDER BY R.agencyName, R.groupName ASC
+			LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
+		]]>
+	</select>
+
+	<select id="selectMenuSummaryListP" resultType="com.ltop.app.common.domain.UserVO">
+		<![CDATA[
+			SELECT R.*
+			FROM
+			(
+				SELECT a.userid
+				      , a.username
+				      , c.agency_name AS agencyName
+				      , e.group_name AS groupName
+				      , b.mat_id AS matId
+						, b.respiration_rate AS respirationRate
+						, b.heart_rate AS heartRate
+						, b.sleep_mode  AS sleepMode
+					  , ( select case when count(1) > 0 then 'Y' else 'N' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
+				FROM   tbl_member a
+				       LEFT OUTER join bcg b
+				       ON	a.mat_id = b.mat_id
+				       AND  DATE_FORMAT(b.reg_date, '%Y%m%d%H%i') >= DATE_FORMAT(date_add(NOW(),INTERVAL -5 minute), '%Y%m%d%H%i')
+				       LEFT OUTER join tbl_agency c
+				       ON	a.agency_no = c.agency_no
+				     , tbl_mat_info d
+				       left outer join tbl_agency_group e
+				       on  d.group_seq = e.group_seq
+				WHERE  1=1
+				and	   a.userid = #{alarmVO.userId}
+				and    a.mat_id = d.mat_id
+				ORDER BY b.reg_date desc
+				LIMIT 1
+		]]>
+
+		<![CDATA[
+			) R
+			ORDER BY R.agencyName, R.groupName ASC
+			LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
+		]]>
+	</select>
+
 
 </mapper>

@@ -18,22 +18,19 @@
 						</ul-->
 					</li>
 
-					<li class="nav-item pcoded-hasmenu">
-						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-bar-chart-2"></i></span><span class="pcoded-mtext">통계</span></a>
-						<ul class="pcoded-submenu">
-							<li><a href="#" data-url="">호흡</a></li>
-							<li><a href="#" data-url="">심박</a></li>
-							<li><a href="#" data-url="">수면</a></li>
-						</ul>
-					</li>
-
 					<li class="nav-item pcoded-singlemenu">
 						<a href="#" data-url="/user" class="nav-link ">
 							<span class="pcoded-micon"><i class="feather icon-users"></i></span>
 							<span class="pcoded-mtext">사용자</span>
 						</a>
 					</li>
-
+					
+					<li class="nav-item pcoded-singlemenu">
+						<a href="#!"  data-url="/summary" class="nav-link ">
+							<span class="pcoded-micon"><i class="feather icon-bar-chart-2"></i></span>
+							<span class="pcoded-mtext">통계</span>
+						</a>
+					</li>
 					<li class="nav-item pcoded-singlemenu">
 						<a href="#" data-url="/alarm" class="nav-link ">
 							<span class="pcoded-micon"><i class="feather icon-bell"></i></span>

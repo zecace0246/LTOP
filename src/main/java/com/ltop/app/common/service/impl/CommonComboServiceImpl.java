@@ -180,15 +180,9 @@ public class CommonComboServiceImpl implements CommonComboService {
 		});
 		List<AlarmVO> alarmVOR = null;
 
-		System.out.println("CCCCCCCCCCCCC");
-		System.out.println("impll>>"+alarmVO.getSearchDateFrom());
-		System.out.println("DDDDDDDDDDDDDD");
-
 
 		if (roleNames.contains("ROLE_ADMIN") ) {
-			System.out.println("EEEEEEEEEEEEEEEEEEEEEE");
 			alarmVOR = commonComboMapper.selectMenuAlarmListA(pageVO, alarmVO);
-			System.out.println("FFFFFFFFFFFFFFFF");
 		}
 		if (roleNames.contains("ROLE_USER") ) {
 			alarmVOR = commonComboMapper.selectMenuAlarmListU(pageVO, alarmVO);
@@ -259,4 +253,59 @@ public class CommonComboServiceImpl implements CommonComboService {
 		//return m5Sub2Mapper.selectMatList(pageVO, m5Sub2VO);
 	}
 
+	
+	
+	@Override
+	public int selectSummaryTotalCount(UserVO userVO) {
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		String userId = user.getUsername();
+		userVO.setUserId(userId);
+
+		List<String> roleNames = new ArrayList<>();
+
+		user.getAuthorities().forEach(authority -> {
+			roleNames.add(authority.getAuthority());
+		});
+		int rVal = 0;
+
+		if (roleNames.contains("ROLE_ADMIN") ) {
+			rVal = commonComboMapper.selectSummaryTotalCountA(userVO);
+		}
+		if (roleNames.contains("ROLE_USER") ) {
+			rVal = commonComboMapper.selectSummaryTotalCountU(userVO);
+		}
+		if (roleNames.contains("ROLE_MEMBER") ) {
+			rVal = commonComboMapper.selectSummaryTotalCountP(userVO);
+		}
+		return rVal;
+	}
+
+	@Override
+	public List<UserVO> selectSummaryList(PageVO pageVO, UserVO userVO) {
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		String userId = user.getUsername();
+		userVO.setUserId(userId);
+
+		List<String> roleNames = new ArrayList<>();
+
+		user.getAuthorities().forEach(authority -> {
+			roleNames.add(authority.getAuthority());
+		});
+		List<UserVO> userVOR = null;
+
+
+		if (roleNames.contains("ROLE_ADMIN") ) {
+			userVOR = commonComboMapper.selectMenuSummaryListA(pageVO, userVO);
+		}
+		if (roleNames.contains("ROLE_USER") ) {
+			userVOR = commonComboMapper.selectMenuSummaryListU(pageVO, userVO);
+		}
+		if (roleNames.contains("ROLE_MEMBER") ) {
+			userVOR = commonComboMapper.selectMenuSummaryListP(pageVO, userVO);
+		}
+
+		return userVOR;
+	}
 }

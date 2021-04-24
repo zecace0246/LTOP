@@ -58,7 +58,17 @@ public interface CommonComboMapper {
 	public int selectUserTotalCountU(UserVO userVO);
 	public int selectUserTotalCountP(UserVO userVO);
 
-	public List<UserVO> selectMenuUserListA(@Param("pageVO") PageVO pageVO, @Param("userVO") UserVO userVO);
-	public List<UserVO> selectMenuUserListU(@Param("pageVO") PageVO pageVO, @Param("userVO") UserVO userVO);
-	public List<UserVO> selectMenuUserListP(@Param("pageVO") PageVO pageVO, @Param("userVO") UserVO userVO);
+	public List<UserVO> selectMenuUserListA(@Param("pageVO") PageVO pageVO, @Param("alarmVO") UserVO userVO);
+	public List<UserVO> selectMenuUserListU(@Param("pageVO") PageVO pageVO, @Param("alarmVO") UserVO userVO);
+	public List<UserVO> selectMenuUserListP(@Param("pageVO") PageVO pageVO, @Param("alarmVO") UserVO userVO);
+	
+	
+	//Summary Of Menu
+	public int selectSummaryTotalCountA(UserVO userVO);
+	public int selectSummaryTotalCountU(UserVO userVO);
+	public int selectSummaryTotalCountP(UserVO userVO);
+
+	public List<UserVO> selectMenuSummaryListA(@Param("pageVO") PageVO pageVO, @Param("alarmVO") UserVO userVO);
+	public List<UserVO> selectMenuSummaryListU(@Param("pageVO") PageVO pageVO, @Param("alarmVO") UserVO userVO);
+	public List<UserVO> selectMenuSummaryListP(@Param("pageVO") PageVO pageVO, @Param("alarmVO") UserVO userVO);
 }
