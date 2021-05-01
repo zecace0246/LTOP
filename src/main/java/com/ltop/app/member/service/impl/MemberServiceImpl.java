@@ -21,7 +21,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Setter(onMethod_ = { @Autowired })
 	private PasswordEncoder pwencoder;
-	
+
 	@Setter(onMethod_ = @Autowired)
 	private MemberMapper memberMapper;
 
@@ -29,44 +29,47 @@ public class MemberServiceImpl implements MemberService {
 	public MemberVO selectMember(String userid) {
 		return memberMapper.selectMember("");
 	}
-	
+
 	@Override
 	public List<MemberVO> selectMemberList(MemberVO memberVO) {
 		return memberMapper.selectMemberList(memberVO);
 	}
-	
+
 	@Override
 	public MemberVO selectMemberInfo(MemberVO memberVO) {
 		return memberMapper.selectMemberInfo(memberVO);
 	}
-	
+
 	@Transactional
 	@Override
 	public int insertMember(MemberVO memberVO) {
 		MemberVO checkMember = memberMapper.selectMemberInfo(memberVO);
-		
+
 		if (checkMember != null) {
 			return 99;
 		}
-		
+
 		memberVO.setUserPw(pwencoder.encode(memberVO.getUserPw()));
-		
+
 		int result = memberMapper.insertMember(memberVO);
-		
+
 		if (result > 0) {
 			AuthVO authVO = new AuthVO();
 			authVO.setUserId(memberVO.getUserId());
 			authVO.setAuth("ROLE_MEMBER");
-			
+
 			memberMapper.insertMemberAuth(authVO);
 		}
-		
+
 		return result;
 	}
 
 	@Transactional
 	@Override
 	public boolean updateMember(MemberVO memberVO) {
+
+		memberVO.setUserPw(pwencoder.encode(memberVO.getUserPw()));
+
 		return memberMapper.updateMember(memberVO) == 1;
 	}
 
@@ -93,5 +96,14 @@ public class MemberServiceImpl implements MemberService {
 	public void deleteMemberAuth(AuthVO authVO) {
 		// TODO Auto-generated method stub
 	}
-	
+
+	/**
+	 * ID 중복 체크 확인
+	 */
+	@Override
+	public int selectIdDupChk(MemberVO memberVO) {
+
+		return memberMapper.selectIdDupChk(memberVO);
+	}
+
 }

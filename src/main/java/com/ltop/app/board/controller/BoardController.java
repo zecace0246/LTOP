@@ -98,23 +98,6 @@ public class BoardController {
         return gsonString;
     }
 
-    /**
-     * Moble Json 테스트 위한 게시판 리스트
-     * @param cri
-     * @param model
-     */
-    /*@GetMapping(value = "/mob/boardList")
-    public String mobBoardList(Criteria cri, Model model) {
-        model.addAttribute("mlist", service.selectBoardList(cri));
-
-        int total = service.selectBoardTotalCount(cri);
-
-        model.addAttribute("pageMaker", new PageDTO(cri, total));
-
-        return "jsonView";
-    }*/
-
-
     @GetMapping("/boardRegister")
     public String boardRegister() {
 

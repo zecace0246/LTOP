@@ -21,16 +21,16 @@ public class M5Sub4ServiceImpl implements M5Sub4Service {
 
 	@Setter(onMethod_ = { @Autowired })
 	private PasswordEncoder pwencoder;
-	
+
 	@Setter(onMethod_ = @Autowired)
 	private M5Sub4Mapper m5Sub4Mapper;
-	
-	
+
+
 	@Override
 	public int selectAlarmPropertyTotalCount(M5Sub4VO m5Sub4VO) {
 		return m5Sub4Mapper.selectAlarmPropertyTotalCount(m5Sub4VO);
-	}	
-	
+	}
+
 	@Override
 	public List<M5Sub4VO> selectAlarmPropertyList(PageVO pageVO, M5Sub4VO m5Sub4VO) {
 		return m5Sub4Mapper.selectAlarmPropertyList(pageVO, m5Sub4VO);
@@ -40,18 +40,18 @@ public class M5Sub4ServiceImpl implements M5Sub4Service {
 	public M5Sub4VO selectAlarmPropertyInfo(M5Sub4VO m5Sub4VO) {
 		return m5Sub4Mapper.selectAlarmPropertyInfo(m5Sub4VO);
 	}
-	
+
 	@Transactional
 	@Override
 	public boolean insertAlarmProperty(M5Sub4VO m5Sub4VO) {
 		M5Sub4VO alarmPropertyInfo = m5Sub4Mapper.selectAlarmPropertyInfo(m5Sub4VO);
-		
+
 		if (alarmPropertyInfo != null) {
 			return false;
 		}
-		
+
 		int result = m5Sub4Mapper.insertAlarmProperty(m5Sub4VO);
-				
+
 		return result > 0;
 	}
 
@@ -65,8 +65,8 @@ public class M5Sub4ServiceImpl implements M5Sub4Service {
 	@Override
 	public boolean deleteAlarmProperty(M5Sub4VO m5Sub4VO) {
 		int result = m5Sub4Mapper.deleteAlarmProperty(m5Sub4VO);
-		
+
 		return result > 0;
 	}
-	
+
 }

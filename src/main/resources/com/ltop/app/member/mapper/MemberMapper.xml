@@ -77,6 +77,11 @@
       , regdate
       , updatedate
       , enabled
+      , birthday
+	  , height
+	  , weight
+	  , tel
+	  , sex
     )
     VALUES
     (
@@ -85,16 +90,25 @@
       , #{userName}
       , NOW()
       , NOW()
-      , '1'
+      , 'Y'
+      , #{birthday}
+      , #{height}
+      , #{weight}
+      , #{tel}
+      , #{sexCd}
     )
   </insert>
 
   <update id="updateMember">
     UPDATE	tbl_member
-    SET		userpw = #{userPw}
-        , username = #{userName}
-        , updatedate = NOW()
-        , enabled = #{enabled}
+    SET	userpw = #{userPw}
+    <if test="userName != null and userName != ''">
+      , username = #{userName}
+    </if>
+    <if test="enabled != null and enabled != ''">
+      , enabled = #{enabled}
+    </if>
+      , updatedate = NOW()
     WHERE	userid = #{userId}
   </update>
 
@@ -124,5 +138,12 @@
   <delete id="deleteMemberAuth">
     DELETE FROM tbl_member_auth WHERE userid = #{userId}
   </delete>
+
+  <!-- ID 중복체크 -->
+  <select id="selectIdDupChk" resultType="int">
+     SELECT COUNT(*)
+       FROM tbl_member
+      WHERE userid = #{userId}
+  </select>
 
 </mapper>
