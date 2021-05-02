@@ -10,7 +10,9 @@ import com.ltop.app.common.domain.DashBoardVO;
 import com.ltop.app.common.domain.DashBoardMVO;
 import com.ltop.app.common.domain.AlarmVO;
 import com.ltop.app.common.domain.UserVO;
+import com.ltop.app.common.domain.BcgVO;
 import com.ltop.app.common.domain.PageVO;
+import com.ltop.app.menu5.domain.M5Sub1VO;
 import com.ltop.app.menu5.domain.M5Sub2VO;
 
 @Mapper
@@ -62,7 +64,13 @@ public interface CommonComboMapper {
 	public List<UserVO> selectMenuUserListU(@Param("pageVO") PageVO pageVO, @Param("alarmVO") UserVO userVO);
 	public List<UserVO> selectMenuUserListP(@Param("pageVO") PageVO pageVO, @Param("alarmVO") UserVO userVO);
 	
-	
+    public UserVO selectUserTodayInfo(String userId);
+    public List<BcgVO> selectUserTodayBcg(String userId);
+    public List<AlarmVO> selectUserTodayAlarm(String userId);
+    
+    public int alarmUpdate(AlarmVO alarmVO);
+    public int positionUpdate(UserVO userVO);
+    
 	//Summary Of Menu
 	public int selectSummaryTotalCountA(UserVO userVO);
 	public int selectSummaryTotalCountU(UserVO userVO);

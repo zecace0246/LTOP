@@ -21,7 +21,7 @@
 
                             <select class="form-control js-example-placeholder-multiple col-sm-12" id="searchType" name="searchType">
                                 <option>선택</option>
-                                <option value="10001">심박이상</option>
+                                <option value="10001">심박이상1</option>
                                 <option value="20001">호흡이상</option>
                                 <option value="30001">낙상감지</option>
                             </select>
@@ -65,30 +65,30 @@
 							</thead>
 							<tbody>
 								<c:choose>
-									<c:when test="${userList ne null && fn:length(userList) > 0}">
+									<c:when test="${summaryList ne null && fn:length(summaryList) > 0}">
 									<c:set var="listStartNum" value="${pageMaker.total - (pageMaker.pageVO.amount * (pageMaker.pageVO.pageNum - 1)) + 1}" />
-										<c:forEach items="${userList}" var="user" varStatus="userStatus">
+										<c:forEach items="${summaryList}" var="summary" varStatus="summaryStatus">
 	                                           <tr>
 	                                           	   <td><c:out value="${listStartNum - userStatus.count}" /></td>
-	                                               <td><c:out value="${user.agencyName}" /></td>
-	                                               <td><c:out value="${user.groupName}" /></td>
-	                                               <td><c:out value="${user.userName}" /></td>
-	                                               <td><c:out value="${user.respirationRate}" />
+	                                               <td><c:out value="${summary.agencyName}" /></td>
+	                                               <td><c:out value="${summary.groupName}" /></td>
+	                                               <td><c:out value="${summary.userName}" /></td>
+	                                               <td><c:out value="${summary.respirationRate}" />
 	                                                   <div class="progress mt-1" style="height:4px;">
 	                                                       <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
 	                                                   </div>
 	                                               </td>
-	                                               <td><c:out value="${user.heartRate}" />
+	                                               <td><c:out value="${summary.heartRate}" />
 	                                                   <div class="progress mt-1" style="height:4px;">
 	                                                       <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
 	                                                   </div>
 	                                               </td>
-	                                               <td><c:out value="${user.sleepMode}" />
+	                                               <td><c:out value="${summary.sleepMode}" />
 	                                                   <div class="progress mt-1" style="height:4px;">
 	                                                       <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
 	                                                   </div>
 	                                               </td>
-	                                               <td><c:out value="${user.fallAlarm}" /></td>
+	                                               <td><c:out value="${summary.fallAlarm}" /></td>
 	                                               <td></td>
 	                                           </tr>
 										</c:forEach>	
@@ -157,7 +157,7 @@ $(document).ready(function() {
 				searchType: $('input[name=searchType]').val()
 			};
 
-		gfn_callMenu('GET', '/user', true, formData, 'text', gfn_callMenuResult, 30000);
+		gfn_callMenu('GET', '/summary', true, formData, 'text', gfn_callMenuResult, 30000);
 	});
 	
 	// 등록 버튼 선택

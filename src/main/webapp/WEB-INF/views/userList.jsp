@@ -6,7 +6,7 @@
 <div class="pcoded-content">
 		
 	<!-- [ Search Bar ] start -->
-    <div class="card">
+    <!-- div class="card">
         <div class="card-block">
             <div class="seacrh-header">
 	            <form id="searchForm">
@@ -36,7 +36,7 @@
 	            </form>
             </div>
         </div>
-    </div>
+    </div -->
 	<!-- [ Search Bar ] end -->		
 		
 	<!-- [ Main Content ] start -->
@@ -61,6 +61,7 @@
 	                                <th><span>수면</span></th>
 	                                <th><span>낙상상태</span></th>
 	                                <th><span>자세 </span></th>
+	                                <th><span>사용시작일 </span></th>
 	                            </tr>
 							</thead>
 							<tbody>
@@ -94,13 +95,14 @@
 	                                               </td>
 	                                               <td><c:out value="${user.fallAlarm}" /></td>
 	                                               <td></td>
+	                                               <td><c:out value="${user.regDate}" /></td>
 	                                           </tr>
 										</c:forEach>	
 	
 									</c:when>
 									<c:otherwise>
 										<tr>
-											<td class="text-center" colspan="9">사용자가 없습니다</td>
+											<td class="text-center" colspan="10">사용자가 없습니다</td>
 										</tr>						
 									</c:otherwise>
 								</c:choose>

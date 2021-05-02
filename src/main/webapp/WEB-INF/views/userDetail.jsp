@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <div class="pcoded-content">
 
   <!-- [ Main Content ] start -->
@@ -18,28 +18,26 @@
                                                 <div class="card">
                                                     <div class="card-header p-t-20">
                                                         <div class="card-header-left">
-                                                            <h5>Power</h5>
+                                                            <h5>심박</h5>
                                                         </div>
                                                         <div class="card-header-right">
                                                             <i class="icofont icofont-spinner-alt-5 "></i>
                                                         </div>
                                                     </div>
                                                     <div class="card-block-big card-power">
-                                                        <h2>2789</h2><span class="text-muted">kw</span>
+                                                        <span class="text-muted">현재</span><h2><c:out value="${user.respirationRate}"/></h2>
                                                         <canvas id="power-card-chart1" height='75'></canvas>
                                                         <div class="row">
                                                             <div class="col-4">
                                                                 <div class="map-area">
-                                                                    <h6 class="m-0">2876</h6>
-                                                                    <span>kw</span>
-                                                                    <p class="text-muted m-0">Month</p>
+                                                                    <h6 class="m-0"><c:out value="${user.respirationRateMax}"/></h6>
+                                                                    <p class="text-muted m-0">최고</p>
                                                                 </div>
                                                             </div>
                                                             <div class="col-4">
                                                                 <div class="map-area">
-                                                                    <h6 class="m-0">234</h6>
-                                                                    <span>kw</span>
-                                                                    <p class="text-muted m-0">Today</p>
+                                                                    <h6 class="m-0"><c:out value="${user.respirationRateMin}"/></h6>
+                                                                    <p class="text-muted m-0">최소</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -50,28 +48,26 @@
                                                 <div class="card">
                                                     <div class="card-header p-t-20">
                                                         <div class="card-header-left">
-                                                            <h5>Water</h5>
+                                                            <h5>호흡</h5>
                                                         </div>
                                                         <div class="card-header-right">
                                                             <i class="icofont icofont-spinner-alt-5 "></i>
                                                         </div>
                                                     </div>
                                                     <div class="card-block-big card-power">
-                                                        <h2>7.3</h2><span class="text-muted">m3</span>
+                                                        <span class="text-muted">현재</span><h2><c:out value="${user.heartRate}"/></h2>
                                                         <canvas id="power-card-chart2" height='75'></canvas>
                                                         <div class="row">
                                                             <div class="col-4">
                                                                 <div class="map-area">
-                                                                    <h6 class="m-0">4.5</h6>
-                                                                    <span>m3</span>
-                                                                    <p class="text-muted m-0">Month</p>
+                                                                    <h6 class="m-0"><c:out value="${user.heartRateMax}"/></h6>
+                                                                    <p class="text-muted m-0">최대</p>
                                                                 </div>
                                                             </div>
                                                             <div class="col-4">
                                                                 <div class="map-area">
-                                                                    <h6 class="m-0">0.5</h6>
-                                                                    <span>m3</span>
-                                                                    <p class="text-muted m-0">Today</p>
+                                                                    <h6 class="m-0"><c:out value="${user.heartRateMin}"/></h6>
+                                                                    <p class="text-muted m-0">최소</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -82,28 +78,26 @@
                                                 <div class="card">
                                                     <div class="card-header p-t-20">
                                                         <div class="card-header-left">
-                                                            <h5>Power</h5>
+                                                            <h5>수면</h5>
                                                         </div>
                                                         <div class="card-header-right">
                                                             <i class="icofont icofont-spinner-alt-5 "></i>
                                                         </div>
                                                     </div>
                                                     <div class="card-block-big card-power">
-                                                        <h2>834</h2><span class="text-muted">mpg</span>
+                                                        <span class="text-muted">현재</span><h2><c:out value="${user.sleepMode}"/></h2>
                                                         <canvas id="power-card-chart3" height='75'></canvas>
                                                         <div class="row">
                                                             <div class="col-4">
                                                                 <div class="map-area">
-                                                                    <h6 class="m-0">15.6</h6>
-                                                                    <span>mpg</span>
-                                                                    <p class="text-muted m-0">Month</p>
+                                                                    <h6 class="m-0"><c:out value="${user.sleepModeMax}"/></h6>
+                                                                    <p class="text-muted m-0">최대</p>
                                                                 </div>
                                                             </div>
                                                             <div class="col-4">
                                                                 <div class="map-area">
-                                                                    <h6 class="m-0">234</h6>
-                                                                    <span>kw</span>
-                                                                    <p class="text-muted m-0">Today</p>
+                                                                    <h6 class="m-0"><c:out value="${user.sleepModeMax}"/></h6>
+                                                                    <p class="text-muted m-0">최소</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -111,21 +105,126 @@
                                                 </div>
                                             </div>
                                             <!-- Power card End -->
-			</div>
-        </div>
+                                            <div class="col-md-12 col-xl-4">
+                                                <div class="card widget-statstic-card borderless-card">
+                                                    <div class="card-header">
+                                                        <div class="card-header-left">
+                                                            <h5>자세유지</h5>
+                                                            <p class="p-t-10 m-b-0 text-muted">설정시간 : <c:out value="${user.positionTime}"/> 시간</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-block">
+                                                        <i class="fa fa-calendar st-icon bg-primary"></i>
+                                                        <div class="text-left">
+                                                            <h3 class="d-inline-block"><c:out value="${user.positionCurrent}"/></h3>
+                                                            <i class="fa fa-long-arrow-up f-24 text-success m-l-15"></i>
+                                                            <button data-oper='position' class="btn btn-primary btn-sm btn-round">자세변경</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
+			</div>
+					<div class="dt-responsive table-responsive">
+						<table id="simpletable" class="table table-striped table-bordered nowrap">
+							<thead>
+	                            <tr>
+	                            	<th><span>No.</span></th>
+	                                <th><span>Alarm date</span></th>
+	                                <th><span>그룹 </span></th>
+	                                <th><span>그룹상세 </span></th>
+	                                <th><span>사용자명 </span></th>
+	                                <th><span>Alarm </span></th>
+	                                <th><span>Value</span></th>
+	                                <th><span>확인유무</span></th>
+	                                <th><span>확인시간 </span></th>
+	                                <th><span>확인자</span></th>
+	                            </tr>
+							</thead>
+							<tbody>
+								<c:choose>
+									<c:when test="${userAlarm ne null && fn:length(userAlarm) > 0}">
+										<c:forEach items="${userAlarm}" var="alarm" varStatus="alarmStatus">
+	                                           <tr>
+	                                           	   <td><c:out value="${alarm.alarmNo}" /></td>
+	                                               <td><c:out value="${alarm.regDate}" /></td>
+	                                               <td><c:out value="${alarm.agencyName}" /></td>
+	                                               <td><c:out value="${alarm.groupName}" /></td>
+	                                               <td><c:out value="${alarm.userName}" /></td>
+	                                               <td><c:out value="${alarm.eventNm}" /></td>
+	                                               <td><c:out value="${alarm.value}" />
+	                                                   <!-- div class="progress mt-1" style="height:4px;">
+	                                                       <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+	                                                   </div-->
+	                                               </td>
+	                                               <td>
+	                                               	<c:if test="${alarm.confirmYn eq 'Y'}">
+	                                               		<c:out value="${alarm.confirmYn}" />
+	                                               	</c:if>
+	                                               	<c:if test="${alarm.confirmYn ne 'Y'}">
+	                                               		<button data-oper='alarm' id="<c:out value="${alarm.alarmNo}" />" class="btn btn-primary btn-sm btn-round">처리</button>
+	                                               	</c:if>
+	                                               	</td>
+	                                               <td><c:out value="${alarm.confirmDate}" /></td>
+	                                               <td><c:out value="${alarm.confirmId}" /></td>
+	                                           </tr>
+										</c:forEach>	
+	
+									</c:when>
+									<c:otherwise>
+										<tr>
+											<td class="text-center" colspan="10">알림이 없습니다</td>
+										</tr>						
+									</c:otherwise>
+								</c:choose>
+																
+							</tbody>
+						</table>
+					</div>
+        </div>
+          <form id="view">
+          	<input type='hidden' name='userId' value='<c:out value="${userId}"/>'>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+          </form>
       </div>
     </div>
   </div>
   <!-- [ Main Content ] end -->
 
 </div>
-
+<script src="/resources/assets/js/plugins/sweetalert.min.js"></script>
+<script src="/resources/assets/js/pages/ac-alert.js"></script>
 <script>
 
 $(document).ready(function() {
   var csrfTokenValue = '${_csrf.token}';
 
+
+  $('button[data-oper=position]').on('click', function(e){
+	    e.preventDefault();
+
+	    var formData = {
+	        userId: $('input[name=userId]').val()
+	      };
+
+	    gfn_callServer('POST', '/user/positionUpdate', true, formData, 'application/x-www-form-urlencoded', 'text', callServerModifyResult, 30000, csrfTokenValue);
+    });
+
+  $('button[data-oper=alarm]').on('click', function(e){
+	    e.preventDefault();
+	    //console.log(this.id);
+	    //console.log($('input[name=userId]').val());
+	    var formData = {
+	        userId: $('input[name=userId]').val(),
+	        //searchUserName: $('input[name=searchUserName]').val(),
+	        //searchMatId: $('input[name=searchMatId]').val(),
+	        //searchEnabled: $('select[name=searchEnabled]').val(),
+	        alarmNo: this.id
+	      };
+
+	    gfn_callServer('POST', '/user/alarmUpdate', true, formData, 'application/x-www-form-urlencoded', 'text', callServerModifyResult, 30000, csrfTokenValue);
+	    });
+  
   $('button[data-oper=modify]').on('click', function(e){
     e.preventDefault();
 
@@ -176,19 +275,73 @@ $(document).ready(function() {
         var ctx = document.getElementById('power-card-chart1').getContext("2d");
         var myChart = new Chart(ctx, {
             type: 'line',
-            data: gurubuildchartjs('#4099ff', [10, 25, 35, 20, 10, 20, 15, 45, 15, 10]),
+            data: gurubuildchartjs('#4099ff', [
+            <c:choose>
+				<c:when test="${userBcg ne null && fn:length(userBcg) > 0}">
+					<c:set var="listStartNum" value="0"></c:set>
+					
+					<c:forEach items="${userBcg}" var="bcg" varStatus="bcgStatus">
+						<c:if test="${listStartNum eq 0}">
+							<c:out value="${bcg.respirationRate}" />
+						</c:if>
+						<c:if test="${listStartNum ne 0}">
+						,	<c:out value="${bcg.respirationRate}" />
+						</c:if>
+						
+						<c:set var="listStartNum" value="${listStartNum+1}" />
+					</c:forEach>
+				</c:when>
+			</c:choose>
+            	//10, 25, 35, 20, 10, 20, 15, 45, 15, 10
+            	]),
             options: gurubuildchartoption(),
         });
         var ctx = document.getElementById('power-card-chart2').getContext("2d");
         var myChart = new Chart(ctx, {
             type: 'line',
-            data: gurubuildchartjs('#FFB64D', [45, 25, 35, 20, 45, 20, 40, 10, 30, 45]),
+            data: gurubuildchartjs('#FFB64D', [
+                <c:choose>
+				<c:when test="${userBcg ne null && fn:length(userBcg) > 0}">
+					<c:set var="listStartNum" value="0"></c:set>
+					
+					<c:forEach items="${userBcg}" var="bcg" varStatus="bcgStatus">
+						<c:if test="${listStartNum eq 0}">
+							<c:out value="${bcg.heartRate}" />
+						</c:if>
+						<c:if test="${listStartNum ne 0}">
+						,	<c:out value="${bcg.heartRate}" />
+						</c:if>
+						
+						<c:set var="listStartNum" value="${listStartNum+1}" />
+					</c:forEach>
+				</c:when>
+			</c:choose>
+            	//45, 25, 35, 20, 45, 20, 40, 10, 30, 45
+            	]),
             options: gurubuildchartoption(),
         });
         var ctx = document.getElementById('power-card-chart3').getContext("2d");
         var myChart = new Chart(ctx, {
             type: 'line',
-            data: gurubuildchartjs('#2ed8b6', [5, 35, 45, 20, 10, 30, 15, 45, 15, 10]),
+            data: gurubuildchartjs('#2ed8b6', [
+                <c:choose>
+				<c:when test="${userBcg ne null && fn:length(userBcg) > 0}">
+					<c:set var="listStartNum" value="0"></c:set>
+					
+					<c:forEach items="${userBcg}" var="bcg" varStatus="bcgStatus">
+						<c:if test="${listStartNum eq 0}">
+							<c:out value="${bcg.sleepMode}" />
+						</c:if>
+						<c:if test="${listStartNum ne 0}">
+						,	<c:out value="${bcg.sleepMode}" />
+						</c:if>
+						
+						<c:set var="listStartNum" value="${listStartNum+1}" />
+					</c:forEach>
+				</c:when>
+			</c:choose>
+            	//5, 35, 45, 20, 10, 30, 15, 45, 15, 10
+            	]),
             options: gurubuildchartoption(),
         });
         function gurubuildchartjs(a, b, f) {
@@ -196,7 +349,26 @@ $(document).ready(function() {
                 f = "rgba(0,0,0,0)";
             }
             return {
-                labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October"],
+                labels: [
+
+                    <c:choose>
+    				<c:when test="${userBcg ne null && fn:length(userBcg) > 0}">
+    					<c:set var="listStartNum" value="0"></c:set>
+    					
+    					<c:forEach items="${userBcg}" var="bcg" varStatus="bcgStatus">
+    						<c:if test="${listStartNum eq 0}">
+    							" <c:out value="${bcg.regDate}" /> "
+    						</c:if>
+    						<c:if test="${listStartNum ne 0}">
+    						,	" <c:out value="${bcg.regDate}" /> "
+    						</c:if>
+    						
+    						<c:set var="listStartNum" value="${listStartNum+1}" />
+    					</c:forEach>
+    				</c:when>
+    			</c:choose>
+                	
+                	],
                 datasets: [{
                     label: "",
                     borderColor: a,
@@ -278,5 +450,21 @@ $(document).ready(function() {
         }
     
 });
+//수정 후 처리
+function callServerModifyResult(data) {
+  if (data == 'success') {
+    swal({
+         title: 'SUCCESS',
+         text: '수정 완료',
+         icon: 'success',
+         buttons: 'OK'
+    }).then(function () {
+        var formData = {
+                userId: $('input[name=userId]').val()
+              };
 
+            gfn_callServer('POST', '/user/userDetail', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
+    });
+  }
+}
 </script>

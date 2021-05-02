@@ -90,7 +90,7 @@
 									</c:when>
 									<c:otherwise>
 										<tr>
-											<td class="text-center" colspan="9">알림이 없습니다</td>
+											<td class="text-center" colspan="10">알림이 없습니다</td>
 										</tr>						
 									</c:otherwise>
 								</c:choose>

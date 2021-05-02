@@ -5,16 +5,19 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
 import com.ltop.app.common.domain.CommonComboVO;
 import com.ltop.app.common.mapper.CommonComboMapper;
 import com.ltop.app.common.service.CommonComboService;
+import com.ltop.app.menu5.domain.M5Sub1VO;
 import com.ltop.app.menu5.domain.M5Sub2VO;
 import com.ltop.app.common.domain.DashBoardVO;
 import com.ltop.app.common.domain.DashBoardMVO;
 import com.ltop.app.common.domain.AlarmVO;
+import com.ltop.app.common.domain.BcgVO;
 import com.ltop.app.common.domain.UserVO;
 import com.ltop.app.common.domain.PageVO;
 
@@ -307,5 +310,39 @@ public class CommonComboServiceImpl implements CommonComboService {
 		}
 
 		return userVOR;
+	}
+	
+    @Override
+    public UserVO selectUserTodayInfo(String userId) {
+        return commonComboMapper.selectUserTodayInfo(userId);
+    }
+    
+    @Override
+    public List<BcgVO> selectUserTodayBcg(String userId) {
+        return commonComboMapper.selectUserTodayBcg(userId);
+    }
+    @Override
+    public List<AlarmVO> selectUserTodayAlarm(String userId) {
+        return commonComboMapper.selectUserTodayAlarm(userId);
+    }
+    
+	@Transactional
+	@Override
+	public boolean alarmUpdate(AlarmVO alarmVO) {
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		String userId = user.getUsername();
+		alarmVO.setUserId(userId);
+
+		return commonComboMapper.alarmUpdate(alarmVO) == 1;
+	}
+	
+	@Transactional
+	@Override
+	public boolean positionUpdate(UserVO userVO) {
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+
+		return commonComboMapper.positionUpdate(userVO) == 1;
 	}
 }

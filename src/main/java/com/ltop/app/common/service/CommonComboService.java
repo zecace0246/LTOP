@@ -7,7 +7,9 @@ import com.ltop.app.common.domain.DashBoardVO;
 import com.ltop.app.common.domain.DashBoardMVO;
 import com.ltop.app.common.domain.AlarmVO;
 import com.ltop.app.common.domain.UserVO;
+import com.ltop.app.common.domain.BcgVO;
 import com.ltop.app.common.domain.PageVO;
+import com.ltop.app.menu5.domain.M5Sub1VO;
 import com.ltop.app.menu5.domain.M5Sub2VO;
 
 public interface CommonComboService {
@@ -37,6 +39,13 @@ public interface CommonComboService {
 
 	public List<UserVO> selectUserList(PageVO pageVO, UserVO userVO);
 	
+    public UserVO selectUserTodayInfo(String userId);
+    public List<BcgVO> selectUserTodayBcg(String userId);
+    public List<AlarmVO> selectUserTodayAlarm(String userId);
+    
+	public boolean alarmUpdate(AlarmVO alarmVO);
+	public boolean positionUpdate(UserVO userVO);
+    
 	//summary Of Main Menu
 	public int selectSummaryTotalCount(UserVO userVO);
 

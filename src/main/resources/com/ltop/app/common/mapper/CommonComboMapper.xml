@@ -677,8 +677,9 @@
 						, b.heart_rate AS heartRate
 						, b.sleep_mode  AS sleepMode
 				       , ( select case when count(1) > 0 then 'Y' else 'N' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
+				       , a.reg_date AS regDate
 				FROM		(
-							SELECT	c.userid, c.username, c.mat_id, c.agency_no, d.group_name
+							SELECT	c.userid, c.username, c.mat_id, c.agency_no, d.group_name, DATE_FORMAT(b.reg_date, '%Y-%m-%d') reg_date
 							FROM		tbl_mat_info b
 							         left outer join tbl_agency_group d
 							         on b.group_seq = d.group_seq
@@ -726,8 +727,9 @@
 						, b.heart_rate AS heartRate
 						, b.sleep_mode  AS sleepMode
 				      , ( select case when count(1) > 0 then 'Y' else 'N' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
+				      , a.reg_date AS regDate
 				FROM		(
-							SELECT	c.userid, c.username, c.mat_id, c.agency_no, d.group_name
+							SELECT	c.userid, c.username, c.mat_id, c.agency_no, d.group_name, DATE_FORMAT(b.reg_date, '%Y-%m-%d') reg_date
 							FROM		tbl_agency a
 							       , tbl_mat_info b
 							         left outer join tbl_agency_group d
@@ -779,6 +781,7 @@
 						, b.heart_rate AS heartRate
 						, b.sleep_mode  AS sleepMode
 					  , ( select case when count(1) > 0 then 'Y' else 'N' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
+					  , DATE_FORMAT(d.reg_date, '%Y-%m-%d') AS regDate
 				FROM   tbl_member a
 				       LEFT OUTER join bcg b
 				       ON	a.mat_id = b.mat_id
@@ -802,6 +805,119 @@
 		]]>
 	</select>
 
+    <select id="selectUserTodayInfo" resultType="com.ltop.app.common.domain.UserVO">
+		select  ifnull(max(a.respiration_rate),0) as respirationRateMax
+		      , ifnull(min(a.respiration_rate),0) as respirationRateMin
+		      , ifnull(max(a.heart_rate ),0) as heartRateMax
+		      , ifnull(min(a.heart_rate ),0) as heartRateMin
+		      , ifnull(max(a.sleep_mode ),0) as sleepModeMax
+		      , ifnull(min(a.sleep_mode ),0) as sleepModeMin
+			  , c.respiration_rate  AS respirationRate
+		  	  , c.heart_rate        AS heartRate
+			  , c.sleep_mode        AS sleepMode
+			  , b.position_time     AS positionTime
+			  , b.position_update   AS positionUpdate
+			  , case when c.reg_date is null then '미사용'
+			         else timediff( now() , b.position_update )
+			    end positionCurrent
+		from	bcg a 
+		      , tbl_member b
+				LEFT OUTER JOIN (	SELECT	a.*
+										FROM		bcg a
+						      				, (
+													SELECT  mat_id, MAX(bno) bno
+													FROM   bcg a
+													WHERE   1=1
+													AND  DATE_FORMAT(a.reg_date, '%Y%m%d%H%i') >= DATE_FORMAT(date_add(NOW(),INTERVAL -5 minute), '%Y%m%d%H%i')
+													GROUP BY mat_id
+													) b
+										WHERE    1=1
+										AND      a.mat_id = b.mat_id
+										AND      a.bno = b.bno
+									  ) c
+		  		ON	b.mat_id = c.mat_id
+		where	1=1
+		and    	b.userid = #{userId}
+		and    	a.mat_id = b.mat_id
+		AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= case when b.sleep_time = NULL OR b.sleep_time ='' 
+				                                                   then concat(DATE_FORMAT(NOW(), '%Y%m%d'),'00')
+				                                                   ELSE concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),b.sleep_time)
+				                                              end
+		AND    DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
+    </select>
+
+    <select id="selectUserTodayBcg" resultType="com.ltop.app.common.domain.BcgVO">
+		select  a.bno
+		      , a.respiration_rate as respirationRate
+		      , a.heart_rate as heartRate
+		      , a.sleep_mode as sleepMode
+		      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
+		from	bcg a 
+		      , tbl_member b
+		where	1=1
+		and    	b.userid = #{userId}
+		and    	a.mat_id = b.mat_id
+		AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= case when b.sleep_time = NULL OR b.sleep_time ='' 
+				                                                   then concat(DATE_FORMAT(NOW(), '%Y%m%d'),'00')
+				                                                   ELSE concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),b.sleep_time)
+				                                              end
+		AND    DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
+		order by a.bno asc
+    </select>
+    <select id="selectUserTodayAlarm" resultType="com.ltop.app.common.domain.AlarmVO">
+				select	a.alarm_no  as alarmNo
+				      , a.mat_id    as matId
+				      , a.event_num as eventNum
+				      , case
+				      		when a.event_num='10001' then '심박이상'
+				      		when a.event_num='20001' then '호흡이상'
+				      		when a.event_num='30001' then '낙상감지'
+				        end as eventNm
+				      , a.value
+				      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
+				      , a.confirm_yn as confirmYn
+				      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d %h:%i') as confirmDate
+				      , a.confirm_id as confirmId
+				      , b.agency_no  as agencyNo
+				      , b.group_seq  as groupSeq
+				      , c.agency_name as agencyName
+				      , d.group_name as groupName
+				      , e.userid as userId
+				      , e.username as userName
+				from	mat_alarm a
+				      , tbl_mat_info b
+				        left outer join tbl_agency c
+				        on b.agency_no = c.agency_no
+				        left outer join tbl_agency_group d
+				        on b.agency_no = c.agency_no
+				        and  b.group_seq = d.group_seq
+				      , tbl_member e
+				where   1=1
+				and     a.mat_id = b.mat_id
+				and     a.mat_id = e.mat_id
+				and     e.userid = #{userId}
+				AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= case when e.sleep_time = NULL OR e.sleep_time ='' 
+						                                                   then concat(DATE_FORMAT(NOW(), '%Y%m%d'),'00')
+						                                                   ELSE concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),e.sleep_time)
+						                                              end
+				AND    DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
+				order by a.reg_date desc
+    </select>
+    
+  <update id="alarmUpdate">
+    UPDATE	mat_alarm
+       SET confirm_yn = 'Y'
+        , confirm_date = now()
+        , confirm_id = #{userId}
+    WHERE alarm_no = #{alarmNo}
+  </update>
+
+  <update id="positionUpdate">
+    UPDATE	tbl_member
+       SET position_update = now()
+    WHERE userid = #{userId}
+  </update>
+  
 	<select id="selectSummaryTotalCountA" resultType="int">
 		SELECT		COUNT(*) cnt
 		FROM		(

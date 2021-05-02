@@ -19,5 +19,19 @@ public class UserVO {
 	private String heartRate;
 	private String sleepMode;
 	private String fallAlarm;
+	
+	private String regDate;
+
+	
+	private String respirationRateMax;	
+	private String respirationRateMin;	
+	private String heartRateMax;	
+	private String heartRateMin;	
+	private String sleepModeMin;
+	private String sleepModeMax;
+
+	private String positionTime;
+	private String positionUpdate;
+	private String positionCurrent;
 
 }
