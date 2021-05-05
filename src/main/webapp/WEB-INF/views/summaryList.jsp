@@ -74,22 +74,22 @@
 	                                               <td><c:out value="${summary.groupName}" /></td>
 	                                               <td><c:out value="${summary.userName}" /></td>
 	                                               <td><c:out value="${summary.respirationRate}" />
-	                                                   <div class="progress mt-1" style="height:4px;">
+	                                                   <!-- div class="progress mt-1" style="height:4px;">
 	                                                       <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-	                                                   </div>
+	                                                   </div-->
 	                                               </td>
 	                                               <td><c:out value="${summary.heartRate}" />
-	                                                   <div class="progress mt-1" style="height:4px;">
+	                                                   <!-- div class="progress mt-1" style="height:4px;">
 	                                                       <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-	                                                   </div>
+	                                                   </div-->
 	                                               </td>
 	                                               <td><c:out value="${summary.sleepMode}" />
-	                                                   <div class="progress mt-1" style="height:4px;">
+	                                                   <!-- div class="progress mt-1" style="height:4px;">
 	                                                       <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-	                                                   </div>
+	                                                   </div-->
 	                                               </td>
 	                                               <td><c:out value="${summary.fallAlarm}" /></td>
-	                                               <td></td>
+	                                               <td>사용안함</td>
 	                                           </tr>
 										</c:forEach>	
 	

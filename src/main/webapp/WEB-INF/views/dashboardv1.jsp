@@ -27,9 +27,9 @@
             <div class="col-md-6 col-xl-3">
                 <div class="card bg-c-blue order-card">
                     <div class="card-body">
-                        <h6 class="text-white">심박</h6>
+                        <h6 class="text-white">심박이상</h6>
                         <h2 class="text-right text-white"><i class="feather icon-shopping-cart float-left"></i><span><c:out value="${dashboard.tdayr}" /></span></h2>
-                        <p class="m-b-0">This Month<span class="float-right"><c:out value="${dashboardm.tmonthr}" /></span></span></p>
+                        <p class="m-b-0">이번 달<span class="float-right"><c:out value="${dashboardm.tmonthr}" /></span></span></p>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                     <div class="card-body">
                         <h6 class="text-white">호흡</h6>
                         <h2 class="text-right text-white"><i class="feather icon-tag float-left"></i><span><c:out value="${dashboard.tdayh}" /></span></h2>
-                        <p class="m-b-0">This Month<span class="float-right"><c:out value="${dashboardm.tmonthh}" /></span></p>
+                        <p class="m-b-0">이번 달<span class="float-right"><c:out value="${dashboardm.tmonthh}" /></span></p>
                     </div>
                 </div>
             </div>
@@ -47,7 +47,7 @@
                     <div class="card-body">
                         <h6 class="text-white">수면</h6>
                         <h2 class="text-right text-white"><i class="feather icon-repeat float-left"></i><span><c:out value="${dashboard.tdays}" /></span></h2>
-                        <p class="m-b-0">This Month<span class="float-right"><c:out value="${dashboardm.tmonths}" /></span></p>
+                        <p class="m-b-0">이번 달<span class="float-right"><c:out value="${dashboardm.tmonths}" /></span></p>
                     </div>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                     <div class="card-body">
                         <h6 class="text-white">낙상</h6>
                         <h2 class="text-right text-white"><i class="feather icon-award float-left"></i><span><c:out value="${dashboard.tdayx}" /></span></h2>
-                        <p class="m-b-0">This Month<span class="float-right"><c:out value="${dashboardm.tmonthx}" /></span></p>
+                        <p class="m-b-0">이번 달<span class="float-right"><c:out value="${dashboardm.tmonthx}" /></span></p>
                     </div>
                 </div>
             </div>
@@ -79,7 +79,7 @@
                             <div class="card-body bg-patern">
                                 <div class="row">
                                     <div class="col-auto">
-                                        <span>Events</span>
+                                        <span>이상 처리 결과</span>
                                     </div>
                                     <div class="col text-right">
                                         <h2 class="mb-0"><c:out value="${dashboard.toteventcnt}" /></h2>
@@ -104,7 +104,7 @@
                             <div class="card-body bg-patern-white">
                                 <div class="row">
                                     <div class="col-auto">
-                                        <span>Customers</span>
+                                        <span>사용자 현황</span>
                                     </div>
                                     <div class="col text-right">
                                         <h2 class="mb-0 text-white"><c:out value="${dashboard.totmatcnt}" /></h2>
@@ -114,11 +114,11 @@
                                 <div class="row mt-3">
                                     <div class="col">
                                         <h3 class="m-0 text-white"><i class="fas fa-circle f-10 m-r-5 text-success"></i><c:out value="${dashboard.usecnt}" /></h3>
-                                        <span class="ml-3">이용중</span>
+                                        <span class="ml-3">사용중</span>
                                     </div>
                                     <div class="col">
                                         <h3 class="m-0 text-white"><i class="fas fa-circle f-10 m-r-5 text-white"></i><c:out value="${dashboard.totmatcnt-dashboard.usecnt}" /></h3>
-                                        <span class="ml-3">미이용중</span>
+                                        <span class="ml-3">미사용중</span>
                                     </div>
                                 </div>
                             </div>
@@ -146,7 +146,7 @@
             <div class="col-md-12">
                 <div class="card table-card">
                     <div class="card-header">
-                        <h5>Alarm monitor</h5>
+                        <h5>알림 현황</h5>
                     </div>
                     <div class="card-body p-0">
                         <div class="tab-content" id="pills-tabContent">
@@ -156,12 +156,12 @@
                                         <table class="table table-hover m-b-0">
                                             <thead>
                                                 <tr>
-                                                    <th><span>Alarm date</span></th>
+                                                    <th><span>알림 일시</span></th>
                                                     <th><span>그룹 </span></th>
                                                     <th><span>그룹상세 </span></th>
                                                     <th><span>사용자명 </span></th>
-                                                    <th><span>Alarm </span></th>
-                                                    <th><span>Value</span></th>
+                                                    <th><span>알림내용 </span></th>
+                                                    <th><span>상태값</span></th>
                                                     <th><span>확인유무</span></th>
                                                     <th><span>확인시간 </span></th>
                                                     <th><span>확인자</span></th>
@@ -177,10 +177,10 @@
                                                     <td><c:out value="${alarm.groupName}" /></td>
                                                     <td><c:out value="${alarm.userName}" /></td>
                                                     <td><c:out value="${alarm.eventNm}" /></td>
-                                                    <td><c:out value="${alarm.value}" />
-                                                        <div class="progress mt-1" style="height:4px;">
+                                                    <td><c:out value="${alarm.value}" /> 회
+                                                        <!-- div class="progress mt-1" style="height:4px;">
                                                             <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                                                        </div>
+                                                        </div-->
                                                     </td>
                                                     <td><c:out value="${alarm.confirmYn}" /></td>
                                                     <td><c:out value="${alarm.confirmDate}" /></td>

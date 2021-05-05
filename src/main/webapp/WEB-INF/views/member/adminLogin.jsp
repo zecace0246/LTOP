@@ -36,7 +36,7 @@
         <div class="col-md-12">
           <div class="card-body">
             <img src="/resources/assets/images/logo-dark.png" alt="" class="img-fluid mb-4">
-            <h4 class="mb-3 f-w-400">Signin</h4>
+            <h4 class="mb-3 f-w-400">로그인</h4>
             <h6><code><c:out value="${loginError}"/></code></h6>
             <h6><c:out value="${registerResult}"/></h6>
             <form action="/login" method="post">
@@ -55,13 +55,13 @@
               <div class="form-group text-left mt-2">
                 <div class="checkbox checkbox-primary d-inline">
                   <input type="checkbox" name="remember-me">
-                  <label for="checkbox-fill-a1" class="cr"> Remember Me</label>
+                  <label for="checkbox-fill-a1" class="cr"> 아이디 저장</label>
                 </div>
               </div>
-              <button type="submit" class="btn btn-block btn-primary mb-4" name="signIn">Signin</button>
+              <button type="submit" class="btn btn-block btn-primary mb-4" name="signIn">로그인</button>
               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             </form>
-            <p class="mb-0 text-muted">Don’t have an account? <a href="/member/adminRegister" class="f-w-400">Signup</a></p>
+            <p class="mb-0 text-muted"> <a href="/member/adminRegister" class="f-w-400">회원가입</a></p>
           </div>
         </div>
       </div>

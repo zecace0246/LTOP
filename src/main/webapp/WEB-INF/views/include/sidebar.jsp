@@ -7,11 +7,11 @@
 		<div class="navbar-wrapper  ">
 			<div class="navbar-content scroll-div " >
 				<ul class="nav pcoded-inner-navbar ">
-					<li class="nav-item pcoded-menu-caption">
+					<!-- li class="nav-item pcoded-menu-caption">
 						<label>Navigation</label>
-					</li>
+					</li-->
 					<li class="nav-item pcoded-singlemenu" id="introMenu">
-						<a href="#" data-url="/dashboardv1" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span>Dashboard</a>
+						<a href="#" data-url="/dashboardv1" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span>데쉬보드</a>
 						<!-- ul class="pcoded-submenu">
 							<li id="introSubMenu"><a href="#" data-url="/dashboardv1">Analytics</a></li>
 							<li><a href="#" data-url="/dashboardv2">Sales</a></li>
@@ -21,7 +21,7 @@
 					<li class="nav-item pcoded-singlemenu">
 						<a href="#" data-url="/user" class="nav-link ">
 							<span class="pcoded-micon"><i class="feather icon-users"></i></span>
-							<span class="pcoded-mtext">사용자</span>
+							<span class="pcoded-mtext">사용자 모니터링</span>
 						</a>
 					</li>
 					
@@ -49,12 +49,12 @@
 					</li>
 
 					<sec:authorize access="hasRole('ROLE_ADMIN')">
-					<li class="nav-item pcoded-singlemenu">
+					<!-- li class="nav-item pcoded-singlemenu">
 						<a href="#" data-url="/board/boardList" class="nav-link ">
 							<span class="pcoded-micon"><i class="feather icon-file-text"></i></span>
 							<span class="pcoded-mtext">자유게시판 (샘플)</span>
 						</a>
-					</li>
+					</li-->
 					</sec:authorize>
 
 					<!--

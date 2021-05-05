@@ -44,7 +44,7 @@
 		<div class="col-sm-12">
 			<div class="card">
 				<div class="card-header">
-					<h5>알람 관리</h5>
+					<h5>알림 관리</h5>
 				</div>
 					
 				<div class="card-body">                     
@@ -53,12 +53,12 @@
 							<thead>
 	                            <tr>
 	                            	<th><span>No.</span></th>
-	                                <th><span>Alarm date</span></th>
+	                                <th><span>알림 일시</span></th>
 	                                <th><span>그룹 </span></th>
 	                                <th><span>그룹상세 </span></th>
 	                                <th><span>사용자명 </span></th>
-	                                <th><span>Alarm </span></th>
-	                                <th><span>Value</span></th>
+	                                <th><span>알림내용 </span></th>
+	                                <th><span>상태값</span></th>
 	                                <th><span>확인유무</span></th>
 	                                <th><span>확인시간 </span></th>
 	                                <th><span>확인자</span></th>
@@ -76,10 +76,10 @@
 	                                               <td><c:out value="${alarm.groupName}" /></td>
 	                                               <td><c:out value="${alarm.userName}" /></td>
 	                                               <td><c:out value="${alarm.eventNm}" /></td>
-	                                               <td><c:out value="${alarm.value}" />
-	                                                   <div class="progress mt-1" style="height:4px;">
+	                                               <td><c:out value="${alarm.value}" /> 회
+	                                                   <!-- div class="progress mt-1" style="height:4px;">
 	                                                       <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-	                                                   </div>
+	                                                   </div-->
 	                                               </td>
 	                                               <td><c:out value="${alarm.confirmYn}" /></td>
 	                                               <td><c:out value="${alarm.confirmDate}" /></td>

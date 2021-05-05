@@ -226,8 +226,8 @@
 		      , a.value
 		      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
 		      , a.confirm_yn as confirmYn
-		      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d') as confirmDate
-		      , a.confirm_id as confirmId
+		      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d %h:%i') as confirmDate
+		      , f.username as confirmId
 		      , b.agency_no  as agencyNo
 		      , b.group_seq  as groupSeq
 		      , c.agency_name as agencyName
@@ -235,18 +235,20 @@
 		      , e.userid as userId
 		      , e.username as userName
 		from	mat_alarm a
+		        left outer join tbl_member f
+		        on a.confirm_id = f.userid
 		      , tbl_mat_info b
 		        left outer join tbl_agency c
 		        on b.agency_no = c.agency_no
 		        left outer join tbl_agency_group d
 		        on b.agency_no = c.agency_no
 		        and  b.group_seq = d.group_seq
-		      , tbl_member e
+		      , tbl_member e		      
 		where   1=1
 		and     a.mat_id = b.mat_id
 		and     a.mat_id = e.mat_id
-		#AND    	DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),'18')
-		#AND    	DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
+		#AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),'18')
+		#AND    DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
 		order by a.reg_date DESC
 		limit 10
 	</select>
@@ -263,8 +265,8 @@
 		      , a.value
 		      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
 		      , a.confirm_yn as confirmYn
-		      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d') as confirmDate
-		      , a.confirm_id as confirmId
+		      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d %h:%i') as confirmDate
+		      , g.username as confirmId
 		      , b.agency_no  as agencyNo
 		      , b.group_seq  as groupSeq
 		      , c.agency_name as agencyName
@@ -272,6 +274,8 @@
 		      , e.userid as userId
 		      , e.username as userName
 		from	mat_alarm a
+		        left outer join tbl_member g
+		        on a.confirm_id = g.userid
 		      , tbl_mat_info b
 		        left outer join tbl_agency c
 		        on b.agency_no = c.agency_no
@@ -304,7 +308,7 @@
 		      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
 		      , a.confirm_yn as confirmYn
 		      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d') as confirmDate
-		      , a.confirm_id as confirmId
+		      , f.username as confirmId
 		      , b.agency_no  as agencyNo
 		      , b.group_seq  as groupSeq
 		      , c.agency_name as agencyName
@@ -312,6 +316,8 @@
 		      , e.userid as userId
 		      , e.username as userName
 		from	mat_alarm a
+		        left outer join tbl_member f
+		        on a.confirm_id = f.userid
 		      , tbl_mat_info b
 		        left outer join tbl_agency c
 		        on b.agency_no = c.agency_no
@@ -431,8 +437,8 @@
 				      , a.value
 				      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
 				      , a.confirm_yn as confirmYn
-				      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d') as confirmDate
-				      , a.confirm_id as confirmId
+				      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d %h:%i') as confirmDate
+				      , f.username as confirmId
 				      , b.agency_no  as agencyNo
 				      , b.group_seq  as groupSeq
 				      , c.agency_name as agencyName
@@ -440,6 +446,8 @@
 				      , e.userid as userId
 				      , e.username as userName
 				from	mat_alarm a
+				        left outer join tbl_member f
+				        on a.confirm_id = f.userid
 				      , tbl_mat_info b
 				        left outer join tbl_agency c
 				        on b.agency_no = c.agency_no
@@ -485,8 +493,8 @@
 				      , a.value
 				      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
 				      , a.confirm_yn as confirmYn
-				      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d') as confirmDate
-				      , a.confirm_id as confirmId
+				      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d %h:%i') as confirmDate
+				      , g.username as confirmId
 				      , b.agency_no  as agencyNo
 				      , b.group_seq  as groupSeq
 				      , c.agency_name as agencyName
@@ -494,6 +502,8 @@
 				      , e.userid as userId
 				      , e.username as userName
 				from	mat_alarm a
+				        left outer join tbl_member g
+				        on a.confirm_id = g.userid
 				      , tbl_mat_info b
 				        left outer join tbl_agency c
 				        on b.agency_no = c.agency_no
@@ -542,8 +552,8 @@
 				      , a.value
 				      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
 				      , a.confirm_yn as confirmYn
-				      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d') as confirmDate
-				      , a.confirm_id as confirmId
+				      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d %h:%i') as confirmDate
+				      , f.username as confirmId
 				      , b.agency_no  as agencyNo
 				      , b.group_seq  as groupSeq
 				      , c.agency_name as agencyName
@@ -551,6 +561,8 @@
 				      , e.userid as userId
 				      , e.username as userName
 				from	mat_alarm a
+				        left outer join tbl_member f
+				        on a.confirm_id = f.userid
 				      , tbl_mat_info b
 				        left outer join tbl_agency c
 				        on b.agency_no = c.agency_no
@@ -676,7 +688,7 @@
 						, b.respiration_rate  AS respirationRate
 						, b.heart_rate AS heartRate
 						, b.sleep_mode  AS sleepMode
-				       , ( select case when count(1) > 0 then 'Y' else 'N' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
+				       , ( select case when count(1) > 0 then '낙상감지' else '감시중' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
 				       , a.reg_date AS regDate
 				FROM		(
 							SELECT	c.userid, c.username, c.mat_id, c.agency_no, d.group_name, DATE_FORMAT(b.reg_date, '%Y-%m-%d') reg_date
@@ -726,7 +738,7 @@
 						, b.respiration_rate AS respirationRate
 						, b.heart_rate AS heartRate
 						, b.sleep_mode  AS sleepMode
-				      , ( select case when count(1) > 0 then 'Y' else 'N' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
+				      , ( select case when count(1) > 0 then '낙상감지' else '감시중' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
 				      , a.reg_date AS regDate
 				FROM		(
 							SELECT	c.userid, c.username, c.mat_id, c.agency_no, d.group_name, DATE_FORMAT(b.reg_date, '%Y-%m-%d') reg_date
@@ -780,7 +792,7 @@
 						, b.respiration_rate AS respirationRate
 						, b.heart_rate AS heartRate
 						, b.sleep_mode  AS sleepMode
-					  , ( select case when count(1) > 0 then 'Y' else 'N' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
+					  , ( select case when count(1) > 0 then '낙상감지' else '감시중' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
 					  , DATE_FORMAT(d.reg_date, '%Y-%m-%d') AS regDate
 				FROM   tbl_member a
 				       LEFT OUTER join bcg b
@@ -1013,7 +1025,7 @@
 						, b.respiration_rate  AS respirationRate
 						, b.heart_rate AS heartRate
 						, b.sleep_mode  AS sleepMode
-				       , ( select case when count(1) > 0 then 'Y' else 'N' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
+				       , ( select case when count(1) > 0 then '낙상감지' else '감시중' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
 				FROM		(
 							SELECT	c.userid, c.username, c.mat_id, c.agency_no, d.group_name
 							FROM		tbl_mat_info b
@@ -1062,7 +1074,7 @@
 						, b.respiration_rate AS respirationRate
 						, b.heart_rate AS heartRate
 						, b.sleep_mode  AS sleepMode
-				      , ( select case when count(1) > 0 then 'Y' else 'N' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
+				      , ( select case when count(1) > 0 then '낙상감지' else '감시중' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
 				FROM		(
 							SELECT	c.userid, c.username, c.mat_id, c.agency_no, d.group_name
 							FROM		tbl_agency a
@@ -1115,7 +1127,7 @@
 						, b.respiration_rate AS respirationRate
 						, b.heart_rate AS heartRate
 						, b.sleep_mode  AS sleepMode
-					  , ( select case when count(1) > 0 then 'Y' else 'N' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
+					  , ( select case when count(1) > 0 then '낙상감지' else '감시중' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
 				FROM   tbl_member a
 				       LEFT OUTER join bcg b
 				       ON	a.mat_id = b.mat_id

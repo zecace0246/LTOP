@@ -18,7 +18,7 @@
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">
-					<a href="#!" class="pop-search"><i class="feather icon-search"></i></a>
+					<!-- a href="#!" class="pop-search"><i class="feather icon-search"></i></a-->
 					<div class="search-bar">
 						<input type="text" class="form-control border-0 shadow-none" placeholder="Search here">
 						<button type="button" class="close" aria-label="Close">
@@ -33,7 +33,7 @@
 			<ul class="navbar-nav ml-auto">
 				<li>
 					<div class="dropdown">
-						<a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="icon feather icon-bell"></i><span class="badge bg-danger"><span class="sr-only"></span></span></a>
+						<!-- a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="icon feather icon-bell"></i><span class="badge bg-danger"><span class="sr-only"></span></span></a-->
 						<div class="dropdown-menu dropdown-menu-right notification">
 							<div class="noti-head">
 								<h6 class="d-inline-block m-b-0">Notifications</h6>
@@ -48,7 +48,8 @@
 								</li>
 								<li class="notification">
 									<div class="media">
-										<img class="img-radius" src="/resources/assets/images/user/avatar-1.jpg" alt="Generic placeholder image">
+										<!-- img class="img-radius" src="/resources/assets/images/user/avatar-1.jpg" alt="Generic placeholder image"-->
+										<sec:authentication property="principal.member.userName"/>
 										<div class="media-body">
 											<p><strong>John Doe</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>5 min</span></p>
 											<p>New ticket Added</p>
@@ -94,14 +95,15 @@
 				</li>
 				<li>
 					<div class="dropdown">
-						<a href="#!" class="displayChatbox dropdown-toggle"><i class="icon feather icon-mail"></i><span class="badge bg-success"><span class="sr-only"></span></span></a>
+						<!-- a href="#!" class="displayChatbox dropdown-toggle"><i class="icon feather icon-mail"></i><span class="badge bg-success"><span class="sr-only"></span></span></a-->
 					</div>
 				</li>
 				<li>
 					<div class="dropdown drp-user">
-						<a href="#!" class="dropdown-toggle" data-toggle="dropdown">
+						<!-- a href="#!" class="dropdown-toggle" data-toggle="dropdown">
 	                                 <img src="/resources/assets/images/user/avatar-1.jpg" class="img-radius wid-40" alt="User-Profile-Image">
-	                             </a>
+	                    </a-->
+	                    <sec:authentication property="principal.member.userName"/>
 						<div class="dropdown-menu dropdown-menu-right profile-notification">
 							<div class="pro-head">
 								<img src="/resources/assets/images/user/avatar-1.jpg" class="img-radius" alt="User-Profile-Image">
@@ -125,7 +127,7 @@
 			<div class="navbar-custom-menu">
 				<ul class="nav navbar-nav">
 					<li>
-						<a href="#" onclick="document.getElementById('logoutForm').submit()">Sign Out</a>
+						<a href="#" onclick="document.getElementById('logoutForm').submit()">로그아웃</a>
 						<input type="hidden"name="${_csrf.parameterName}"value="${_csrf.token}"/>
 					</li>
 				</ul>

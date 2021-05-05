@@ -79,22 +79,22 @@
 	                                               		</a>
 	                                               	</td>
 	                                               <td><c:out value="${user.respirationRate}" />
-	                                                   <div class="progress mt-1" style="height:4px;">
+	                                                   <!-- div class="progress mt-1" style="height:4px;">
 	                                                       <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-	                                                   </div>
+	                                                   </div-->
 	                                               </td>
 	                                               <td><c:out value="${user.heartRate}" />
-	                                                   <div class="progress mt-1" style="height:4px;">
+	                                                   <!-- div class="progress mt-1" style="height:4px;">
 	                                                       <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-	                                                   </div>
+	                                                   </div-->
 	                                               </td>
 	                                               <td><c:out value="${user.sleepMode}" />
-	                                                   <div class="progress mt-1" style="height:4px;">
+	                                                   <!-- div class="progress mt-1" style="height:4px;">
 	                                                       <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-	                                                   </div>
+	                                                   </div-->
 	                                               </td>
 	                                               <td><c:out value="${user.fallAlarm}" /></td>
-	                                               <td></td>
+	                                               <td>사용안함</td>
 	                                               <td><c:out value="${user.regDate}" /></td>
 	                                           </tr>
 										</c:forEach>	
