@@ -6,27 +6,39 @@
 <div class="pcoded-content">
 		
 	<!-- [ Search Bar ] start -->
-    <!-- div class="card">
+    <div class="card">
         <div class="card-block">
             <div class="seacrh-header">
 	            <form id="searchForm">
 	                <div class="form-group row">
-	                    <div class="col-sm-3">
+	                    <!-- div class="col-sm-3">
 	                        <input type="date" class="form-control" placeholder="검색 시작일" id="searchDateFrom" name="searchDateFrom" value='<c:out value="${searchDateFrom}"/>'>
 	                    </div>
 	                    <div class="col-sm-3">
 	                        <input type="date" class="form-control" placeholder="검색 종료일" id="searchDateTo" name="searchDateTo" value='<c:out value="${searchDateTo}"/>'>
-	                    </div>
-	                    <div class="col-sm-3">
+	                    </div-->
 
-                            <select class="form-control js-example-placeholder-multiple col-sm-12" id="searchType" name="searchType">
-                                <option>선택</option>
-                                <option value="10001">심박이상</option>
-                                <option value="20001">호흡이상</option>
-                                <option value="30001">낙상감지</option>
-                            </select>
+	                    <div class="col-sm-2">
+                                    <select class="form-control js-example-placeholder-multiple " id="agencyNo" name="agencyNo" onChange="">
+                                        <option value="">기관전체</option>
+                                    <c:forEach items="${comboAgnyList}" var="agencyCombo">
+                                        <option value="${agencyCombo.agencyNo}" 
+                                        	<c:if test="${agencyNo==agencyCombo.agencyNo}">selected</c:if> >${agencyCombo.agencyName}</option>
+                                    </c:forEach>
+                                    </select>
 	                    </div>
-	                    <div class="col-sm-3" align="right">
+	                    <div class="col-sm-2">
+                                    <select class="form-control js-example-placeholder-multiple " id="groupSeq" name="groupSeq" required>
+                                        <option value="">그룹</option>
+                                        <!-- <c:forEach items="${comboAgCyGrpList}" var="grpCombo">
+                                            <option value="${grpCombo.groupSeq}" >${grpCombo.groupName}</option>
+                                        </c:forEach>-->
+                                    </select>
+	                    </div>
+                      <div class="col-sm-2">
+                          <input type="text" class="form-control" placeholder="사용자 이름" id="searchUserName" name="searchUserName" value='<c:out value="${searchUserName}"/>'>
+                      </div>
+	                    <div class="col-sm-2" align="right">
 	                        <button type="button" class="btn btn-primary"><i class="feather mr-2 icon-search"></i>검색</button>
 	                    </div>
 	                </div>
@@ -36,7 +48,7 @@
 	            </form>
             </div>
         </div>
-    </div -->
+    </div>
 	<!-- [ Search Bar ] end -->		
 		
 	<!-- [ Main Content ] start -->
@@ -159,8 +171,9 @@ $(document).ready(function() {
 				pageNum: $('input[name=pageNum]').val(), 
 				amount: $('input[name=amount]').val(), 				
 				searchDateFrom: $('input[name=searchDateFrom]').val(),
-				searchDateTo: $('input[name=searchDateTo]').val(),
-				searchType: $('input[name=searchType]').val()
+				agencyNo: $('select[name=agencyNo]').val(),
+				groupSeq: $('select[name=groupSeq]').val(),
+				searchUserName: $('input[name=searchUserName]').val()
 			};
 
 		gfn_callMenu('GET', '/user', true, formData, 'text', gfn_callMenuResult, 30000);
@@ -195,12 +208,43 @@ $(document).ready(function() {
 		var formData = {
 				pageNum: $(this).attr("href"), 
 				amount: $('input[name=amount]').val(), 
-				searchMatId: $('input[name=searchMatId]').val(), 
-				searchUseYn: $('input[name=searchUseYn]').val()
+				searchDateFrom: $('input[name=searchDateFrom]').val(),
+				agencyNo: $('select[name=agencyNo]').val(),
+				groupSeq: $('select[name=groupSeq]').val(),
+				searchUserName: $('input[name=searchUserName]').val()
 			};
 		
-		gfn_callMenu("GET", "/menu5/sub2/matList", true, formData, "text", gfn_callMenuResult, 30000);
+		gfn_callMenu("GET", "/user", true, formData, "text", gfn_callMenuResult, 30000);
 	});	
+	
+	  $('#agencyNo').change(function(e){
+	        var $target = $('select[name=groupSeq]');
+	        var selectType=$(this).val();
+
+	        $.ajax({
+	            type : "GET",
+	            url : "/selectAgencyGroupCombo",
+	            async : false,
+	            data : { agencyNo : selectType },
+	            dataType : "json",
+	            success : function(result){
+	                        console.log(JSON.stringify(result));
+
+	                        $target.html("");
+
+	                        if( result.length > 0 ){
+	                            $(result).each(function(i){
+	                          $target.append("<option value="+result[i].groupSeq+">"+result[i].groupName+"</option>");
+	                            });
+	                        }
+
+	                        $target.focus();
+	                },
+	            error: function(xhr){
+	                return;
+	                }
+	            });
+	    });
 });
 	
 </script>

@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.ltop.app.common.domain.CommonComboVO;
 import com.ltop.app.common.domain.DashBoardVO;
 import com.ltop.app.common.domain.DashBoardMVO;
+import com.ltop.app.common.domain.DashBoardAVO;
 import com.ltop.app.common.domain.AlarmVO;
 import com.ltop.app.common.domain.UserVO;
 import com.ltop.app.common.domain.BcgVO;
@@ -46,6 +47,8 @@ public interface CommonComboMapper {
 
 	public List<AlarmVO> selectAlarmListP(DashBoardVO dashBoardVO);
 
+	public List<DashBoardAVO> selectAlarmCnt(DashBoardVO dashBoardVO);
+	
 	//alarm Of Menu
 	public int selectAlarmTotalCountA(AlarmVO alarmVO);
 	public int selectAlarmTotalCountU(AlarmVO alarmVO);

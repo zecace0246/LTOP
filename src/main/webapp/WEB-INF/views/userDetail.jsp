@@ -450,6 +450,7 @@ $(document).ready(function() {
         }
     
 });
+
 //수정 후 처리
 function callServerModifyResult(data) {
   if (data == 'success') {

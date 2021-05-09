@@ -253,6 +253,8 @@
 		limit 10
 	</select>
 
+
+	
 	<select id="selectAlarmListU" resultType="com.ltop.app.common.domain.AlarmVO">
 		select	a.alarm_no  as alarmNo
 		      , a.mat_id    as matId
@@ -335,6 +337,18 @@
 		limit 10
 	</select>
 
+	<select id="selectAlarmCnt" resultType="com.ltop.app.common.domain.DashBoardAVO">
+		select date_format(reg_date, '%Y-%m-%d') wday
+		      , ifnull(sum(case when event_num = '10001' then 1 ELSE 0 END ),0) wdayr
+		      , ifnull(sum(case when event_num = '20001' then 1 ELSE 0 END ),0) wdayh
+		      , 0 AS wdays
+		      , ifnull(sum(case when event_num = '30001' then 1 ELSE 0 END ),0) wdayx
+		from   mat_alarm
+		where  1=1
+		and    date_format(reg_date, '%Y-%m-%d') >= DATE_FORMAT(date_add(NOW(),INTERVAL -7 day), '%Y-%m-%d')
+		group by date_format(reg_date, '%Y-%m-%d')
+	</select>
+
 
 	<select id="selectAlarmTotalCountA" resultType="int">
 		SELECT	COUNT(*) cnt
@@ -361,6 +375,15 @@
 		<if test="searchType != null and searchType != ''">
 		AND 	a.event_num = #{searchType}
 		</if>
+                <if test="searchUserName != null and searchUserName != ''">
+                 	AND 	e.username LIKE CONCAT('%',#{searchUserName},'%')
+                </if>
+                <if test="agencyNo != null and agencyNo != ''">
+                 	AND 	b.agency_no = #{agencyNo}
+                </if>
+                <if test="groupSeq != null and groupSeq != ''">
+                 	AND 	b.group_seq = #{groupSeq}
+                </if>
 	</select>
 
 	<select id="selectAlarmTotalCountU" resultType="int">
@@ -391,6 +414,15 @@
 		<if test="searchType != null and searchType != ''">
 		AND 	a.event_num = #{searchType}
 		</if>
+                <if test="searchUserName != null and searchUserName != ''">
+                 	AND 	e.username LIKE CONCAT('%',#{searchUserName},'%')
+                </if>
+                <if test="agencyNo != null and agencyNo != ''">
+                 	AND 	b.agency_no = #{agencyNo}
+                </if>
+                <if test="groupSeq != null and groupSeq != ''">
+                 	AND 	b.group_seq = #{groupSeq}
+                </if>		
 	</select>
 
 	<select id="selectAlarmTotalCountP" resultType="int">
@@ -419,6 +451,15 @@
 		<if test="searchType != null and searchType != ''">
 		AND 	a.event_num = #{searchType}
 		</if>
+                <if test="searchUserName != null and searchUserName != ''">
+                 	AND 	e.username LIKE CONCAT('%',#{searchUserName},'%')
+                </if>
+                <if test="agencyNo != null and agencyNo != ''">
+                 	AND 	b.agency_no = #{agencyNo}
+                </if>
+                <if test="groupSeq != null and groupSeq != ''">
+                 	AND 	b.group_seq = #{groupSeq}
+                </if>
 	</select>
 
 	<select id="selectMenuAlarmListA" resultType="com.ltop.app.common.domain.AlarmVO">
@@ -470,6 +511,15 @@
 				<if test="alarmVO.searchType != null and alarmVO.searchType != ''">
 				AND 	a.event_num = #{alarmVO.searchType}
 				</if>
+                <if test="alarmVO.searchUserName != null and alarmVO.searchUserName != ''">
+                 	AND 	e.username LIKE CONCAT('%',#{alarmVO.searchUserName},'%')
+                </if>
+                <if test="alarmVO.agencyNo != null and alarmVO.agencyNo != ''">
+                 	AND 	b.agency_no = #{alarmVO.agencyNo}
+                </if>
+                <if test="alarmVO.groupSeq != null and alarmVO.groupSeq != ''">
+                 	AND 	b.group_seq = #{alarmVO.groupSeq}
+                </if>
 		<![CDATA[
 			) R
 			ORDER BY R.alarmNo DESC
@@ -529,6 +579,15 @@
 				<if test="alarmVO.searchType != null and alarmVO.searchType != ''">
 				AND 	a.event_num = #{alarmVO.searchType}
 				</if>
+                <if test="alarmVO.searchUserName != null and alarmVO.searchUserName != ''">
+                 	AND 	e.username LIKE CONCAT('%',#{alarmVO.searchUserName},'%')
+                </if>
+                <if test="alarmVO.agencyNo != null and alarmVO.agencyNo != ''">
+                 	AND 	b.agency_no = #{alarmVO.agencyNo}
+                </if>
+                <if test="alarmVO.groupSeq != null and alarmVO.groupSeq != ''">
+                 	AND 	b.group_seq = #{alarmVO.groupSeq}
+                </if>
 		<![CDATA[
 			) R
 			ORDER BY R.alarmNo DESC
@@ -586,6 +645,15 @@
 				<if test="alarmVO.searchType != null and alarmVO.searchType != ''">
 				AND 	a.event_num = #{alarmVO.searchType}
 				</if>
+                <if test="alarmVO.searchUserName != null and alarmVO.searchUserName != ''">
+                 	AND 	e.username LIKE CONCAT('%',#{alarmVO.searchUserName},'%')
+                </if>
+                <if test="alarmVO.agencyNo != null and alarmVO.agencyNo != ''">
+                 	AND 	b.agency_no = #{alarmVO.agencyNo}
+                </if>
+                <if test="alarmVO.groupSeq != null and alarmVO.groupSeq != ''">
+                 	AND 	b.group_seq = #{alarmVO.groupSeq}
+                </if>
 		<![CDATA[
 			) R
 			ORDER BY R.alarmNo DESC
@@ -604,6 +672,15 @@
 					WHERE    1=1
 					AND      b.use_yn = 'Y'
 					AND      b.mat_id = c.mat_id
+                <if test="searchUserName != null and searchUserName != ''">
+                 	AND 	c.username LIKE CONCAT('%',#{searchUserName},'%')
+                </if>
+                <if test="agencyNo != null and agencyNo != ''">
+                 	AND 	b.agency_no = #{agencyNo}
+                </if>
+                <if test="groupSeq != null and groupSeq != ''">
+                 	AND 	b.group_seq = #{groupSeq}
+                </if>
 					) a
 					LEFT OUTER JOIN (	SELECT	a.*
 											FROM		bcg a
@@ -638,6 +715,15 @@
 					AND      a.use_yn = 'Y'
 					AND      b.use_yn = 'Y'
 					AND      b.mat_id = c.mat_id
+                <if test="searchUserName != null and searchUserName != ''">
+                 	AND 	c.username LIKE CONCAT('%',#{searchUserName},'%')
+                </if>
+                <if test="agencyNo != null and agencyNo != ''">
+                 	AND 	b.agency_no = #{agencyNo}
+                </if>
+                <if test="groupSeq != null and groupSeq != ''">
+                 	AND 	b.group_seq = #{groupSeq}
+                </if>
 					) a
 					LEFT OUTER JOIN (	SELECT	a.*
 											FROM		bcg a
@@ -699,6 +785,17 @@
 							WHERE    1=1
 							AND      b.use_yn = 'Y'
 							AND      b.mat_id = c.mat_id
+		]]>
+                <if test="alarmVO.searchUserName != null and alarmVO.searchUserName != ''">
+                 	AND 	c.username LIKE CONCAT('%',#{alarmVO.searchUserName},'%')
+                </if>
+                <if test="alarmVO.agencyNo != null and alarmVO.agencyNo != ''">
+                 	AND 	b.agency_no = #{alarmVO.agencyNo}
+                </if>
+                <if test="alarmVO.groupSeq != null and alarmVO.groupSeq != ''">
+                 	AND 	b.group_seq = #{alarmVO.groupSeq}
+                </if>
+		<![CDATA[
 							) a
 							LEFT OUTER JOIN (	SELECT	a.*
 													FROM		bcg a
@@ -753,6 +850,17 @@
 							AND      a.use_yn = 'Y'
 							AND      b.use_yn = 'Y'
 							AND      b.mat_id = c.mat_id
+		]]>
+                <if test="alarmVO.searchUserName != null and alarmVO.searchUserName != ''">
+                 	AND 	c.username LIKE CONCAT('%',#{alarmVO.searchUserName},'%')
+                </if>
+                <if test="alarmVO.agencyNo != null and alarmVO.agencyNo != ''">
+                 	AND 	b.agency_no = #{alarmVO.agencyNo}
+                </if>
+                <if test="alarmVO.groupSeq != null and alarmVO.groupSeq != ''">
+                 	AND 	b.group_seq = #{alarmVO.groupSeq}
+                </if>
+		<![CDATA[
 							) a
 							LEFT OUTER JOIN (	SELECT	a.*
 													FROM		bcg a
@@ -941,6 +1049,15 @@
 					WHERE    1=1
 					AND      b.use_yn = 'Y'
 					AND      b.mat_id = c.mat_id
+                <if test="searchUserName != null and searchUserName != ''">
+                 	AND 	c.username LIKE CONCAT('%',#{searchUserName},'%')
+                </if>
+                <if test="agencyNo != null and agencyNo != ''">
+                 	AND 	b.agency_no = #{agencyNo}
+                </if>
+                <if test="groupSeq != null and groupSeq != ''">
+                 	AND 	b.group_seq = #{groupSeq}
+                </if>
 					) a
 					LEFT OUTER JOIN (	SELECT	a.*
 											FROM		bcg a
@@ -975,6 +1092,15 @@
 					AND      a.use_yn = 'Y'
 					AND      b.use_yn = 'Y'
 					AND      b.mat_id = c.mat_id
+                <if test="searchUserName != null and searchUserName != ''">
+                 	AND 	c.username LIKE CONCAT('%',#{searchUserName},'%')
+                </if>
+                <if test="agencyNo != null and agencyNo != ''">
+                 	AND 	b.agency_no = #{agencyNo}
+                </if>
+                <if test="groupSeq != null and groupSeq != ''">
+                 	AND 	b.group_seq = #{groupSeq}
+                </if>
 					) a
 					LEFT OUTER JOIN (	SELECT	a.*
 											FROM		bcg a
@@ -1035,6 +1161,17 @@
 							WHERE    1=1
 							AND      b.use_yn = 'Y'
 							AND      b.mat_id = c.mat_id
+		]]>
+                <if test="alarmVO.searchUserName != null and alarmVO.searchUserName != ''">
+                 	AND 	c.username LIKE CONCAT('%',#{alarmVO.searchUserName},'%')
+                </if>
+                <if test="alarmVO.agencyNo != null and alarmVO.agencyNo != ''">
+                 	AND 	b.agency_no = #{alarmVO.agencyNo}
+                </if>
+                <if test="alarmVO.groupSeq != null and alarmVO.groupSeq != ''">
+                 	AND 	b.group_seq = #{alarmVO.groupSeq}
+                </if>
+		<![CDATA[
 							) a
 							LEFT OUTER JOIN (	SELECT	a.*
 													FROM		bcg a
@@ -1088,6 +1225,17 @@
 							AND      a.use_yn = 'Y'
 							AND      b.use_yn = 'Y'
 							AND      b.mat_id = c.mat_id
+		]]>
+                <if test="alarmVO.searchUserName != null and alarmVO.searchUserName != ''">
+                 	AND 	c.username LIKE CONCAT('%',#{alarmVO.searchUserName},'%')
+                </if>
+                <if test="alarmVO.agencyNo != null and alarmVO.agencyNo != ''">
+                 	AND 	b.agency_no = #{alarmVO.agencyNo}
+                </if>
+                <if test="alarmVO.groupSeq != null and alarmVO.groupSeq != ''">
+                 	AND 	b.group_seq = #{alarmVO.groupSeq}
+                </if>
+		<![CDATA[
 							) a
 							LEFT OUTER JOIN (	SELECT	a.*
 													FROM		bcg a

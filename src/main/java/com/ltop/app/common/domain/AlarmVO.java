@@ -31,7 +31,5 @@ public class AlarmVO {
 	private String searchDateFrom;
 	private String searchDateTo;
 	private String searchType;
-	
-	
-	
+	private String searchUserName;
 }

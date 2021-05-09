@@ -22,6 +22,7 @@ import com.ltop.app.common.domain.PageDTO;
 import com.ltop.app.common.domain.PageVO;
 import com.ltop.app.common.domain.DashBoardVO;
 import com.ltop.app.common.domain.AlarmVO;
+import com.ltop.app.common.domain.DashBoardAVO;
 import com.ltop.app.common.domain.UserVO;
 import com.ltop.app.common.service.CommonComboService;
 import com.ltop.app.menu5.domain.M5Sub1VO;
@@ -53,9 +54,11 @@ public class CommonController {
 		model.addAttribute("dashboard", commonComboService.dashBoardv1(dashBoardVO));
 		model.addAttribute("dashboardm", commonComboService.dashBoardv2(dashBoardVO));
 
-		List<AlarmVO> alarmList = commonComboService.selectAlarmList(dashBoardVO);
-
+		List<AlarmVO> 		alarmList	= commonComboService.selectAlarmList(dashBoardVO);
+		List<DashBoardAVO> 	alarmCnt 	= commonComboService.selectAlarmCnt(dashBoardVO);
+		
 		model.addAttribute("alarmList", alarmList);
+		model.addAttribute("alarmCnt", alarmCnt);
 
 		return "dashboardv1";
 	}
@@ -85,11 +88,17 @@ public class CommonController {
 		int total = commonComboService.selectAlarmTotalCount(alarmVO);
 
 		List<AlarmVO> alarmList = commonComboService.selectAlarmList(pageVO, alarmVO);
-
+		
+		List<CommonComboVO> comboAgnyList = commonComboService.selectAgencyCombo();
+        model.addAttribute("comboAgnyList", comboAgnyList);
+        
 		model.addAttribute("alarmList", alarmList);
 		model.addAttribute("searchDateFrom", alarmVO.getSearchDateFrom());
 		model.addAttribute("searchDateTo", alarmVO.getSearchDateTo());
 		model.addAttribute("searchType", alarmVO.getSearchType());
+		model.addAttribute("agencyNo", 			alarmVO.getAgencyNo());
+		model.addAttribute("groupSeq", 			alarmVO.getGroupSeq());
+		model.addAttribute("searchUserName", 	alarmVO.getSearchUserName());
 		model.addAttribute("pageMaker", new PageDTO(pageVO, total));
 
 		return "alarmList";
@@ -108,6 +117,9 @@ public class CommonController {
 		model.addAttribute("searchDateFrom", alarmVO.getSearchDateFrom());
 		model.addAttribute("searchDateTo", alarmVO.getSearchDateTo());
 		model.addAttribute("searchType", alarmVO.getSearchType());
+		model.addAttribute("agencyNo", 			alarmVO.getAgencyNo());
+		model.addAttribute("groupSeq", 			alarmVO.getGroupSeq());
+		model.addAttribute("searchUserName", 	alarmVO.getSearchUserName());
 		model.addAttribute("pageMaker", new PageDTO(pageVO, total));
 
     	String gsonString  = gson.toJson(model);
@@ -124,11 +136,15 @@ public class CommonController {
 		int total = commonComboService.selectUserTotalCount(userVO);
 
 		List<UserVO> userList = commonComboService.selectUserList(pageVO, userVO);
-
+		
+		List<CommonComboVO> comboAgnyList = commonComboService.selectAgencyCombo();
+        model.addAttribute("comboAgnyList", comboAgnyList);
+        
 		model.addAttribute("userList", userList);
-		//model.addAttribute("searchDateFrom", userVO.getSearchDateFrom());
-		//model.addAttribute("searchDateTo", userVO.getSearchDateTo());
-		//model.addAttribute("searchType", userVO.getSearchType());
+		model.addAttribute("searchDateFrom", 	userVO.getSearchDateFrom());
+		model.addAttribute("agencyNo", 			userVO.getAgencyNo());
+		model.addAttribute("groupSeq", 			userVO.getGroupSeq());
+		model.addAttribute("searchUserName", 	userVO.getSearchUserName());
 		model.addAttribute("pageMaker", new PageDTO(pageVO, total));
 
 		return "userList";
@@ -304,12 +320,17 @@ public class CommonController {
 	public String summaryList(PageVO pageVO, UserVO userVO, Model model) {
 		int total = commonComboService.selectSummaryTotalCount(userVO);
 
+		
 		List<UserVO> summaryList = commonComboService.selectSummaryList(pageVO, userVO);
+        
+		List<CommonComboVO> comboAgnyList = commonComboService.selectAgencyCombo();
+        model.addAttribute("comboAgnyList", comboAgnyList);
 
 		model.addAttribute("summaryList", summaryList);
-		//model.addAttribute("searchDateFrom", userVO.getSearchDateFrom());
-		//model.addAttribute("searchDateTo", userVO.getSearchDateTo());
-		//model.addAttribute("searchType", userVO.getSearchType());
+		model.addAttribute("searchDateFrom", 	userVO.getSearchDateFrom());
+		model.addAttribute("agencyNo", 			userVO.getAgencyNo());
+		model.addAttribute("groupSeq", 			userVO.getGroupSeq());
+		model.addAttribute("searchUserName", 	userVO.getSearchUserName());
 		model.addAttribute("pageMaker", new PageDTO(pageVO, total));
 
 		return "summaryList";

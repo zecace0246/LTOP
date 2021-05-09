@@ -42,6 +42,7 @@
         , mem.regdate
         , mem.updatedate
         , mem.enabled
+        , DATE_FORMAT(NOW(), '%Y-%m-%d %h:%i') AS logintime
         , auth.auth
     FROM	tbl_member mem
     LEFT OUTER JOIN tbl_member_auth auth

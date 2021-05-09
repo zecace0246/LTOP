@@ -12,20 +12,40 @@
 	            <form id="searchForm">
 	                <div class="form-group row">
 	                    <div class="col-sm-3">
-	                        <input type="date" class="form-control" placeholder="검색 시작일" name="searchDateFrom" value='<c:out value="${searchDateFrom}"/>'>
+	                        <input type="date" class="form-control" placeholder="검색 시작일" id="searchDateFrom" name="searchDateFrom" value='<c:out value="${searchDateFrom}"/>'>
 	                    </div>
 	                    <div class="col-sm-3">
-	                        <input type="date" class="form-control" placeholder="검색 종료일" name="searchDateTo" value='<c:out value="${searchDateTo}"/>'>
+	                        <input type="date" class="form-control" placeholder="검색 종료일" id="searchDateFrom" name="searchDateTo" value='<c:out value="${searchDateTo}"/>'>
 	                    </div>
 	                    <div class="col-sm-3">
 
-                            <select class="form-control js-example-placeholder-multiple col-sm-12" name="searchType">
-                                <option>선택</option>
-                                <option value="10001">심박이상</option>
-                                <option value="20001">호흡이상</option>
-                                <option value="30001">낙상감지</option>
+                            <select class="form-control js-example-placeholder-multiple col-sm-12" id="searchType" name="searchType">
+                                <option value="">선택</option>
+                                <option value="10001" <c:if test="${searchType=='10001'}">selected</c:if>>심박이상</option>
+                                <option value="20001" <c:if test="${searchType=='20001'}">selected</c:if>>호흡이상</option>
+                                <option value="30001" <c:if test="${searchType=='30001'}">selected</c:if>>낙상감지</option>
                             </select>
 	                    </div>
+	                    <div class="col-sm-3">
+                                    <select class="form-control js-example-placeholder-multiple " id="agencyNo" name="agencyNo" onChange="">
+                                        <option value="">기관전체</option>
+                                    <c:forEach items="${comboAgnyList}" var="agencyCombo">
+                                        <option value="${agencyCombo.agencyNo}" 
+                                        	<c:if test="${agencyNo==agencyCombo.agencyNo}">selected</c:if> >${agencyCombo.agencyName}</option>
+                                    </c:forEach>
+                                    </select>
+	                    </div>
+	                    <div class="col-sm-3">
+                                    <select class="form-control js-example-placeholder-multiple " id="groupSeq" name="groupSeq" required>
+                                        <option value="">그룹</option>
+                                        <!-- <c:forEach items="${comboAgCyGrpList}" var="grpCombo">
+                                            <option value="${grpCombo.groupSeq}" >${grpCombo.groupName}</option>
+                                        </c:forEach>-->
+                                    </select>
+	                    </div>
+                      <div class="col-sm-3">
+                          <input type="text" class="form-control" placeholder="사용자 이름" id="searchUserName" name="searchUserName" value='<c:out value="${searchUserName}"/>'>
+                      </div>
 	                    <div class="col-sm-3" align="right">
 	                        <button type="button" class="btn btn-primary"><i class="feather mr-2 icon-search"></i>검색</button>
 	                    </div>
@@ -81,7 +101,14 @@
 	                                                       <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
 	                                                   </div-->
 	                                               </td>
-	                                               <td><c:out value="${alarm.confirmYn}" /></td>
+	                                               <td>
+	                                               	<c:if test="${alarm.confirmYn eq 'Y'}">
+	                                               		<c:out value="${alarm.confirmYn}" />
+	                                               	</c:if>
+	                                               	<c:if test="${alarm.confirmYn ne 'Y'}">
+	                                               		<button data-oper='alarm' id="<c:out value="${alarm.alarmNo}" />" class="btn btn-primary btn-sm btn-round">처리</button>
+	                                               	</c:if>
+												   </td>
 	                                               <td><c:out value="${alarm.confirmDate}" /></td>
 	                                               <td><c:out value="${alarm.confirmId}" /></td>
 	                                           </tr>
@@ -130,7 +157,8 @@
 	<!-- [ Main Content ] end -->
 		
 </div>
-
+<script src="/resources/assets/js/plugins/sweetalert.min.js"></script>
+<script src="/resources/assets/js/pages/ac-alert.js"></script>
 <script type="text/javascript">
 
 $(document).ready(function() {
@@ -148,7 +176,10 @@ $(document).ready(function() {
 				amount: $('input[name=amount]').val(), 				
 				searchDateFrom: $('input[name=searchDateFrom]').val(),
 				searchDateTo: $('input[name=searchDateTo]').val(),
-				searchType: $('input[name=searchType]').val()
+				searchType: $('select[name=searchType]').val(),
+				agencyNo: $('select[name=agencyNo]').val(),
+				groupSeq: $('select[name=groupSeq]').val(),
+				searchUserName: $('input[name=searchUserName]').val()
 			};
 
 		gfn_callMenu('GET', '/alarm', true, formData, 'text', gfn_callMenuResult, 30000);
@@ -183,12 +214,81 @@ $(document).ready(function() {
 		var formData = {
 				pageNum: $(this).attr("href"), 
 				amount: $('input[name=amount]').val(), 
-				searchMatId: $('input[name=searchMatId]').val(), 
-				searchUseYn: $('input[name=searchUseYn]').val()
+				searchDateFrom: $('input[name=searchDateFrom]').val(),
+				searchDateTo: $('input[name=searchDateTo]').val(),
+				searchType: $('select[name=searchType]').val(),
+				agencyNo: $('select[name=agencyNo]').val(),
+				groupSeq: $('select[name=groupSeq]').val(),
+				searchUserName: $('input[name=searchUserName]').val()
 			};
 		
-		gfn_callMenu("GET", "/menu5/sub2/matList", true, formData, "text", gfn_callMenuResult, 30000);
+		gfn_callMenu("GET", "/alarm", true, formData, "text", gfn_callMenuResult, 30000);
 	});	
-});
 	
+	  $('button[data-oper=alarm]').on('click', function(e){
+		    e.preventDefault();
+		    //console.log(this.id);
+		    //console.log($('input[name=userId]').val());
+		    var formData = {
+		        userId: $('input[name=userId]').val(),
+		        alarmNo: this.id
+		      };
+
+		    gfn_callServer('POST', '/user/alarmUpdate', true, formData, 'application/x-www-form-urlencoded', 'text', callServerModifyResult, 30000, csrfTokenValue);
+		    });
+
+	  $('#agencyNo').change(function(e){
+	        var $target = $('select[name=groupSeq]');
+	        var selectType=$(this).val();
+
+	        $.ajax({
+	            type : "GET",
+	            url : "/selectAgencyGroupCombo",
+	            async : false,
+	            data : { agencyNo : selectType },
+	            dataType : "json",
+	            success : function(result){
+	                        console.log(JSON.stringify(result));
+
+	                        $target.html("");
+
+	                        if( result.length > 0 ){
+	                            $(result).each(function(i){
+	                          $target.append("<option value="+result[i].groupSeq+">"+result[i].groupName+"</option>");
+	                            });
+	                        }
+
+	                        $target.focus();
+	                },
+	            error: function(xhr){
+	                return;
+	                }
+	            });
+	    });
+});
+//수정 후 처리
+function callServerModifyResult(data) {
+  if (data == 'success') {
+    swal({
+         title: 'SUCCESS',
+         text: '수정 완료',
+         icon: 'success',
+         buttons: 'OK'
+    }).then(function () {
+
+		var formData = {
+				pageNum: $('input[name=pageNum]').val(), 
+				amount: $('input[name=amount]').val(), 				
+				searchDateFrom: $('input[name=searchDateFrom]').val(),
+				searchDateTo: $('input[name=searchDateTo]').val(),
+				searchType: $('select[name=searchType]').val(),
+				agencyNo: $('select[name=agencyNo]').val(),
+				groupSeq: $('select[name=groupSeq]').val(),
+				searchUserName: $('input[name=searchUserName]').val()
+			};
+
+            gfn_callServer('GET', '/alarm', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
+    });
+  }
+}
 </script>

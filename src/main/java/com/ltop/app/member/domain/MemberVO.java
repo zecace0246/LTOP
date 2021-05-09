@@ -22,7 +22,7 @@ public class MemberVO {
     private String birthday;
     private String height    ;
     private String weight    ;
-
+    private String loginTime    ;
 	private String auth;
 	private String result;
 

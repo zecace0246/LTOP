@@ -129,7 +129,7 @@
             <!-- users visite end -->
 
             <!-- social statustic start -->
-            <div class="col-md-6 col-xl-6">
+            <!-- div class="col-md-6 col-xl-6">
                 <div class="card seo-card overflow-hidden">
                     <div class="card-body seo-statustic">
                         <i class="feather icon-save f-20 text-c-red"></i>
@@ -137,6 +137,16 @@
                     </div>
                     <div class="seo-chart">
                         <div id="seo-card1"></div>
+                    </div>
+                </div>
+            </div-->
+            <div class="col-md-12 col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>최근 1주일</h5>
+                    </div>
+                    <div class="card-body pl-0 pb-0">
+                        <div id="unique-visitor-chart"></div>
                     </div>
                 </div>
             </div>
@@ -415,18 +425,110 @@ function floatchart() {
                 curve: 'smooth'
             },
             series: [{
-                name: 'Arts',
-                data: [20, 50, 30, 60, 30, 50]
+                name: '심박이상',
+                data: [
+                    <c:choose>
+    				<c:when test="${alarmCnt ne null && fn:length(alarmCnt) > 0}">
+    					<c:set var="listStartNum" value="0"></c:set>
+    					
+    					<c:forEach items="${alarmCnt}" var="bcg" varStatus="bcgStatus">
+    						<c:if test="${listStartNum eq 0}">
+    							<c:out value="${bcg.wdayr}" />
+    						</c:if>
+    						<c:if test="${listStartNum ne 0}">
+    						,	<c:out value="${bcg.wdayr}" />
+    						</c:if>
+    						
+    						<c:set var="listStartNum" value="${listStartNum+1}" />
+    					</c:forEach>
+    				</c:when>
+    			</c:choose>
+                	]
             }, {
-                name: 'Commerce',
-                data: [60, 30, 65, 45, 67, 35]
+                name: '호흡',
+                data: [
+                    <c:choose>
+    				<c:when test="${alarmCnt ne null && fn:length(alarmCnt) > 0}">
+    					<c:set var="listStartNum" value="0"></c:set>
+    					
+    					<c:forEach items="${alarmCnt}" var="bcg" varStatus="bcgStatus">
+    						<c:if test="${listStartNum eq 0}">
+    							<c:out value="${bcg.wdayh}" />
+    						</c:if>
+    						<c:if test="${listStartNum ne 0}">
+    						,	<c:out value="${bcg.wdayh}" />
+    						</c:if>
+    						
+    						<c:set var="listStartNum" value="${listStartNum+1}" />
+    					</c:forEach>
+    				</c:when>
+    			</c:choose>
+                	]
+            }, {
+                name: '수면',
+                data: [
+                    <c:choose>
+    				<c:when test="${alarmCnt ne null && fn:length(alarmCnt) > 0}">
+    					<c:set var="listStartNum" value="0"></c:set>
+    					
+    					<c:forEach items="${alarmCnt}" var="bcg" varStatus="bcgStatus">
+    						<c:if test="${listStartNum eq 0}">
+    							<c:out value="${bcg.wdays}" />
+    						</c:if>
+    						<c:if test="${listStartNum ne 0}">
+    						,	<c:out value="${bcg.wdays}" />
+    						</c:if>
+    						
+    						<c:set var="listStartNum" value="${listStartNum+1}" />
+    					</c:forEach>
+    				</c:when>
+    			</c:choose>
+                	]
+            }, {
+                name: '낙상',
+                data: [
+                    <c:choose>
+    				<c:when test="${alarmCnt ne null && fn:length(alarmCnt) > 0}">
+    					<c:set var="listStartNum" value="0"></c:set>
+    					
+    					<c:forEach items="${alarmCnt}" var="bcg" varStatus="bcgStatus">
+    						<c:if test="${listStartNum eq 0}">
+    							<c:out value="${bcg.wdayx}" />
+    						</c:if>
+    						<c:if test="${listStartNum ne 0}">
+    						,	<c:out value="${bcg.wdayx}" />
+    						</c:if>
+    						
+    						<c:set var="listStartNum" value="${listStartNum+1}" />
+    					</c:forEach>
+    				</c:when>
+    			</c:choose>
+                	]
             }],
             legend: {
                 position: 'top',
             },
             xaxis: {
-                type: 'datetime',
-                categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000'],
+                type: 'date',
+                categories: [
+                    <c:choose>
+    				<c:when test="${alarmCnt ne null && fn:length(alarmCnt) > 0}">
+    					<c:set var="listStartNum" value="0"></c:set>
+    					
+    					<c:forEach items="${alarmCnt}" var="bcg" varStatus="bcgStatus">
+    						<c:if test="${listStartNum eq 0}">
+    							' <c:out value="${bcg.wday}" /> '
+    						</c:if>
+    						<c:if test="${listStartNum ne 0}">
+    						,	' <c:out value="${bcg.wday}" /> '
+    						</c:if>
+    						
+    						<c:set var="listStartNum" value="${listStartNum+1}" />
+    					</c:forEach>
+    				</c:when>
+    			</c:choose>
+                	//'1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000'
+                	],
                 axisBorder: {
                     show: false,
                 },

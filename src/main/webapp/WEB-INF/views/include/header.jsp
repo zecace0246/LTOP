@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-	
+<jsp:useBean id="now" class="java.util.Date" />
+
 	<!-- [ Header ] start -->
 	<header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed header-blue">
 		<div class="m-header">
@@ -49,7 +51,7 @@
 								<li class="notification">
 									<div class="media">
 										<!-- img class="img-radius" src="/resources/assets/images/user/avatar-1.jpg" alt="Generic placeholder image"-->
-										<sec:authentication property="principal.member.userName"/>
+										<sec:authentication property="principal.member.userName"/> <sec:authentication property="principal.member.loginTime"/>
 										<div class="media-body">
 											<p><strong>John Doe</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>5 min</span></p>
 											<p>New ticket Added</p>
@@ -103,21 +105,9 @@
 						<!-- a href="#!" class="dropdown-toggle" data-toggle="dropdown">
 	                                 <img src="/resources/assets/images/user/avatar-1.jpg" class="img-radius wid-40" alt="User-Profile-Image">
 	                    </a-->
-	                    <sec:authentication property="principal.member.userName"/>
-						<div class="dropdown-menu dropdown-menu-right profile-notification">
-							<div class="pro-head">
-								<img src="/resources/assets/images/user/avatar-1.jpg" class="img-radius" alt="User-Profile-Image">
-								<span>John Doe</span>
-								<a href="auth-signin.html" class="dud-logout" title="Logout">
-									<i class="feather icon-log-out"></i>
-								</a>
-							</div>
-							<ul class="pro-body">
-								<li><a href="user-profile.html" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
-								<li><a href="email_inbox.html" class="dropdown-item"><i class="feather icon-mail"></i> My Messages</a></li>
-								<li><a href="auth-signin.html" class="dropdown-item"><i class="feather icon-lock"></i> Lock Screen</a></li>
-							</ul>
-						</div>
+	                    <fmt:formatDate value="${now}" pattern="yyyy-MM-dd HH:mm:ss" var="now" />
+	                    <sec:authentication property="principal.member.userName"/> [<c:out value="${now}" />]
+
 					</div>
 				</li>
 			</ul>

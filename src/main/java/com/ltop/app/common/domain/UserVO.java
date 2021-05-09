@@ -34,4 +34,9 @@ public class UserVO {
 	private String positionUpdate;
 	private String positionCurrent;
 
+	
+	private String searchDateFrom;
+	private String agencyNo;
+	private String groupSeq;
+	private String searchUserName;
 }

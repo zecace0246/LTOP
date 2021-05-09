@@ -16,6 +16,7 @@ import com.ltop.app.menu5.domain.M5Sub1VO;
 import com.ltop.app.menu5.domain.M5Sub2VO;
 import com.ltop.app.common.domain.DashBoardVO;
 import com.ltop.app.common.domain.DashBoardMVO;
+import com.ltop.app.common.domain.DashBoardAVO;
 import com.ltop.app.common.domain.AlarmVO;
 import com.ltop.app.common.domain.BcgVO;
 import com.ltop.app.common.domain.UserVO;
@@ -143,6 +144,34 @@ public class CommonComboServiceImpl implements CommonComboService {
 	}
 
 	@Override
+	public List<DashBoardAVO> selectAlarmCnt(DashBoardVO dashBoardVO) {
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		String userId = user.getUsername();
+		dashBoardVO.setUserId(userId);
+
+		List<String> roleNames = new ArrayList<>();
+
+		user.getAuthorities().forEach(authority -> {
+			roleNames.add(authority.getAuthority());
+		});
+		List<DashBoardAVO> dashBoardAVO = null;
+		dashBoardAVO = commonComboMapper.selectAlarmCnt(dashBoardVO);
+/*
+		if (roleNames.contains("ROLE_ADMIN") ) {
+			alarmVO = commonComboMapper.selectAlarmListA(dashBoardVO);
+		}
+		if (roleNames.contains("ROLE_USER") ) {
+			alarmVO = commonComboMapper.selectAlarmListU(dashBoardVO);
+		}
+		if (roleNames.contains("ROLE_MEMBER") ) {
+			alarmVO = commonComboMapper.selectAlarmListP(dashBoardVO);
+		}
+*/
+		return dashBoardAVO;
+	}
+	
+	@Override
 	public int selectAlarmTotalCount(AlarmVO alarmVO) {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -198,6 +227,7 @@ public class CommonComboServiceImpl implements CommonComboService {
 
 		//return m5Sub2Mapper.selectMatList(pageVO, m5Sub2VO);
 	}
+	
 
 	@Override
 	public int selectUserTotalCount(UserVO userVO) {
