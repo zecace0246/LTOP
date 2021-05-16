@@ -39,4 +39,5 @@ public class UserVO {
 	private String agencyNo;
 	private String groupSeq;
 	private String searchUserName;
+	private String searchUserId;
 }

@@ -82,4 +82,6 @@ public interface CommonComboMapper {
 	public List<UserVO> selectMenuSummaryListA(@Param("pageVO") PageVO pageVO, @Param("alarmVO") UserVO userVO);
 	public List<UserVO> selectMenuSummaryListU(@Param("pageVO") PageVO pageVO, @Param("alarmVO") UserVO userVO);
 	public List<UserVO> selectMenuSummaryListP(@Param("pageVO") PageVO pageVO, @Param("alarmVO") UserVO userVO);
+	
+	public List<BcgVO> bcgList(UserVO userVO);
 }

@@ -375,4 +375,9 @@ public class CommonComboServiceImpl implements CommonComboService {
 
 		return commonComboMapper.positionUpdate(userVO) == 1;
 	}
+	
+    @Override
+    public List<BcgVO> bcgList(UserVO userVO) {
+        return commonComboMapper.bcgList(userVO);
+    }
 }

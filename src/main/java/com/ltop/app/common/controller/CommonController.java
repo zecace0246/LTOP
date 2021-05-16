@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -133,6 +135,7 @@ public class CommonController {
 	
 	@GetMapping("/user")
 	public String userList(PageVO pageVO, UserVO userVO, Model model) {
+	//public String userList(@RequestParam("userId") String userId, PageVO pageVO, UserVO userVO, Model model) {
 		int total = commonComboService.selectUserTotalCount(userVO);
 
 		List<UserVO> userList = commonComboService.selectUserList(pageVO, userVO);
@@ -145,8 +148,28 @@ public class CommonController {
 		model.addAttribute("agencyNo", 			userVO.getAgencyNo());
 		model.addAttribute("groupSeq", 			userVO.getGroupSeq());
 		model.addAttribute("searchUserName", 	userVO.getSearchUserName());
-		model.addAttribute("pageMaker", new PageDTO(pageVO, total));
+		model.addAttribute("pageMaker", 		new PageDTO(pageVO, total));
 
+		//User Detail <if test="searchDateFrom != null and searchDateFrom != ''">
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		//System.out.println("AAAAAAAAAAAAAAAAAAA");
+		//System.out.println("userVO.getUserId()>>"+userVO.getUserId());
+		//System.out.println("AAAAAAAAAAAAAAAAAAA");
+		
+		if (userVO.getSearchUserId() == null || userVO.getSearchUserId() == ""  )
+		//if (userId == null || userId == ""  )
+		{
+			String userId = user.getUsername();
+			userVO.setSearchUserId(userId);
+			//userId = user.getUsername();
+		}
+
+        model.addAttribute("user", commonComboService.selectUserTodayInfo(userVO.getSearchUserId()));
+        model.addAttribute("userBcg", commonComboService.selectUserTodayBcg(userVO.getSearchUserId()));
+        model.addAttribute("userAlarm", commonComboService.selectUserTodayAlarm(userVO.getSearchUserId()));
+        model.addAttribute("userId", userVO.getSearchUserId());
+        
 		return "userList";
 	}
 
@@ -173,47 +196,31 @@ public class CommonController {
     // 사용자 상세 보기
     @PostMapping("/user/userDetail")
     public String userView(@RequestParam("userId") String userId, UserVO userVO, Model model) {
-/*
-        List<CommonComboVO> comboMatList = commonComboService.selectMatCombo();
-        List<CommonComboVO> comboAgnyList = commonComboService.selectAgencyCombo();
 
-        model.addAttribute("user", m5Sub1Service.selectUserInfo(userId));
+        model.addAttribute("user", commonComboService.selectUserTodayInfo(userId));
+        model.addAttribute("userBcg", commonComboService.selectUserTodayBcg(userId));
+        model.addAttribute("userAlarm", commonComboService.selectUserTodayAlarm(userId));
+        model.addAttribute("userId", userId);
+        return "userDetail";
+    }
+    
+    // 사용자 상세 보기
+    @GetMapping("/user/userDetailIframe")
+    public String userDetailIframe(@RequestParam("userId") String userId, UserVO userVO, Model model) {
 
-        model.addAttribute("searchUserName", m5Sub1VO.getSearchUserName());
-        model.addAttribute("searchMatId", m5Sub1VO.getSearchMatId());
-        model.addAttribute("searchEnabled", m5Sub1VO.getSearchEnabled());
-        model.addAttribute("searchAgency", m5Sub1VO.getSearchAgency());
-
-        model.addAttribute("comboMatList", comboMatList);
-        model.addAttribute("comboAgnyList", comboAgnyList);
-*/
         model.addAttribute("user", commonComboService.selectUserTodayInfo(userId));
         model.addAttribute("userBcg", commonComboService.selectUserTodayBcg(userId));
         model.addAttribute("userAlarm", commonComboService.selectUserTodayAlarm(userId));
         model.addAttribute("userId", userId);     
         return "userDetail";
     }
-
     // 사용자 상세 보기
     @GetMapping("/mob/user/userDetail")
     @ResponseBody
     public String mobuserView(@RequestParam("userId") String userId, UserVO userVO, Model model) {
     	//System.out.println(" User id :::>  "+ params.get("userId").toString());
 		Gson gson = new Gson();
-/*
-        List<CommonComboVO> comboMatList = commonComboService.selectMatCombo();
-        List<CommonComboVO> comboAgnyList = commonComboService.selectAgencyCombo();
 
-        model.addAttribute("user", m5Sub1Service.selectUserInfo(userId));
-
-        model.addAttribute("searchUserName", m5Sub1VO.getSearchUserName());
-        model.addAttribute("searchMatId", m5Sub1VO.getSearchMatId());
-        model.addAttribute("searchEnabled", m5Sub1VO.getSearchEnabled());
-        model.addAttribute("searchAgency", m5Sub1VO.getSearchAgency());
-
-        model.addAttribute("comboMatList", comboMatList);
-        model.addAttribute("comboAgnyList", comboAgnyList);
-*/
         model.addAttribute("user", commonComboService.selectUserTodayInfo(userId));
         model.addAttribute("userBcg", commonComboService.selectUserTodayBcg(userId));
         model.addAttribute("userAlarm", commonComboService.selectUserTodayAlarm(userId));
@@ -233,13 +240,7 @@ public class CommonController {
     @ResponseBody
     public ResponseEntity<String> alarmUpdate(AlarmVO alarmVO, RedirectAttributes rttr) {
         boolean result = commonComboService.alarmUpdate(alarmVO);
-/*
- 		boolean result = commonComboService.updateUser(alarmVO);
-        rttr.addAttribute("searchUserName", m5Sub1VO.getSearchUserName());
-        rttr.addAttribute("searchMatId", m5Sub1VO.getSearchMatId());
-        rttr.addAttribute("searchEnabled", m5Sub1VO.getSearchEnabled());
-        rttr.addAttribute("searchAgency", m5Sub1VO.getSearchAgency());
-*/
+
         return result ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -251,13 +252,7 @@ public class CommonController {
     	String rstStr = "false";
     	
         boolean result = commonComboService.alarmUpdate(alarmVO);
-/*
- 		boolean result = commonComboService.updateUser(alarmVO);
-        rttr.addAttribute("searchUserName", m5Sub1VO.getSearchUserName());
-        rttr.addAttribute("searchMatId", m5Sub1VO.getSearchMatId());
-        rttr.addAttribute("searchEnabled", m5Sub1VO.getSearchEnabled());
-        rttr.addAttribute("searchAgency", m5Sub1VO.getSearchAgency());
-*/
+
     	if(result) {
     		rstStr = "true";
     	}
@@ -277,13 +272,7 @@ public class CommonController {
     @ResponseBody
     public ResponseEntity<String> positionUpdate(UserVO userVO, RedirectAttributes rttr) {
         boolean result = commonComboService.positionUpdate(userVO);
-/*
- 		boolean result = commonComboService.updateUser(alarmVO);
-        rttr.addAttribute("searchUserName", m5Sub1VO.getSearchUserName());
-        rttr.addAttribute("searchMatId", m5Sub1VO.getSearchMatId());
-        rttr.addAttribute("searchEnabled", m5Sub1VO.getSearchEnabled());
-        rttr.addAttribute("searchAgency", m5Sub1VO.getSearchAgency());
-*/
+
         return result ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
@@ -295,13 +284,7 @@ public class CommonController {
     	String rstStr = "false";
     	
         boolean result = commonComboService.positionUpdate(userVO);
-/*
- 		boolean result = commonComboService.updateUser(alarmVO);
-        rttr.addAttribute("searchUserName", m5Sub1VO.getSearchUserName());
-        rttr.addAttribute("searchMatId", m5Sub1VO.getSearchMatId());
-        rttr.addAttribute("searchEnabled", m5Sub1VO.getSearchEnabled());
-        rttr.addAttribute("searchAgency", m5Sub1VO.getSearchAgency());
-*/
+
     	if(result) {
     		rstStr = "true";
     	}
@@ -314,6 +297,21 @@ public class CommonController {
         return gsonString;
         
         //return result ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+   
+    // 자세변경
+    @GetMapping("/mob/bcgList")
+    @ResponseBody
+    public String bcgList(UserVO userVO,  Model model) {
+    	Gson gson = new Gson();
+    	String rstStr = "false";
+    	//selectUserTodayBcg
+    	model.addAttribute("userBcg", commonComboService.bcgList(userVO));
+    	String gsonString  = gson.toJson(model);
+
+        System.out.println(" Moble Json rst ::> "+ gsonString);
+
+        return gsonString;
     }
     
 	@GetMapping("/summary")

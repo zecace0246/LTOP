@@ -54,4 +54,6 @@ public interface CommonComboService {
 
 	public List<UserVO> selectSummaryList(PageVO pageVO, UserVO userVO);
 
+	//mob Only
+    public List<BcgVO> bcgList(UserVO userVO);
 }

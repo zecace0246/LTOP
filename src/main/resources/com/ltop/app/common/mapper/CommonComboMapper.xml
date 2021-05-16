@@ -940,6 +940,7 @@
 			  , case when c.reg_date is null then '미사용'
 			         else timediff( now() , b.position_update )
 			    end positionCurrent
+			  , b.username   AS userName
 		from	bcg a 
 		      , tbl_member b
 				LEFT OUTER JOIN (	SELECT	a.*
@@ -997,7 +998,7 @@
 				      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
 				      , a.confirm_yn as confirmYn
 				      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d %h:%i') as confirmDate
-				      , a.confirm_id as confirmId
+				      , f.username as confirmId
 				      , b.agency_no  as agencyNo
 				      , b.group_seq  as groupSeq
 				      , c.agency_name as agencyName
@@ -1005,6 +1006,8 @@
 				      , e.userid as userId
 				      , e.username as userName
 				from	mat_alarm a
+						left outer join tbl_member f
+		        		on a.confirm_id = f.userid
 				      , tbl_mat_info b
 				        left outer join tbl_agency c
 				        on b.agency_no = c.agency_no
@@ -1299,5 +1302,20 @@
 		]]>
 	</select>
 
-
+    <select id="bcgList" resultType="com.ltop.app.common.domain.BcgVO">
+		select  a.bno
+		      , a.respiration_rate as respirationRate
+		      , a.heart_rate as heartRate
+		      , a.sleep_mode as sleepMode
+		      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
+		from	bcg a 
+		      , tbl_member b
+		where	1=1
+		and    	b.userid = #{userId}
+		and    	a.mat_id = b.mat_id
+		<if test="searchDateFrom != null and searchDateFrom != ''">
+		AND 	DATE_FORMAT(a.reg_date, '%Y-%m-%d') = #{searchDateFrom}
+		</if>
+		order by a.bno asc
+    </select>
 </mapper>
