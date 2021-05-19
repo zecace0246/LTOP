@@ -968,11 +968,10 @@
     </select>
 
     <select id="selectUserTodayBcg" resultType="com.ltop.app.common.domain.BcgVO">
-		select  a.bno
-		      , a.respiration_rate as respirationRate
-		      , a.heart_rate as heartRate
-		      , a.sleep_mode as sleepMode
-		      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
+		select  avg(a.respiration_rate) as respirationRate
+		      , avg(a.heart_rate) as heartRate
+		      , avg(a.sleep_mode) as sleepMode
+		      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h') as regDate
 		from	bcg a 
 		      , tbl_member b
 		where	1=1
@@ -983,7 +982,7 @@
 				                                                   ELSE concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),b.sleep_time)
 				                                              end
 		AND    DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
-		order by a.bno asc
+		group by DATE_FORMAT(a.reg_date, '%Y-%m-%d %h')
     </select>
     <select id="selectUserTodayAlarm" resultType="com.ltop.app.common.domain.AlarmVO">
 				select	a.alarm_no  as alarmNo
