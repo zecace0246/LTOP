@@ -1,0 +1,318 @@
+{
+	"info": {
+		"_postman_id": "723e403e-27f7-446b-8580-e638a0194a1e",
+		"name": "Test_Example",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost_Mob_bbsList",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "pageNum",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "amount",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "startNum",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "searchTitle",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "searchContent",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "searchWriter",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/board/mob/boardList",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"board",
+						"mob",
+						"boardList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost_PC_bbsList",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "pageNum",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "amount",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "startNum",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "searchTitle",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "searchContent",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "searchWriter",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/board/boardList",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"board",
+						"boardList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost_PC_memberList",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "pageNum",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "amount",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "startNum",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "userId",
+							"value": "admin",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/member/memberList",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"member",
+						"memberList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost_Mob_memberInfo",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "userId",
+							"value": "user_01",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/member/mob/getUserInfo?userId=user_01",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"member",
+						"mob",
+						"getUserInfo"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "user_01"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost_Mob_UpdateMember",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "userId",
+							"value": "user_01",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/member/mob/modifyUserInfo?userId=user_01&userPw&userName&enabled&birthday=1966-10-01&matId&height=178&weight=79&tel&reguserId&agencyNo&sleepTime=18&positionTime=3&sex&fallYn=Y&positionYn=Y&positionUpdate=2021-05-20 16:22:24",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"member",
+						"mob",
+						"modifyUserInfo"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "user_01"
+						},
+						{
+							"key": "userPw",
+							"value": null
+						},
+						{
+							"key": "userName",
+							"value": null
+						},
+						{
+							"key": "enabled",
+							"value": null
+						},
+						{
+							"key": "birthday",
+							"value": "1966-10-01"
+						},
+						{
+							"key": "matId",
+							"value": null
+						},
+						{
+							"key": "height",
+							"value": "178"
+						},
+						{
+							"key": "weight",
+							"value": "79"
+						},
+						{
+							"key": "tel",
+							"value": null
+						},
+						{
+							"key": "reguserId",
+							"value": null
+						},
+						{
+							"key": "agencyNo",
+							"value": null
+						},
+						{
+							"key": "sleepTime",
+							"value": "18"
+						},
+						{
+							"key": "positionTime",
+							"value": "3"
+						},
+						{
+							"key": "sex",
+							"value": null
+						},
+						{
+							"key": "fallYn",
+							"value": "Y"
+						},
+						{
+							"key": "positionYn",
+							"value": "Y"
+						},
+						{
+							"key": "positionUpdate",
+							"value": "2021-05-20 16:22:24"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
