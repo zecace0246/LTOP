@@ -14,6 +14,7 @@ public class MemberVO {
     private String userTempPw;
     private String userName;
     private boolean enabled;
+    private String enabledStr;
     private Date regDate;
     private Date updateDate;
 

@@ -32,4 +32,6 @@ public interface MemberMapper {
 
     public MemberVO getUserInfo(MemberVO memberVO);
 
+    public int updateMemberInfo(MemberVO memberVO);
+
 }

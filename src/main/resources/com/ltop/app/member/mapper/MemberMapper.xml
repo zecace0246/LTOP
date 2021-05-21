@@ -197,4 +197,59 @@
       WHERE userid = #{userId}
   </select>
 
+  <update id="updateMemberInfo" parameterType="com.ltop.app.member.domain.MemberVO">
+      /* com.ltop.app.member.mapper.MemberMapper.updateMemberInfo */
+      UPDATE tbl_member
+         SET updatedate = NOW()
+        <!-- if test="userPw != null and userPw != ''">
+             , userpw = #{userPw}
+         </if-->
+         <if test="userName != null and userName != ''">
+             , username = #{userName}
+         </if>
+         <if test="enabledStr != null and enabledStr != ''">
+             , enabled = #{enabledStr}
+         </if>
+         <if test="birthday != null and birthday != ''">
+             , birthday = #{birthday}
+         </if>
+         <if test="matId != null and matId != ''">
+             , mat_id = #{matId}
+         </if>
+         <if test="height != null and height != ''">
+             , height = #{height}
+         </if>
+         <if test="weight != null and weight != ''">
+             , weight = #{weight}
+         </if>
+         <if test="tel != null and tel != ''">
+             , tel = #{tel}
+         </if>
+         <if test="reguserId != null and reguserId != ''">
+             , reguserid = #{reguserId}
+         </if>
+         <if test="agencyNo != null and agencyNo != ''">
+             , agency_no = #{agencyNo}
+         </if>
+         <if test="sleepTime != null and sleepTime != ''">
+             , sleep_time = #{sleepTime}
+         </if>
+         <if test="positionTime != null and positionTime != ''">
+             , position_time = #{positionTime}
+         </if>
+         <if test="sexCd != null and sexCd != ''">
+             , sex = #{sexCd}
+         </if>
+         <if test="fallYn != null and fallYn != ''">
+             , fall_yn = #{fallYn}
+         </if>
+         <if test="positionYn != null and positionYn != ''">
+             , position_yn = #{positionYn}
+         </if>
+         <if test="positionUpdate != null and positionUpdate != ''">
+             , position_update = STR_TO_DATE(#{positionUpdate}, '%Y-%m-%d %H:%i:%S')
+         </if>
+       WHERE userid = #{userId}
+  </update>
+
 </mapper>

@@ -106,11 +106,29 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.selectIdDupChk(memberVO);
     }
 
-    /** 사용자 정보 제공 */
+    /** Moblie 사용자 정보 제공 */
     @Override
     public MemberVO getUserInfo(MemberVO memberVO) {
 
         return memberMapper.getUserInfo(memberVO);
+    }
+
+    /** Moblie 사용자 정보 수정 */
+    @Override
+    public int modifyUserInfo(MemberVO memberVO) {
+
+        System.out.println("getUserPw :::>>> "+ memberVO.getUserPw());
+
+        if( memberVO.getUserPw().equals("") || memberVO.getUserPw() == null ) {
+
+        }else {
+
+            memberVO.setUserPw(pwencoder.encode(memberVO.getUserPw()));
+        }
+
+        int result = memberMapper.updateMemberInfo(memberVO);
+
+        return result;
     }
 
 }

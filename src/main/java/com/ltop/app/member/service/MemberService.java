@@ -29,4 +29,6 @@ public interface MemberService {
 
     public MemberVO getUserInfo(MemberVO memberVO);
 
+    public int modifyUserInfo(MemberVO memberVO);
+
 }

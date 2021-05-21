@@ -231,4 +231,54 @@ public class MemberController {
         return gsonString;
     }
 
+    /**
+     * Moble Json 사용자 정보 제공
+     * @param params
+     * @param request
+     * @return
+     */
+    @GetMapping("/mob/modifyUserInfo")
+    @ResponseBody
+    public String modifyUserInfo(@RequestParam Map<String, Object> params, HttpServletRequest request){
+
+        Gson gson = new Gson();
+        String rstStr = ""; //a123456b
+
+        // membervo에 param 으로 받은 id 셋팅
+        MemberVO memberVO = new MemberVO();
+        memberVO.setUserId(params.get("userId").toString());
+        memberVO.setUserPw(params.get("userPw").toString());
+        memberVO.setUserName(params.get("userName").toString());
+        memberVO.setEnabledStr(params.get("enabled").toString());
+
+        memberVO.setBirthday(params.get("birthday").toString());
+        memberVO.setMatId(params.get("matId").toString());
+        memberVO.setHeight(params.get("height").toString());
+        memberVO.setWeight(params.get("weight").toString());
+        memberVO.setTel(params.get("tel").toString());
+
+        memberVO.setReguserId(params.get("reguserId").toString());
+        memberVO.setAgencyNo(params.get("agencyNo").toString());
+        memberVO.setSleepTime(params.get("sleepTime").toString());
+        memberVO.setPositionTime(params.get("positionTime").toString());
+        memberVO.setSexCd(params.get("sex").toString());
+
+        memberVO.setPositionUpdate(params.get("positionUpdate").toString());
+        memberVO.setFallYn(params.get("fallYn").toString());
+        memberVO.setPositionYn(params.get("positionYn").toString());
+
+        int result = memberService.modifyUserInfo(memberVO);
+
+        if(result >0) {
+            rstStr = "Modify User Success!";
+        }else {
+            rstStr = "Modify User Failed!";
+        }
+
+        String gsonString  = gson.toJson(rstStr);
+
+        return gsonString;
+    }
+
+
 }
