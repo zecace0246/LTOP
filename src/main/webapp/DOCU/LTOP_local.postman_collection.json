@@ -1,12 +1,12 @@
 {
 	"info": {
-		"_postman_id": "723e403e-27f7-446b-8580-e638a0194a1e",
-		"name": "Test_Example",
+		"_postman_id": "9e4ac165-a9d8-4f02-b557-7c23dc8d9abd",
+		"name": "LTOP_Local",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "localhost_Mob_bbsList",
+			"name": "id중복체크",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -17,146 +17,15 @@
 					"mode": "urlencoded",
 					"urlencoded": [
 						{
-							"key": "pageNum",
-							"value": "1",
-							"type": "text"
-						},
-						{
-							"key": "amount",
-							"value": "10",
-							"type": "text"
-						},
-						{
-							"key": "startNum",
-							"value": "0",
-							"type": "text"
-						},
-						{
-							"key": "searchTitle",
-							"value": "",
-							"type": "text"
-						},
-						{
-							"key": "searchContent",
-							"value": "",
-							"type": "text"
-						},
-						{
-							"key": "searchWriter",
-							"value": "",
-							"type": "text"
+							"key": "user_id",
+							"value": "testusr1",
+							"type": "text",
+							"disabled": true
 						}
 					]
 				},
 				"url": {
-					"raw": "http://localhost:8080/board/mob/boardList",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"board",
-						"mob",
-						"boardList"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "localhost_PC_bbsList",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "pageNum",
-							"value": "1",
-							"type": "text"
-						},
-						{
-							"key": "amount",
-							"value": "10",
-							"type": "text"
-						},
-						{
-							"key": "startNum",
-							"value": "0",
-							"type": "text"
-						},
-						{
-							"key": "searchTitle",
-							"value": "",
-							"type": "text"
-						},
-						{
-							"key": "searchContent",
-							"value": "",
-							"type": "text"
-						},
-						{
-							"key": "searchWriter",
-							"value": "",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:8080/board/boardList",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"board",
-						"boardList"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "localhost_PC_memberList",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "pageNum",
-							"value": "1",
-							"type": "text"
-						},
-						{
-							"key": "amount",
-							"value": "10",
-							"type": "text"
-						},
-						{
-							"key": "startNum",
-							"value": "0",
-							"type": "text"
-						},
-						{
-							"key": "userId",
-							"value": "admin",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:8080/member/memberList",
+					"raw": "http://localhost:8080/member/mob/idDupChk?userId=testusr0",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -164,14 +33,122 @@
 					"port": "8080",
 					"path": [
 						"member",
-						"memberList"
+						"mob",
+						"idDupChk"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "testusr0"
+						}
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "localhost_Mob_memberInfo",
+			"name": "회원가입",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/member/mob/memberRegister?userId=test2222&userPw=1212&userName=테스트22&birthday=1979-09-15&height=162&weight=75&tel=010-1239-4567&sexCd=F",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"member",
+						"mob",
+						"memberRegister"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "test2222",
+							"description": "필수"
+						},
+						{
+							"key": "userPw",
+							"value": "1212",
+							"description": "필수"
+						},
+						{
+							"key": "userName",
+							"value": "테스트22",
+							"description": "필수"
+						},
+						{
+							"key": "birthday",
+							"value": "1979-09-15"
+						},
+						{
+							"key": "height",
+							"value": "162"
+						},
+						{
+							"key": "weight",
+							"value": "75"
+						},
+						{
+							"key": "tel",
+							"value": "010-1239-4567",
+							"description": "필수"
+						},
+						{
+							"key": "sexCd",
+							"value": "F",
+							"description": "필수"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "임시비번발급",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "user_id",
+							"value": "testusr1",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/member/mob/getTmpPw?userId=testusr1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"member",
+						"mob",
+						"getTmpPw"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "testusr1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "회원정보제공",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -211,7 +188,7 @@
 			"response": []
 		},
 		{
-			"name": "localhost_Mob_UpdateMember",
+			"name": "회원정보수정",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
