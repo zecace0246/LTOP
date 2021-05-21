@@ -19,91 +19,98 @@ import lombok.extern.log4j.Log4j;
 @Service
 public class MemberServiceImpl implements MemberService {
 
-	@Setter(onMethod_ = { @Autowired })
-	private PasswordEncoder pwencoder;
+    @Setter(onMethod_ = { @Autowired })
+    private PasswordEncoder pwencoder;
 
-	@Setter(onMethod_ = @Autowired)
-	private MemberMapper memberMapper;
+    @Setter(onMethod_ = @Autowired)
+    private MemberMapper memberMapper;
 
-	@Override
-	public MemberVO selectMember(String userid) {
-		return memberMapper.selectMember("");
-	}
+    @Override
+    public MemberVO selectMember(String userid) {
+        return memberMapper.selectMember("");
+    }
 
-	@Override
-	public List<MemberVO> selectMemberList(MemberVO memberVO) {
-		return memberMapper.selectMemberList(memberVO);
-	}
+    @Override
+    public List<MemberVO> selectMemberList(MemberVO memberVO) {
+        return memberMapper.selectMemberList(memberVO);
+    }
 
-	@Override
-	public MemberVO selectMemberInfo(MemberVO memberVO) {
-		return memberMapper.selectMemberInfo(memberVO);
-	}
+    @Override
+    public MemberVO selectMemberInfo(MemberVO memberVO) {
+        return memberMapper.selectMemberInfo(memberVO);
+    }
 
-	@Transactional
-	@Override
-	public int insertMember(MemberVO memberVO) {
-		MemberVO checkMember = memberMapper.selectMemberInfo(memberVO);
+    @Transactional
+    @Override
+    public int insertMember(MemberVO memberVO) {
+        MemberVO checkMember = memberMapper.selectMemberInfo(memberVO);
 
-		if (checkMember != null) {
-			return 99;
-		}
+        if (checkMember != null) {
+            return 99;
+        }
 
-		memberVO.setUserPw(pwencoder.encode(memberVO.getUserPw()));
+        memberVO.setUserPw(pwencoder.encode(memberVO.getUserPw()));
 
-		int result = memberMapper.insertMember(memberVO);
+        int result = memberMapper.insertMember(memberVO);
 
-		if (result > 0) {
-			AuthVO authVO = new AuthVO();
-			authVO.setUserId(memberVO.getUserId());
-			authVO.setAuth("ROLE_MEMBER");
+        if (result > 0) {
+            AuthVO authVO = new AuthVO();
+            authVO.setUserId(memberVO.getUserId());
+            authVO.setAuth("ROLE_MEMBER");
 
-			memberMapper.insertMemberAuth(authVO);
-		}
+            memberMapper.insertMemberAuth(authVO);
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	@Transactional
-	@Override
-	public boolean updateMember(MemberVO memberVO) {
+    @Transactional
+    @Override
+    public boolean updateMember(MemberVO memberVO) {
 
-		memberVO.setUserPw(pwencoder.encode(memberVO.getUserPw()));
+        memberVO.setUserPw(pwencoder.encode(memberVO.getUserPw()));
 
-		return memberMapper.updateMember(memberVO) == 1;
-	}
+        return memberMapper.updateMember(memberVO) == 1;
+    }
 
-	@Transactional
-	@Override
-	public boolean deleteMember(MemberVO memberVO) {
-		return memberMapper.deleteMember(memberVO) == 1;
-	}
+    @Transactional
+    @Override
+    public boolean deleteMember(MemberVO memberVO) {
+        return memberMapper.deleteMember(memberVO) == 1;
+    }
 
-	@Transactional
-	@Override
-	public void insertMemberAuth(AuthVO authVO) {
-		// TODO Auto-generated method stub
-	}
+    @Transactional
+    @Override
+    public void insertMemberAuth(AuthVO authVO) {
+        // TODO Auto-generated method stub
+    }
 
-	@Transactional
-	@Override
-	public void updateMemberAuth(AuthVO authVO) {
-		// TODO Auto-generated method stub
-	}
+    @Transactional
+    @Override
+    public void updateMemberAuth(AuthVO authVO) {
+        // TODO Auto-generated method stub
+    }
 
-	@Transactional
-	@Override
-	public void deleteMemberAuth(AuthVO authVO) {
-		// TODO Auto-generated method stub
-	}
+    @Transactional
+    @Override
+    public void deleteMemberAuth(AuthVO authVO) {
+        // TODO Auto-generated method stub
+    }
 
-	/**
-	 * ID 중복 체크 확인
-	 */
-	@Override
-	public int selectIdDupChk(MemberVO memberVO) {
+    /**
+     * ID 중복 체크 확인
+     */
+    @Override
+    public int selectIdDupChk(MemberVO memberVO) {
 
-		return memberMapper.selectIdDupChk(memberVO);
-	}
+        return memberMapper.selectIdDupChk(memberVO);
+    }
+
+    /** 사용자 정보 제공 */
+    @Override
+    public MemberVO getUserInfo(MemberVO memberVO) {
+
+        return memberMapper.getUserInfo(memberVO);
+    }
 
 }

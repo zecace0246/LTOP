@@ -103,24 +103,24 @@ public class MemberController {
     @GetMapping("/mob/idDupChk")
     @ResponseBody
     public String idDupChk(@RequestParam Map<String, Object> params, HttpServletRequest request){
-    	System.out.println(" User id :::>  "+ params.get("userId").toString());
+        System.out.println(" User id :::>  "+ params.get("userId").toString());
 
-    	Gson gson = new Gson();
-    	String rstStr = "false";
+        Gson gson = new Gson();
+        String rstStr = "false";
 
-    	// membervo에 param 으로 받은 id 셋팅
-    	MemberVO memberVO = new MemberVO();
-    	memberVO.setUserId(params.get("userId").toString());
+        // membervo에 param 으로 받은 id 셋팅
+        MemberVO memberVO = new MemberVO();
+        memberVO.setUserId(params.get("userId").toString());
 
-    	int rst = 0;
-    	rst = memberService.selectIdDupChk(memberVO);
+        int rst = 0;
+        rst = memberService.selectIdDupChk(memberVO);
 
-    	if(rst >0) {
-    		rstStr = "true";
-    	}
-    	memberVO.setResult(rstStr);
+        if(rst >0) {
+            rstStr = "true";
+        }
+        memberVO.setResult(rstStr);
 
-    	String gsonString  = gson.toJson(memberVO);
+        String gsonString  = gson.toJson(memberVO);
 
         System.out.println(" Moble Json rst ::> "+ gsonString);
 
@@ -136,41 +136,41 @@ public class MemberController {
     @ResponseBody
     public String memberRegister(@RequestParam Map<String, Object> params, HttpServletRequest request){
 
-    	Gson gson = new Gson();
-    	String rstStr = "failed";
+        Gson gson = new Gson();
+        String rstStr = "failed";
 
-    	// membervo에 param 으로 받은 id 셋팅
-    	MemberVO memberVO = new MemberVO();
-    	memberVO.setUserId(params.get("userId").toString());
-    	memberVO.setUserPw(params.get("userPw").toString());
-    	memberVO.setUserName(params.get("userName").toString());
-    	memberVO.setBirthday(params.get("birthday").toString());
-    	memberVO.setHeight(params.get("height").toString());
-    	memberVO.setWeight(params.get("weight").toString());
-    	memberVO.setTel(params.get("tel").toString());
-    	memberVO.setSexCd(params.get("sexCd").toString());
+        // membervo에 param 으로 받은 id 셋팅
+        MemberVO memberVO = new MemberVO();
+        memberVO.setUserId(params.get("userId").toString());
+        memberVO.setUserPw(params.get("userPw").toString());
+        memberVO.setUserName(params.get("userName").toString());
+        memberVO.setBirthday(params.get("birthday").toString());
+        memberVO.setHeight(params.get("height").toString());
+        memberVO.setWeight(params.get("weight").toString());
+        memberVO.setTel(params.get("tel").toString());
+        memberVO.setSexCd(params.get("sexCd").toString());
 
-    	if(memberVO.getUserId().equals("") || memberVO.getUserPw().equals("")
-    		|| memberVO.getUserName().equals("") || memberVO.getBirthday().equals("")
-    		|| memberVO.getTel().equals("") || memberVO.getSexCd().equals("")) {
+        if(memberVO.getUserId().equals("") || memberVO.getUserPw().equals("")
+            || memberVO.getUserName().equals("") || memberVO.getBirthday().equals("")
+            || memberVO.getTel().equals("") || memberVO.getSexCd().equals("")) {
 
-    		rstStr = "failed";
-    	}else {
+            rstStr = "failed";
+        }else {
 
-	    	int rst = 0;
+            int rst = 0;
 
-	    	rst = memberService.insertMember(memberVO);
+            rst = memberService.insertMember(memberVO);
 
-	    	if(rst >0) {
-	    		rstStr = "success";
-	    	}
-    	}
+            if(rst >0) {
+                rstStr = "success";
+            }
+        }
 
-    	memberVO.setResult(rstStr);
+        memberVO.setResult(rstStr);
 
-    	String gsonString  = gson.toJson(memberVO);
+        String gsonString  = gson.toJson(memberVO);
 
-    	return gsonString;
+        return gsonString;
     }
 
     /**
@@ -182,29 +182,53 @@ public class MemberController {
     @ResponseBody
     public String getTmpPw(@RequestParam Map<String, Object> params, HttpServletRequest request){
 
-    	Gson gson = new Gson();
-    	String rstStr = ""; //a123456b
+        Gson gson = new Gson();
+        String rstStr = ""; //a123456b
 
-    	// membervo에 param 으로 받은 id 셋팅
-    	MemberVO memberVO = new MemberVO();
-    	memberVO.setUserId(params.get("userId").toString());
+        // membervo에 param 으로 받은 id 셋팅
+        MemberVO memberVO = new MemberVO();
+        memberVO.setUserId(params.get("userId").toString());
 
-    	String tmpPw = "";
-    	for (int i = 0; i < 9; i++) {
-    		tmpPw += (char) ((Math.random() * 26) + 97);
-		}
+        String tmpPw = "";
+        for (int i = 0; i < 9; i++) {
+            tmpPw += (char) ((Math.random() * 26) + 97);
+        }
 
-    	System.out.println( "임시비번 ::>> " + tmpPw);
+        System.out.println( "임시비번 ::>> " + tmpPw);
 
-    	memberVO.setUserPw(tmpPw);
+        memberVO.setUserPw(tmpPw);
 
         memberService.updateMember(memberVO);
 
         memberVO.setUserPw(tmpPw);
 
-    	String gsonString  = gson.toJson(memberVO);
+        String gsonString  = gson.toJson(memberVO);
 
-    	return gsonString;
+        return gsonString;
+    }
+
+    /**
+     * Moble Json 사용자 정보 제공
+     * @param params
+     * @param request
+     * @return
+     */
+    @GetMapping("/mob/getUserInfo")
+    @ResponseBody
+    public String getUserInfo(@RequestParam Map<String, Object> params, HttpServletRequest request){
+
+        Gson gson = new Gson();
+        String rstStr = ""; //a123456b
+
+        // membervo에 param 으로 받은 id 셋팅
+        MemberVO memberVO = new MemberVO();
+        memberVO.setUserId(params.get("userId").toString());
+
+        memberVO = memberService.getUserInfo(memberVO);
+
+        String gsonString  = gson.toJson(memberVO);
+
+        return gsonString;
     }
 
 }

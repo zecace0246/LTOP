@@ -18,6 +18,30 @@
     <result property="auth" column="auth"/>
   </resultMap>
 
+  <resultMap type="com.ltop.app.member.domain.MemberVO" id="getMemberMap">
+    <id property="userId" column="userid"/>
+    <result property="userId"     column="userid"/>
+    <result property="userPw"     column="userpw"/>
+    <result property="userName"   column="username"/>
+    <result property="regDate"    column="regdate"/>
+    <result property="updateDate" column="updatedate"/>
+    <result property="enabled"    column="enabled"/>
+    <result property="birthday"   column="birthday"/>
+    <result property="matId"     column="mat_id"/>
+    <result property="height"     column="height"/>
+    <result property="weight"     column="weight"/>
+    <result property="tel"        column="tel"/>
+    <result property="reguserId"  column="reguserid"/>
+    <result property="agencyNo"  column="agency_no"/>
+    <result property="sleepTime" column="sleep_time"/>
+    <result property="positionTime" column="position_time"/>
+    <result property="sex"          column="sex"/>
+    <result property="positionUpdate" column="position_update"/>
+    <result property="fallYn"      column="fall_yn"/>
+    <result property="positionYn"  column="position_yn"/>
+  </resultMap>
+
+
   <select id="selectMember" resultMap="memberMap">
     /* com.ltop.app.member.mapper.MemberMapper.selectMember */
     SELECT mem.userid
@@ -44,7 +68,7 @@
         , mem.enabled
         , DATE_FORMAT(NOW(), '%Y-%m-%d %h:%i') AS logintime
         , auth.auth
-    FROM	tbl_member mem
+    FROM tbl_member mem
     LEFT OUTER JOIN tbl_member_auth auth
         ON mem.userid = auth.userid
     WHERE	mem.userid = #{userId}
@@ -79,10 +103,10 @@
       , updatedate
       , enabled
       , birthday
-	  , height
-	  , weight
-	  , tel
-	  , sex
+    , height
+    , weight
+    , tel
+    , sex
     )
     VALUES
     (
@@ -143,6 +167,32 @@
   <!-- ID 중복체크 -->
   <select id="selectIdDupChk" resultType="int">
      SELECT COUNT(*)
+       FROM tbl_member
+      WHERE userid = #{userId}
+  </select>
+
+  <!-- 사용자 정보 제공 -->
+  <select id="getUserInfo" parameterType="com.ltop.app.member.domain.MemberVO" resultType="com.ltop.app.member.domain.MemberVO">
+      /* com.ltop.app.member.mapper.MemberMapper.getUserInfo */
+      SELECT userid          AS userId
+           /*, userpw        AS userPw*/
+           , username        AS userName
+           , DATE_FORMAT(regdate, '%Y-%m-%d %h:%i') AS regDate
+           , DATE_FORMAT(updatedate, '%Y-%m-%d %h:%i') AS updateDate
+           , enabled         AS enabled
+           , birthday        AS birthday
+           , mat_id          AS matId
+           , height          AS height
+           , weight          AS weight
+           , tel             AS tel
+           , reguserid       AS reguserId
+           , agency_no       AS agencyNo
+           , sleep_time      AS sleepTime
+           , position_time   AS positionTime
+           , sex             AS sex
+           , DATE_FORMAT(position_update, '%Y-%m-%d %h:%i') AS positionUpdate
+           , fall_yn         AS fallYn
+           , position_yn     AS positionYn
        FROM tbl_member
       WHERE userid = #{userId}
   </select>

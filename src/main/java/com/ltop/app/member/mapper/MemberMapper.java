@@ -10,24 +10,26 @@ import com.ltop.app.member.domain.MemberVO;
 @Mapper
 public interface MemberMapper {
 
-	public MemberVO selectMember(String userid);
+    public MemberVO selectMember(String userid);
 
-	public MemberVO selectMemberInfo(MemberVO memberVO);
+    public MemberVO selectMemberInfo(MemberVO memberVO);
 
-	public List<MemberVO> selectMemberList(MemberVO memberVO);
+    public List<MemberVO> selectMemberList(MemberVO memberVO);
 
-	public int insertMember(MemberVO memberVO);
+    public int insertMember(MemberVO memberVO);
 
-	public int updateMember(MemberVO memberVO);
+    public int updateMember(MemberVO memberVO);
 
-	public int deleteMember(MemberVO memberVO);
+    public int deleteMember(MemberVO memberVO);
 
-	public void insertMemberAuth(AuthVO authVO);
+    public void insertMemberAuth(AuthVO authVO);
 
-	public void updateMemberAuth(AuthVO authVO);
+    public void updateMemberAuth(AuthVO authVO);
 
-	public void deleteMemberAuth(AuthVO authVO);
+    public void deleteMemberAuth(AuthVO authVO);
 
-	public int selectIdDupChk(MemberVO memberVO);
+    public int selectIdDupChk(MemberVO memberVO);
+
+    public MemberVO getUserInfo(MemberVO memberVO);
 
 }
