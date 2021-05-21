@@ -56,20 +56,19 @@
                 WHERE 1=1
             ]]>
                 <if test="m5Sub1VO.searchUserName != null and m5Sub1VO.searchUserName != ''">
-                  AND mem.username LIKE CONCAT('%',#{searchUserName},'%')
+                  AND mem.username LIKE CONCAT('%',#{m5Sub1VO.searchUserName},'%')
                 </if>
 
-
                 <if test="m5Sub1VO.searchMatId != null and m5Sub1VO.searchMatId != ''">
-                  AND mem.mat_id LIKE CONCAT('%',#{searchMatId},'%')
+                  AND mem.mat_id LIKE CONCAT('%',#{m5Sub1VO.searchMatId},'%')
                 </if>
 
                 <if test="m5Sub1VO.searchEnabled != null and m5Sub1VO.searchEnabled != ''">
-                  AND mem.enabled = #{searchEnabled}
+                  AND mem.enabled = #{m5Sub1VO.searchEnabled}
                 </if>
 
                 <if test="m5Sub1VO.searchAgency != null and m5Sub1VO.searchAgency != ''">
-                  AND mem.agency_no = #{searchAgency}
+                  AND mem.agency_no = #{m5Sub1VO.searchAgency}
                 </if>
       <![CDATA[
             ) R

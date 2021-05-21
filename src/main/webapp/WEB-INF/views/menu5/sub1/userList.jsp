@@ -181,7 +181,7 @@ $(document).ready(function() {
     e.preventDefault();
 
     var formData = {
-        searchUserName: $('input[name=searchUserName]').val(),
+    	searchUserName: $('input[name=searchUserName]').val(),
         searchMatId: $('input[name=searchMatId]').val(),
         searchEnabled: $('select[name=searchEnabled]').val(),
         searchAgency: $('select[name=searchAgency]').val()

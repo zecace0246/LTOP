@@ -24,7 +24,7 @@
 							<span class="pcoded-mtext">사용자 모니터링</span>
 						</a>
 					</li>
-					
+
 					<li class="nav-item pcoded-singlemenu">
 						<a href="#!"  data-url="/summary" class="nav-link ">
 							<span class="pcoded-micon"><i class="feather icon-bar-chart-2"></i></span>
@@ -41,10 +41,10 @@
 					<li class="nav-item pcoded-hasmenu">
 						<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">설정</span></a>
 						<ul class="pcoded-submenu">
+						    <li><a href="#" data-url="/menu5/sub3/agencyList">기관관리</a></li>
+						    <li><a href="#" data-url="/menu5/sub5/groupList">그룹관리</a></li>
 							<li><a href="#" data-url="/menu5/sub2/matList">매트관리</a></li>
 							<li><a href="#" data-url="/menu5/sub1/userList">사용자관리</a></li>
-							<li><a href="#" data-url="/menu5/sub3/agencyList">기관관리</a></li>
-							<li><a href="#" data-url="/menu5/sub5/groupList">그룹관리</a></li>
 						</ul>
 					</li>
 
