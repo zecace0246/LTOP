@@ -43,7 +43,7 @@ public interface CommonComboService {
 	public List<UserVO> selectUserList(PageVO pageVO, UserVO userVO);
 	
     public UserVO selectUserTodayInfo(String userId);
-    public List<BcgVO> selectUserTodayBcg(String userId);
+    public List<BcgVO> selectUserTodayBcg(String userId,String searchType);
     public List<AlarmVO> selectUserTodayAlarm(String userId);
     
 	public boolean alarmUpdate(AlarmVO alarmVO);

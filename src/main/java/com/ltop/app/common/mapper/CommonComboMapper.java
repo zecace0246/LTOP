@@ -68,7 +68,7 @@ public interface CommonComboMapper {
 	public List<UserVO> selectMenuUserListP(@Param("pageVO") PageVO pageVO, @Param("alarmVO") UserVO userVO);
 	
     public UserVO selectUserTodayInfo(String userId);
-    public List<BcgVO> selectUserTodayBcg(String userId);
+    public List<BcgVO> selectUserTodayBcg(@Param("userId") String userId,@Param("searchType") String searchType);
     public List<AlarmVO> selectUserTodayAlarm(String userId);
     
     public int alarmUpdate(AlarmVO alarmVO);

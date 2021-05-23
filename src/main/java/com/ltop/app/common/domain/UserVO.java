@@ -40,4 +40,5 @@ public class UserVO {
 	private String groupSeq;
 	private String searchUserName;
 	private String searchUserId;
+	private String searchType;
 }

@@ -164,11 +164,17 @@ public class CommonController {
 			userVO.setSearchUserId(userId);
 			//userId = user.getUsername();
 		}
-
+		if (userVO.getSearchType() == null || userVO.getSearchType() == ""  )
+		//if (userId == null || userId == ""  )
+		{
+			userVO.setSearchType("HOUR");
+			//userId = user.getUsername();
+		}
         model.addAttribute("user", commonComboService.selectUserTodayInfo(userVO.getSearchUserId()));
-        model.addAttribute("userBcg", commonComboService.selectUserTodayBcg(userVO.getSearchUserId()));
+        model.addAttribute("userBcg", commonComboService.selectUserTodayBcg(userVO.getSearchUserId(),userVO.getSearchType()));
         model.addAttribute("userAlarm", commonComboService.selectUserTodayAlarm(userVO.getSearchUserId()));
         model.addAttribute("userId", userVO.getSearchUserId());
+        model.addAttribute("searchType", userVO.getSearchType());
         
 		return "userList";
 	}
@@ -198,7 +204,7 @@ public class CommonController {
     public String userView(@RequestParam("userId") String userId, UserVO userVO, Model model) {
 
         model.addAttribute("user", commonComboService.selectUserTodayInfo(userId));
-        model.addAttribute("userBcg", commonComboService.selectUserTodayBcg(userId));
+        //model.addAttribute("userBcg", commonComboService.selectUserTodayBcg(userId));
         model.addAttribute("userAlarm", commonComboService.selectUserTodayAlarm(userId));
         model.addAttribute("userId", userId);
         return "userDetail";
@@ -209,7 +215,7 @@ public class CommonController {
     public String userDetailIframe(@RequestParam("userId") String userId, UserVO userVO, Model model) {
 
         model.addAttribute("user", commonComboService.selectUserTodayInfo(userId));
-        model.addAttribute("userBcg", commonComboService.selectUserTodayBcg(userId));
+        //model.addAttribute("userBcg", commonComboService.selectUserTodayBcg(userId));
         model.addAttribute("userAlarm", commonComboService.selectUserTodayAlarm(userId));
         model.addAttribute("userId", userId);     
         return "userDetail";
@@ -217,12 +223,12 @@ public class CommonController {
     // 사용자 상세 보기
     @GetMapping("/mob/user/userDetail")
     @ResponseBody
-    public String mobuserView(@RequestParam("userId") String userId, UserVO userVO, Model model) {
+    public String mobuserView(@RequestParam("userId") String userId,@RequestParam("searchType") String searchType, UserVO userVO, Model model) {
     	//System.out.println(" User id :::>  "+ params.get("userId").toString());
 		Gson gson = new Gson();
 
         model.addAttribute("user", commonComboService.selectUserTodayInfo(userId));
-        model.addAttribute("userBcg", commonComboService.selectUserTodayBcg(userId));
+        model.addAttribute("userBcg", commonComboService.selectUserTodayBcg(userId,searchType));
         model.addAttribute("userAlarm", commonComboService.selectUserTodayAlarm(userId));
         model.addAttribute("userId", userId); 
         

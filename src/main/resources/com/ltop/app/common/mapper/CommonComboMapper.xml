@@ -958,18 +958,29 @@
 		select  round(avg(a.respiration_rate)) as respirationRate
 		      , round(avg(a.heart_rate)) as heartRate
 		      , round(avg(a.sleep_mode)) as sleepMode
+		<if test="searchType != null and searchType == 'HOUR'">
 		      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h') as regDate
+		</if>
+		<if test="searchType != null and searchType == 'DAY'">
+			  , DATE_FORMAT(a.reg_date, '%Y-%m-%d') as regDate
+		</if>
 		from	bcg a 
 		      , tbl_member b
 		where	1=1
 		and    	b.userid = #{userId}
 		and    	a.mat_id = b.mat_id
+		<if test="searchType != null and searchType == 'HOUR'">
 		AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= case when b.sleep_time = NULL OR b.sleep_time ='' 
 				                                                   then concat(DATE_FORMAT(NOW(), '%Y%m%d'),'00')
 				                                                   ELSE concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),b.sleep_time)
 				                                              end
 		AND    DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
 		group by DATE_FORMAT(a.reg_date, '%Y-%m-%d %h')
+		</if>
+		<if test="searchType != null and searchType == 'DAY'">
+		AND    DATE_FORMAT(a.reg_date, '%Y%m%d') >= DATE_FORMAT(date_add(NOW(),INTERVAL -1 month), '%Y%m%d')
+		group by DATE_FORMAT(a.reg_date, '%Y-%m-%d')
+		</if>
     </select>
     <select id="selectUserTodayAlarm" resultType="com.ltop.app.common.domain.AlarmVO">
 				select	a.alarm_no  as alarmNo

@@ -348,8 +348,8 @@ public class CommonComboServiceImpl implements CommonComboService {
     }
     
     @Override
-    public List<BcgVO> selectUserTodayBcg(String userId) {
-        return commonComboMapper.selectUserTodayBcg(userId);
+    public List<BcgVO> selectUserTodayBcg(String userId,String searchType) {
+        return commonComboMapper.selectUserTodayBcg(userId,searchType);
     }
     @Override
     public List<AlarmVO> selectUserTodayAlarm(String userId) {

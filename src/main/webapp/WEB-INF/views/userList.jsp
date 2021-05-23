@@ -150,7 +150,12 @@
 					  					
 					<div class="dt-responsive table-responsive">
                         <div class="card-header-left">
-                        	<h5><c:out value="${user.userName}"/></h5>
+                        	<h5><c:out value="${user.userName}"/> 
+                        	<select class="form-control js-example-placeholder-multiple col-sm-12" id="searchType" name="searchType"  onChange="">
+                                <option value="HOUR" <c:if test="${searchType=='HOUR'}">selected</c:if> >시간</option>
+                                <option value="DAY" <c:if test="${searchType=='DAY'}">selected</c:if> >날짜</option>
+                            </select>
+							</h5>
                         </div>
        					<div class="row">
                                             <!-- Power card Start -->
@@ -426,6 +431,7 @@ $(document).ready(function() {
 				agencyNo: $('select[name=agencyNo]').val(),
 				groupSeq: $('select[name=groupSeq]').val(),
 				searchUserName: $('input[name=searchUserName]').val(),
+				searchType: $('select[name=searchType]').val(),
 				searchUserId: $('input[name=userId]').val()
 			};
 
@@ -442,13 +448,33 @@ $(document).ready(function() {
 	        searchUserName: $('input[name=searchUserName]').val(),
 	        searchMatId: $('input[name=searchMatId]').val(),
 	        searchEnabled: $('select[name=searchEnabled]').val(),
-	        searchAgency: $('select[name=searchAgency]').val()
+	        searchAgency: $('select[name=searchAgency]').val(),
+	        searchType: $('select[name=searchType]').val()
 	      };
 
 	    //gfn_callServer('POST', '/user/userDetail', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
 	    gfn_callServer('GET', '/user', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
 	});
 	
+	  $('#searchType').change(function(e){
+			e.preventDefault();
+			
+			$("input[name='pageNum']").val("1");
+			
+			var formData = {
+					pageNum: $('input[name=pageNum]').val(), 
+					amount: $('input[name=amount]').val(), 				
+					searchDateFrom: $('input[name=searchDateFrom]').val(),
+					agencyNo: $('select[name=agencyNo]').val(),
+					groupSeq: $('select[name=groupSeq]').val(),
+					searchUserName: $('input[name=searchUserName]').val(),
+					searchType: $('select[name=searchType]').val(),
+					searchUserId: $('input[name=userId]').val()
+				};
+
+			gfn_callMenu('GET', '/user', true, formData, 'text', gfn_callMenuResult, 30000);
+	    });
+	  
 	// 페이징 버튼 선택
 	$(".paginate_button a").on("click", function(e) {
 		e.preventDefault();
@@ -817,7 +843,7 @@ $(document).ready(function() {
 	        						
 	        						<c:set var="listStartNum" value="${listStartNum+1}" />
 	        					</c:forEach>
-	        				</c:when>
+	        				</c:when> 
 	        			</c:choose>
 	                    	//23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30
 	                    	]
