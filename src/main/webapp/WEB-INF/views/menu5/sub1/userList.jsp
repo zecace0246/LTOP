@@ -209,7 +209,8 @@ $(document).ready(function() {
         searchAgency: $('select[name=searchAgency]').val()
       };
 
-    gfn_callServer('POST', '/menu5/sub1/userView', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
+   //fn_callServer('POST', '/menu5/sub1/userView', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
+    gfn_callServer('POST', '/menu5/sub1/userModify', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
   });
 
   //페이징 버튼 선택

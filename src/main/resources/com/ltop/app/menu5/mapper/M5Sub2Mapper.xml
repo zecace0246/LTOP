@@ -68,7 +68,7 @@
     ]]>
 
         <if test="m5Sub2VO.searchMatId != null and m5Sub2VO.searchMatId != ''">
-        AND A.mat_id = #{m5Sub2VO.searchMatId}
+        AND A.mat_id LIKE CONCAT('%',#{m5Sub2VO.searchMatId},'%')
         </if>
         <if test="m5Sub2VO.searchMatDesc != null and m5Sub2VO.searchMatDesc != ''">
           AND A.description  LIKE CONCAT('%',#{m5Sub2VO.searchMatDesc},'%')

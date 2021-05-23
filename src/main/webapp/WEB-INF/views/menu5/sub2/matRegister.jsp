@@ -14,21 +14,6 @@
         <div class="card-body">
           <form id="register">
             <div class="row">
-
-              <div class="col-md-12">
-                  <div class="form-group">
-                      <label class="form-label">매트 ID</label>
-                      <input type="text" class="form-control" name="matId" placeholder="매트 ID">
-                  </div>
-              </div>
-
-              <div class="col-md-12">
-                  <div class="form-group">
-                      <label class="form-label">설명</label>
-                      <textarea class="form-control" name="description" rows="5" placeholder="설명"></textarea>
-                  </div>
-              </div>
-
               <div class="col-md-12">
                   <div class="form-group">
                       <label class="form-label">사용유무</label>
@@ -39,7 +24,6 @@
                                 </select>
                   </div>
               </div>
-
               <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="form-label">기관</label>
@@ -66,6 +50,23 @@
                             </div>
 
             </div>
+              <div class="col-md-12">
+                  <div class="form-group">
+                      <label class="form-label">매트 ID</label>
+                      <input type="text" class="form-control" name="matId" placeholder="매트 ID">
+                  </div>
+              </div>
+
+              <div class="col-md-12">
+                  <div class="form-group">
+                      <label class="form-label">설명</label>
+                      <textarea class="form-control" name="description" rows="5" placeholder="설명"></textarea>
+                  </div>
+              </div>
+
+
+
+
 
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmModal">저장</button>
             <!-- <button type="reset" data-oper="reset" class="btn btn-secondary">취소</button>  -->

@@ -76,12 +76,7 @@
 								) sub
 					) usecnt
 		FROM   mat_alarm a
-		     , tbl_member b
 		WHERE  1=1
-		AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= case when b.sleep_time = NULL OR b.sleep_time ='' 
-		                                                   then concat(DATE_FORMAT(NOW(), '%Y%m%d'),'00')
-		                                                   ELSE concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),b.sleep_time)
-		                                              end
 		AND    DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
 	</select>
 	<select id="dashBoardv2A" resultType="com.ltop.app.common.domain.DashBoardMVO">
@@ -137,10 +132,6 @@
 		AND    c.agency_no = b.agency_no
 		AND    a.mat_id = b.mat_id
 		AND    a.mat_id = e.mat_id
-		AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= case when e.sleep_time = NULL OR e.sleep_time ='' 
-		                                                   then concat(DATE_FORMAT(NOW(), '%Y%m%d'),'00')
-		                                                   ELSE concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),e.sleep_time)
-		                                              end
 		AND    DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
 	</select>
 	<select id="dashBoardv2U" resultType="com.ltop.app.common.domain.DashBoardMVO">
@@ -194,10 +185,6 @@
 		WHERE  1=1
 		AND    b.userid = #{userId}
 		AND    a.mat_id = b.mat_id
-		AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= case when b.sleep_time = NULL OR b.sleep_time ='' 
-		                                                   then concat(DATE_FORMAT(NOW(), '%Y%m%d'),'00')
-		                                                   ELSE concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),b.sleep_time)
-		                                              end
 		AND    DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
 	</select>
 
@@ -968,9 +955,9 @@
     </select>
 
     <select id="selectUserTodayBcg" resultType="com.ltop.app.common.domain.BcgVO">
-		select  avg(a.respiration_rate) as respirationRate
-		      , avg(a.heart_rate) as heartRate
-		      , avg(a.sleep_mode) as sleepMode
+		select  round(avg(a.respiration_rate)) as respirationRate
+		      , round(avg(a.heart_rate)) as heartRate
+		      , round(avg(a.sleep_mode)) as sleepMode
 		      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h') as regDate
 		from	bcg a 
 		      , tbl_member b

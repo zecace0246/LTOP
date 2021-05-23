@@ -65,7 +65,7 @@
 						<table id="simpletable" class="table table-striped table-bordered nowrap">
 							<thead>
 	                            <tr>
-	                            	<th><span>No.</span></th>
+	                            	<!-- th><span>No.</span></th -->
 	                                <th><span>그룹 </span></th>
 	                                <th><span>그룹상세 </span></th>
 	                                <th><span>사용자명 </span></th>
@@ -83,7 +83,7 @@
 									<c:set var="listStartNum" value="${pageMaker.total - (pageMaker.pageVO.amount * (pageMaker.pageVO.pageNum - 1)) + 1}" />
 										<c:forEach items="${userList}" var="user" varStatus="userStatus">
 	                                           <tr>
-	                                           	   <td><c:out value="${listStartNum - userStatus.count}" /></td>
+	                                           	   <!-- td><c:out value="${listStartNum - userStatus.count}" /></td -->
 	                                               <td><c:out value="${user.agencyName}" /></td>
 	                                               <td><c:out value="${user.groupName}" /></td>
 	                                               <td>
@@ -344,16 +344,16 @@
 						<table id="simpletable" class="table table-striped table-bordered nowrap">
 							<thead>
 	                            <tr>
-	                            	<th><span>No.</span></th>
+	                            	<!-- th><span>No.</span></th -->
 	                                <th><span>Alarm date</span></th>
-	                                <th><span>그룹 </span></th>
+	                                <!-- th><span>그룹 </span></th>
 	                                <th><span>그룹상세 </span></th>
-	                                <th><span>사용자명 </span></th>
+	                                <th><span>사용자명 </span></th -->
 	                                <th><span>Alarm </span></th>
 	                                <th><span>Value</span></th>
 	                                <th><span>확인유무</span></th>
-	                                <th><span>확인시간 </span></th>
-	                                <th><span>확인자</span></th>
+	                                <!-- th><span>확인시간 </span></th>
+	                                <th><span>확인자</span></th -->
 	                            </tr>
 							</thead>
 							<tbody>
@@ -361,11 +361,11 @@
 									<c:when test="${userAlarm ne null && fn:length(userAlarm) > 0}">
 										<c:forEach items="${userAlarm}" var="alarm" varStatus="alarmStatus">
 	                                           <tr>
-	                                           	   <td><c:out value="${alarm.alarmNo}" /></td>
+	                                           	   <!-- td><c:out value="${alarm.alarmNo}" /></td -->
 	                                               <td><c:out value="${alarm.regDate}" /></td>
-	                                               <td><c:out value="${alarm.agencyName}" /></td>
+	                                               <!-- td><c:out value="${alarm.agencyName}" /></td>
 	                                               <td><c:out value="${alarm.groupName}" /></td>
-	                                               <td><c:out value="${alarm.userName}" /></td>
+	                                               <td><c:out value="${alarm.userName}" /></td -->
 	                                               <td><c:out value="${alarm.eventNm}" /></td>
 	                                               <td><c:out value="${alarm.value}" />
 	                                                   <!-- div class="progress mt-1" style="height:4px;">
@@ -380,8 +380,8 @@
 	                                               		<button data-oper='alarm' id="<c:out value="${alarm.alarmNo}" />" class="btn btn-primary btn-sm btn-round">처리</button>
 	                                               	</c:if>
 	                                               	</td>
-	                                               <td><c:out value="${alarm.confirmDate}" /></td>
-	                                               <td><c:out value="${alarm.confirmId}" /></td>
+	                                               <!-- td><c:out value="${alarm.confirmDate}" /></td>
+	                                               <td><c:out value="${alarm.confirmId}" /></td -->
 	                                           </tr>
 										</c:forEach>	
 	
@@ -520,7 +520,7 @@ $(document).ready(function() {
 	                },
 	                colors: ['#4099ff', '#2ed8b6'],
 	                series: [{
-	                    name: '심박',
+	                    name: '',
 	                    type: 'column',
 	                    data: [
 	                        <c:choose>
@@ -540,9 +540,9 @@ $(document).ready(function() {
 	        				</c:when>
 	        			</c:choose>
 	                    	//23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30
-	                    	]
+	                    	] 
 	                }, {
-	                    name: '심박',
+	                    name: '',
 	                    type: 'line',
 	                    data: [
 	                        <c:choose>
@@ -584,7 +584,6 @@ $(document).ready(function() {
 	      					</c:forEach>
 	      				</c:when>
 	      			</c:choose>
-	                	//'01/01/2003', '02/01/2003', '03/01/2003', '04/01/2003', '05/01/2003', '06/01/2003', '07/01/2003', '08/01/2003', '09/01/2003', '10/01/2003', '11/01/2003'
 	                	],
 	                markers: {
 	                    size: 0
@@ -650,7 +649,7 @@ $(document).ready(function() {
 	                },
 	                colors: ['#4099ff', '#2ed8b6'],
 	                series: [{
-	                    name: '호흡',
+	                    name: '',
 	                    type: 'column',
 	                    data: [
 	                        <c:choose>
@@ -672,7 +671,7 @@ $(document).ready(function() {
 	                    	//23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30
 	                    	]
 	                }, {
-	                    name: '호흡',
+	                    name: '',
 	                    type: 'line',
 	                    data: [
 	                        <c:choose>
@@ -714,7 +713,6 @@ $(document).ready(function() {
 	      					</c:forEach>
 	      				</c:when> 
 	      			</c:choose>
-	                	//'01/01/2003', '02/01/2003', '03/01/2003', '04/01/2003', '05/01/2003', '06/01/2003', '07/01/2003', '08/01/2003', '09/01/2003', '10/01/2003', '11/01/2003'
 	                	],
 	                markers: {
 	                    size: 0
@@ -780,7 +778,7 @@ $(document).ready(function() {
 	                },
 	                colors: ['#4099ff', '#2ed8b6'],
 	                series: [{
-	                    name: '수면',
+	                    name: '',
 	                    type: 'column', 
 	                    data: [
 	                        <c:choose>
@@ -802,7 +800,7 @@ $(document).ready(function() {
 	                    	//23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30
 	                    	]
 	                }, { 
-	                    name: '수면',
+	                    name: '',
 	                    type: 'line',
 	                    data: [
 	                        <c:choose>
@@ -844,7 +842,6 @@ $(document).ready(function() {
 	      					</c:forEach>
 	      				</c:when> 
 	      			</c:choose>
-	                	//'01/01/2003', '02/01/2003', '03/01/2003', '04/01/2003', '05/01/2003', '06/01/2003', '07/01/2003', '08/01/2003', '09/01/2003', '10/01/2003', '11/01/2003'
 	                	],
 	                markers: {
 	                    size: 0

@@ -36,13 +36,13 @@
             <div class="col-md-6 col-xl-3">
                 <div class="card bg-c-green order-card">
                     <div class="card-body">
-                        <h6 class="text-white">호흡</h6>
+                        <h6 class="text-white">호흡이상</h6>
                         <h2 class="text-right text-white"><i class="feather icon-tag float-left"></i><span><c:out value="${dashboard.tdayh}" /></span></h2>
                         <p class="m-b-0">이번 달<span class="float-right"><c:out value="${dashboardm.tmonthh}" /></span></p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-xl-3">
+            <!-- div class="col-md-6 col-xl-3">
                 <div class="card bg-c-yellow order-card">
                     <div class="card-body">
                         <h6 class="text-white">수면</h6>
@@ -50,11 +50,11 @@
                         <p class="m-b-0">이번 달<span class="float-right"><c:out value="${dashboardm.tmonths}" /></span></p>
                     </div>
                 </div>
-            </div>
+            </div -->
             <div class="col-md-6 col-xl-3">
                 <div class="card bg-c-red order-card">
                     <div class="card-body">
-                        <h6 class="text-white">낙상</h6>
+                        <h6 class="text-white">낙상감지</h6>
                         <h2 class="text-right text-white"><i class="feather icon-award float-left"></i><span><c:out value="${dashboard.tdayx}" /></span></h2>
                         <p class="m-b-0">이번 달<span class="float-right"><c:out value="${dashboardm.tmonthx}" /></span></p>
                     </div>
@@ -445,7 +445,7 @@ function floatchart() {
     			</c:choose>
                 	]
             }, {
-                name: '호흡',
+                name: '호흡이상',
                 data: [
                     <c:choose>
     				<c:when test="${alarmCnt ne null && fn:length(alarmCnt) > 0}">
@@ -465,27 +465,7 @@ function floatchart() {
     			</c:choose>
                 	]
             }, {
-                name: '수면',
-                data: [
-                    <c:choose>
-    				<c:when test="${alarmCnt ne null && fn:length(alarmCnt) > 0}">
-    					<c:set var="listStartNum" value="0"></c:set>
-    					
-    					<c:forEach items="${alarmCnt}" var="bcg" varStatus="bcgStatus">
-    						<c:if test="${listStartNum eq 0}">
-    							<c:out value="${bcg.wdays}" />
-    						</c:if>
-    						<c:if test="${listStartNum ne 0}">
-    						,	<c:out value="${bcg.wdays}" />
-    						</c:if>
-    						
-    						<c:set var="listStartNum" value="${listStartNum+1}" />
-    					</c:forEach>
-    				</c:when>
-    			</c:choose>
-                	]
-            }, {
-                name: '낙상',
+                name: '낙상감지', 
                 data: [
                     <c:choose>
     				<c:when test="${alarmCnt ne null && fn:length(alarmCnt) > 0}">
@@ -527,7 +507,6 @@ function floatchart() {
     					</c:forEach>
     				</c:when>
     			</c:choose>
-                	//'1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000'
                 	],
                 axisBorder: {
                     show: false,
@@ -540,8 +519,7 @@ function floatchart() {
             },
             yaxis: {
                 show: true,
-                min: 10,
-                max: 70,
+                min: 0,
                 labels: {
                     style: {
                         color: '#ccc'

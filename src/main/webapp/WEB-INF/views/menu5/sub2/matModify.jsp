@@ -16,21 +16,6 @@
             <div class="row">
               <div class="col-md-12">
                   <div class="form-group">
-                      <label class="form-label">매트 ID</label>
-                      <input type="text" class="form-control" name="matId" value='<c:out value="${mat.matId}"/>' readonly="readonly">
-                  </div>
-              </div>
-
-
-              <div class="col-md-12">
-                   <div class="form-group">
-                       <label class="form-label">설명</label>
-                       <textarea class="form-control" name="description" rows="5"><c:out value="${mat.description}" /></textarea>
-                   </div>
-               </div>
-
-              <div class="col-md-12">
-                  <div class="form-group">
                       <label class="form-label">사용유무</label>
                       <select class="form-control js-example-placeholder-multiple " id="useYn" name="useYn" onChange="">
                           <option value="Y" <c:if test="${mat.useYn=='Y'}">selected</c:if>>사용</option>
@@ -38,7 +23,6 @@
                       </select>
                   </div>
               </div>
-
               <div class="col-md-12">
                   <div class="form-group">
                       <label class="form-label">기관</label>
@@ -61,6 +45,24 @@
                       </select>
                   </div>
               </div>
+              <div class="col-md-12">
+                  <div class="form-group">
+                      <label class="form-label">매트 ID</label>
+                      <input type="text" class="form-control" name="matId" value='<c:out value="${mat.matId}"/>' readonly="readonly">
+                  </div>
+              </div>
+
+
+              <div class="col-md-12">
+                   <div class="form-group">
+                       <label class="form-label">설명</label>
+                       <textarea class="form-control" name="description" rows="5"><c:out value="${mat.description}" /></textarea>
+                   </div>
+               </div>
+
+
+
+
 
             </div>
 

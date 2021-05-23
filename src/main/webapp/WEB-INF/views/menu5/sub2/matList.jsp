@@ -76,11 +76,11 @@
               <thead>
                 <tr>
                   <th class="text-center">No.</th>
-                  <th class="text-center">매트 ID</th>
-                  <th class="text-center">설명</th>
                   <th class="text-center">사용유무</th>
+                  <th class="text-center">매트 ID</th>
                   <th class="text-center">기관</th>
                   <th class="text-center">그룹</th>
+                  <th class="text-center">설명</th>
                   <th class="text-center">그룹관리자</th>
                   <th class="text-center">등록일자</th>
                 </tr>
@@ -97,12 +97,6 @@
                             <c:out value="${listStartNum - matStatus.count}" />
                         </td>
                         <td class="text-center">
-                            <a class='move' href='<c:out value="${mat.matNo}"/>'>
-                                <c:out value="${mat.matId}" />
-                            </a>
-                        </td>
-                        <td class="text-center"><c:out value="${mat.description}" /></td>
-                        <td class="text-center">
                           <c:if test="${mat.useYn eq 'Y'}">
                             사용
                           </c:if>
@@ -110,8 +104,14 @@
                             미사용
                           </c:if>
                         </td>
+                        <td class="text-center">
+                            <a class='move' href='<c:out value="${mat.matNo}"/>'>
+                                <c:out value="${mat.matId}" />
+                            </a>
+                        </td>
                         <td class="text-center"><c:out value="${mat.agencyName}" /></td>
                         <td class="text-center"><c:out value="${mat.groupName}" /></td>
+                        <td class="text-center"><c:out value="${mat.description}" /></td>
                         <td class="text-center"><c:out value="${mat.groupAdmName}" /></td>
                         <td class="text-center"><fmt:formatDate pattern="yyyy-MM-dd" value="${mat.regDate}" /></td>
                       </tr>
@@ -208,7 +208,8 @@ $(document).ready(function() {
         searchUseYn: $('select[name=searchUseYn]').val()
       };
 
-    gfn_callServer('POST', '/menu5/sub2/matView', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
+    //gfn_callServer('POST', '/menu5/sub2/matView', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
+    gfn_callServer('POST', '/menu5/sub2/matModify', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
   });
 
   // 페이징 버튼 선택
