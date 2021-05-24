@@ -24,6 +24,7 @@ public class M5Sub1VO {
     private String positionYn;
     private String positionYnName;
     private String positionTime;
+    private String sleepEndtime;
     private String tel;
     private String enabled;
     private String enabledName;

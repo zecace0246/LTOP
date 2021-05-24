@@ -234,7 +234,7 @@ public class MemberController {
     }
 
     /**
-     * Moble Json 사용자 정보 제공
+     * Moble Json 사용자 정보 수정
      * @param params
      * @param request
      * @return
@@ -262,6 +262,7 @@ public class MemberController {
         memberVO.setReguserId(params.get("reguserId").toString());
         memberVO.setAgencyNo(params.get("agencyNo").toString());
         memberVO.setSleepTime(params.get("sleepTime").toString());
+        memberVO.setSleepEndtime(params.get("sleepEndtime").toString());
         memberVO.setPositionTime(params.get("positionTime").toString());
         memberVO.setSexCd(params.get("sex").toString());
 

@@ -31,6 +31,7 @@ public class MemberVO {
     private String reguserId      ;
     private String agencyNo       ;
     private String sleepTime      ;
+    private String sleepEndtime   ;
     private String positionTime   ;
     private String sex            ;
     private String positionUpdate ;

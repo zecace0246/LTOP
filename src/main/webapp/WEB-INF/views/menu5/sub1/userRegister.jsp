@@ -90,12 +90,30 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label class="form-label">수면종료시간</label>
+                                        <select class="form-control js-example-placeholder-multiple " id="sleepEndtime" name="sleepEndtime" onChange="">
+                                          <option value="" >선택</option>
+                                          <c:forEach var="i" begin="1" end="24">
+                                              <option value="${i}" >${i}</option>
+                                          </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label class="form-label">낙상감지 사용여부</label>
                                         <select class="form-control js-example-placeholder-multiple " id="fallYn" name="fallYn" onChange="">
                                           <option value="" >선택</option>
                                           <option value="Y" >사용</option>
                                           <option value="N" >미사용</option>
                                       </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                         <!-- 화면 구조 맞추기 위해 -->
                                     </div>
                                 </div>
 
@@ -291,6 +309,7 @@ $(document).ready(function() {
         height: $('input[name=height]').val(),
         weight: $('input[name=weight]').val(),
         sleepTime: $('select[name=sleepTime]').val(),
+        sleepEndtime : $('select[name=sleepEndtime]').val(),
         fallYn: $('select[name=fallYn]').val(),
         positionYn: $('select[name=positionYn]').val(),
         positionTime: $('select[name=positionTime]').val(),

@@ -95,6 +95,7 @@
             , mem.height
             , mem.weight
             , mem.sleep_time AS sleepTime
+            , mem.sleep_endtime AS sleepEndtime
             , mem.fall_yn AS fallYn
             , CASE WHEN mem.fall_yn = 'Y' THEN
                        '사용'
@@ -139,6 +140,7 @@
        , weight
        , tel
        , sleep_time
+       , sleep_endtime
        , position_time
        , reguserid
        , agency_no
@@ -160,6 +162,7 @@
       , #{weight}
       , #{tel}
       , #{sleepTime}
+      , #{sleepEndtime}
       , #{positionTime}
       , #{reguserId}
       , #{agencyNo}
@@ -198,6 +201,7 @@
             , mat_id = #{matId}
             , agency_no = #{agencyNo}
             , sleep_time = #{sleepTime}
+            , sleep_endtime = #{sleepEndtime}
             , position_time = #{positionTime}
             , fall_yn    = #{fallYn}
             , position_yn = #{positionYn}

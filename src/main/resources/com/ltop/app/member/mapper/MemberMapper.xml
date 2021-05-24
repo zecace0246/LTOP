@@ -188,6 +188,7 @@
            , reguserid       AS reguserId
            , agency_no       AS agencyNo
            , sleep_time      AS sleepTime
+           , sleep_endtime   AS sleepEndtime
            , position_time   AS positionTime
            , sex             AS sex
            , DATE_FORMAT(position_update, '%Y-%m-%d %h:%i') AS positionUpdate
@@ -233,6 +234,9 @@
          </if>
          <if test="sleepTime != null and sleepTime != ''">
              , sleep_time = #{sleepTime}
+         </if>
+         <if test="sleepEndtime != null and sleepEndtime != ''">
+             , sleep_endtime = #{sleepEndtime}
          </if>
          <if test="positionTime != null and positionTime != ''">
              , position_time = #{positionTime}
