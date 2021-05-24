@@ -33,4 +33,8 @@ public interface M5Sub1Mapper {
 
 	public int insertUserAlarm(M5Sub1VO m5Sub1VO);
 
+	public String selectUserAuth(M5Sub1VO m5Sub1VO);
+
+	public void updateUserAuth(M5Sub1VO m5Sub1VO);
+
 }

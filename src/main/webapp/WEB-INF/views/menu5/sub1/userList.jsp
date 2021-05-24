@@ -41,6 +41,7 @@
                                 <option value="N" <c:if test="${searchEnabled=='N'}">selected</c:if> >미사용</option>
                             </select>
                       </div>
+
                       <div class="col-sm-3">
                       </div>
                       <div class="col-sm-3" align="right">

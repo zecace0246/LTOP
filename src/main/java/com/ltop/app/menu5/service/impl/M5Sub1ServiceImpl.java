@@ -73,8 +73,7 @@ public class M5Sub1ServiceImpl implements M5Sub1Service {
         int result = m5Sub1Mapper.insertUser(m5Sub1VO);
 
         if (result > 0) {
-            m5Sub1VO.setAuth("ROLE_USER");
-
+            //m5Sub1VO.setAuth("ROLE_USER");
             m5Sub1Mapper.insertUserAuth(m5Sub1VO);
         }
 
@@ -85,8 +84,18 @@ public class M5Sub1ServiceImpl implements M5Sub1Service {
     @Override
     public boolean updateUser(M5Sub1VO m5Sub1VO) {
 
-        if(m5Sub1VO.getUserPw() != null || !m5Sub1VO.getUserPw().equals("")) {
-            m5Sub1VO.setUserPw(pwencoder.encode(m5Sub1VO.getUserPw()));
+        if(m5Sub1VO.getUserPw() == null || m5Sub1VO.getUserPw().equals("")) {
+
+        }else{
+        	m5Sub1VO.setUserPw(pwencoder.encode(m5Sub1VO.getUserPw()));
+        }
+
+        String authRst = m5Sub1Mapper.selectUserAuth(m5Sub1VO);
+
+        if(authRst == null || authRst.equals("")) { //없으면 insert
+        	m5Sub1Mapper.insertUserAuth(m5Sub1VO);
+        } else {//update
+        	m5Sub1Mapper.updateUserAuth(m5Sub1VO);
         }
 
         return m5Sub1Mapper.updateUser(m5Sub1VO) == 1;

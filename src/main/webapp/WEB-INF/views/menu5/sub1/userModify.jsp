@@ -14,7 +14,7 @@
                         <form id="modify" role="form">
                             <div class="row">
 
-                <div class="col-md-6">
+                               <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">사용자 ID</label>
                                         <input type="text" class="form-control" id="userId" name="userId" value="<c:out value="${user.userId}"/>" readonly="readonly">
@@ -88,6 +88,28 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label class="form-label">낙상감지 사용여부</label>
+                                        <select class="form-control js-example-placeholder-multiple " id="fallYn" name="fallYn" onChange="">
+                                          <option value="" >선택</option>
+                                          <option value="Y" <c:if test="${user.fallYn eq 'Y'}">selected</c:if>>사용</option>
+                                          <option value="N" <c:if test="${user.fallYn eq 'N'}">selected</c:if>>미사용</option>
+                                      </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">자세유지 사용여부</label>
+                                        <select class="form-control js-example-placeholder-multiple " id="positionYn" name="positionYn" onChange="">
+                                          <option value="" >선택</option>
+                                          <option value="Y" <c:if test="${user.positionYn eq 'Y'}">selected</c:if>>사용</option>
+                                          <option value="N" <c:if test="${user.positionYn eq 'N'}">selected</c:if>>미사용</option>
+                                      </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label class="form-label">자세유지시간</label>
                                         <select class="form-control js-example-placeholder-multiple " id="positionTime" name="positionTime" onChange="">
                                           <option value="" >선택</option>
@@ -133,17 +155,32 @@
                                     </div>
                                 </div>
 
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label">사용자 권한</label>
+                                      <select class="form-control js-example-placeholder-multiple " id="auth" name="auth" onChange="">
+                                          <option value="" >선택</option>
+                                          <option value="ROLE_ADMIN" <c:if test="${user.auth eq 'ROLE_ADMIN'}">selected</c:if>>관리자</option>
+                                          <option value="ROLE_USER" <c:if test="${user.auth eq 'ROLE_USER'}">selected</c:if>>기관관리자</option>
+                                          <option value="ROLE_MEMBER" <c:if test="${user.auth eq 'ROLE_MEMBER'}">selected</c:if>>일반사용자</option>
+                                      </select>
+                                    </div>
+                                </div>
+
                             </div>
 
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmModifyModal">수정</button>
                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmRemoveModal">삭제</button>
                             <button type="button" class="btn btn-info" data-oper="list">목록</button>
+                            <button type="button" data-oper='setting' class="btn btn-secondary"><i class="feather mr-2 icon-check-circle"></i>알람설정</button>
 
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                             <input type='hidden' name='searchUserName' value='<c:out value="${searchUserName}"/>'>
                             <input type='hidden' name='searchMatId' value='<c:out value="${searchMatId}"/>'>
                             <input type='hidden' name='searchEnabled' value='<c:out value="${searchEnabled}"/>'>
                             <input type='hidden' name='searchAgency' value='<c:out value="${searchAgency}"/>'>
+                            <input type='hidden' name='searchGroup' value='<c:out value="${searchGroup}"/>'>
+                            <input type='hidden' name='seq' value='<c:out value="${user.seq}"/>'>
                         </form>
                     </div>
                 </div>
@@ -236,6 +273,12 @@
           return false;
         }
 
+        if (gfn_isNull($('select[name=auth]').val())) {
+            $('.toast-body').text(' 사용자 권한을 선택해 주세요 ');
+            $('.toast-center').toast('show');
+            return false;
+          }
+
       var formData = {
              userId: $('input[name=userId]').val(),
              userPw: $('input[name=userPw]').val(),
@@ -246,11 +289,14 @@
              height: $('input[name=height]').val(),
              weight: $('input[name=weight]').val(),
              sleepTime: $('select[name=sleepTime]').val(),
+             fallYn: $('select[name=fallYn]').val(),
+             positionYn: $('select[name=positionYn]').val(),
              positionTime: $('select[name=positionTime]').val(),
              /*enabled: $('input:radio[name=radio-enabled]').is(':checked') == true ? '1' : '0',*/
              enabled: $('select[name=enabled]').val(),
              matId: $('select[name=matId]').val(),
-             agencyNo: $('select[name=agencyNo]').val()
+             agencyNo: $('select[name=agencyNo]').val(),
+             auth: $('select[name=auth]').val()
         };
 
       gfn_callServer('POST', '/menu5/sub1/modify', true, formData, 'application/x-www-form-urlencoded; charset=UTF-8', 'text', callServerModifyResult, 30000, csrfTokenValue);
@@ -275,11 +321,25 @@
           searchUserName: $('input[name=searchUserName]').val(),
           searchMatId: $('input[name=searchMatId]').val(),
           searchEnabled: $('input[name=searchEnabled]').val(),
-          searchGroup: $('input[name=searchGroup]').val()
+          searchAgency: $('input[name=searchAgency]').val()
         };
 
       gfn_callMenu('GET', '/menu5/sub1/userList', true, formData, 'text', gfn_callMenuResult, 30000);
       });
+
+    $('button[data-oper=setting]').on('click', function(e){
+        e.preventDefault();
+
+        if( $('input[name=seq]').val() == '' ) $('input[name=seq]').val(0) ;
+
+        var formData = {
+            userId: $('input[name=userId]').val(),
+            seq: $('input[name=seq]').val()
+         };
+
+        gfn_callServer('POST', '/menu5/sub1/userAlarmSetting', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
+    });
+
   });
 
 // 수정 후 처리

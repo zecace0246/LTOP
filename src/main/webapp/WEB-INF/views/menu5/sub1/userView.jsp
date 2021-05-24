@@ -76,6 +76,20 @@
                </div>
 
                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="form-label">낙상감지 사용여부</label>
+                    <input type="text" class="form-control" id="fallYn" name="fallYn" value="<c:out value="${user.fallYnName}"/>" readonly="readonly">
+                  </div>
+              </div>
+
+              <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="form-label">자세유지 사용여부</label>
+                    <input type="text" class="form-control" id="positionYn" name="positionYn" value="<c:out value="${user.positionYnName}"/>" readonly="readonly">
+                  </div>
+              </div>
+
+               <div class="col-md-6">
                    <div class="form-group">
                        <label class="form-label">자세유지시간</label>
                        <input type="text" class="form-control" id="weight" name="weight" value="<c:out value="${user.positionTime}"/>" readonly="readonly">

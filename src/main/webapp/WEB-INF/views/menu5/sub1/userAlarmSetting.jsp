@@ -112,6 +112,14 @@
 		                        </tbody>
 		                    </table>
 		                </div>
+		                <div>
+	                        <button type="button" class="btn btn-info" data-oper="list">사용자목록</button>
+
+	                        <input type='hidden' name='searchUserName' value='<c:out value="${searchUserName}"/>'>
+	                        <input type='hidden' name='searchMatId' value='<c:out value="${searchMatId}"/>'>
+	                        <input type='hidden' name='searchEnabled' value='<c:out value="${searchEnabled}"/>'>
+	                        <input type='hidden' name='searchAgency' value='<c:out value="${searchAgency}"/>'>
+	                    </div>
 		            </div>
 		        </div>
 		    </div>
@@ -193,6 +201,20 @@ $(document).ready(function() {
 	    callServerModifyResult('success');
 
     });
+
+    // 목록 버튼 선택
+    $('button[data-oper=list]').on('click', function(e) {
+      e.preventDefault();
+
+      var formData = {
+          searchUserName: $('input[name=searchUserName]').val(),
+          searchMatId: $('input[name=searchMatId]').val(),
+          searchEnabled: $('input[name=searchEnabled]').val(),
+          searchAgency: $('input[name=searchAgency]').val()
+        };
+
+      gfn_callMenu('GET', '/menu5/sub1/userList', true, formData, 'text', gfn_callMenuResult, 30000);
+      });
 
 });
 

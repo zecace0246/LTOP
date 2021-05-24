@@ -90,6 +90,28 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label class="form-label">낙상감지 사용여부</label>
+                                        <select class="form-control js-example-placeholder-multiple " id="fallYn" name="fallYn" onChange="">
+                                          <option value="" >선택</option>
+                                          <option value="Y" >사용</option>
+                                          <option value="N" >미사용</option>
+                                      </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">자세유지 사용여부</label>
+                                        <select class="form-control js-example-placeholder-multiple " id="positionYn" name="positionYn" onChange="">
+                                          <option value="" >선택</option>
+                                          <option value="Y" >사용</option>
+                                          <option value="N" >미사용</option>
+                                      </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label class="form-label">자세유지시간</label>
                                         <select class="form-control js-example-placeholder-multiple " id="positionTime" name="positionTime" onChange="">
                                           <option value="" >선택</option>
@@ -130,6 +152,18 @@
                                           <option value="" >선택</option>
                                           <option value="Y" >사용</option>
                                           <option value="N" >미사용</option>
+                                      </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label">사용자 권한</label>
+                                      <select class="form-control js-example-placeholder-multiple " id="auth" name="auth" onChange="">
+                                          <option value="" >선택</option>
+                                          <option value="ROLE_ADMIN" >관리자</option>
+                                          <option value="ROLE_USER" >기관관리자</option>
+                                          <option value="ROLE_MEMBER" >일반사용자</option>
                                       </select>
                                     </div>
                                 </div>
@@ -229,6 +263,12 @@ $(document).ready(function() {
       return false;
     }
 
+    if (gfn_isNull($('select[name=auth]').val())) {
+        $('.toast-body').text(' 사용자 권한을 선택해 주세요 ');
+        $('.toast-center').toast('show');
+        return false;
+      }
+
     /*if ($('select[name=matId]').val() == '선택') {
       $('.toast-body').text(' 매트ID를 선택해 주세요 ');
       $('.toast-center').toast('show');
@@ -251,11 +291,14 @@ $(document).ready(function() {
         height: $('input[name=height]').val(),
         weight: $('input[name=weight]').val(),
         sleepTime: $('select[name=sleepTime]').val(),
+        fallYn: $('select[name=fallYn]').val(),
+        positionYn: $('select[name=positionYn]').val(),
         positionTime: $('select[name=positionTime]').val(),
         /*enabled: $('input:radio[name=radio-enabled]').is(':checked') == true ? '1' : '0',*/
         enabled: $('select[name=enabled]').val(),
         matId: $('select[name=matId]').val(),
-        agencyNo: $('select[name=agencyNo]').val()
+        agencyNo: $('select[name=agencyNo]').val(),
+        auth : $('select[name=auth]').val()
       };
 
     gfn_callServer('POST', '/menu5/sub1/register', true, formData, 'application/x-www-form-urlencoded; charset=UTF-8', 'text', callServerRegisterResult, 30000, csrfTokenValue);

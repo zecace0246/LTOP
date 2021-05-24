@@ -80,7 +80,7 @@
     </select>
 
     <select id="selectUserInfo" resultType="com.ltop.app.menu5.domain.M5Sub1VO">
-        /* com.ltop.app.menu5.mapper.M5Sub1MapperselectUserInfo */
+        /* com.ltop.app.menu5.mapper.M5Sub1Mapper.selectUserInfo */
         SELECT mem.userid  AS userId
             , mem.username AS userName
             , mem.sex AS sexCd
@@ -94,8 +94,20 @@
             , mem.tel
             , mem.height
             , mem.weight
-            , sleep_time AS sleepTime
-            , position_time AS positionTime
+            , mem.sleep_time AS sleepTime
+            , mem.fall_yn AS fallYn
+            , CASE WHEN mem.fall_yn = 'Y' THEN
+                       '사용'
+                   ELSE
+                       '미사용'
+               END AS fallYnName
+            , mem.position_yn AS positionYn
+            , CASE WHEN mem.position_yn = 'Y' THEN
+                       '사용'
+                   ELSE
+                       '미사용'
+               END AS positionYnName
+            , mem.position_time AS positionTime
             , mem.enabled
             , CASE WHEN mem.enabled = 'Y' THEN
                        '사용'
@@ -130,6 +142,8 @@
        , position_time
        , reguserid
        , agency_no
+       , fall_yn
+       , position_yn
        , regdate
        , updatedate
     )
@@ -149,10 +163,25 @@
       , #{positionTime}
       , #{reguserId}
       , #{agencyNo}
+      , #{fallYn}
+      , #{positionYn}
       , NOW()
       , NOW()
     )
     </insert>
+
+    <select id="selectUserAuth" resultType="String">
+        /* com.ltop.app.menu5.mapper.M5Sub1Mapper.selectUserAuth */
+        SELECT auth
+          FROM tbl_member_auth
+        WHERE userid = #{userId}
+    </select>
+
+    <update id="updateUserAuth">
+        UPDATE tbl_member_auth
+           SET auth = #{auth}
+         WHERE userid = #{userId}
+    </update>
 
     <update id="updateUser">
      UPDATE	tbl_member
@@ -170,6 +199,8 @@
             , agency_no = #{agencyNo}
             , sleep_time = #{sleepTime}
             , position_time = #{positionTime}
+            , fall_yn    = #{fallYn}
+            , position_yn = #{positionYn}
             , updatedate = NOW()
         WHERE userid = #{userId}
     </update>
