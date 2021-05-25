@@ -959,10 +959,10 @@
 		      , round(avg(a.heart_rate)) as heartRate
 		      , round(avg(a.sleep_mode)) as sleepMode
 		<if test="searchType != null and searchType == 'HOUR'">
-		      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h') as regDate
+		      , DATE_FORMAT(a.reg_date, '%m-%d %h') as regDate
 		</if>
 		<if test="searchType != null and searchType == 'DAY'">
-			  , DATE_FORMAT(a.reg_date, '%Y-%m-%d') as regDate
+			  , DATE_FORMAT(a.reg_date, '%m-%d') as regDate
 		</if>
 		from	bcg a 
 		      , tbl_member b

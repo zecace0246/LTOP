@@ -223,12 +223,18 @@ public class CommonController {
     // 사용자 상세 보기
     @GetMapping("/mob/user/userDetail")
     @ResponseBody
-    public String mobuserView(@RequestParam("userId") String userId,@RequestParam("searchType") String searchType, UserVO userVO, Model model) {
+    public String mobuserView(@RequestParam("userId") String userId, UserVO userVO, Model model) {
     	//System.out.println(" User id :::>  "+ params.get("userId").toString());
+    	
+		if (userVO.getSearchType() == null || userVO.getSearchType() == ""  )
+		{
+			userVO.setSearchType("HOUR");
+		}
+		
 		Gson gson = new Gson();
 
         model.addAttribute("user", commonComboService.selectUserTodayInfo(userId));
-        model.addAttribute("userBcg", commonComboService.selectUserTodayBcg(userId,searchType));
+        model.addAttribute("userBcg", commonComboService.selectUserTodayBcg(userId,userVO.getSearchType()));
         model.addAttribute("userAlarm", commonComboService.selectUserTodayAlarm(userId));
         model.addAttribute("userId", userId); 
         
