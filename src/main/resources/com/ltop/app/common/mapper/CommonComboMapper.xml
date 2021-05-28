@@ -928,6 +928,7 @@
 			         else timediff( now() , b.position_update )
 			    end positionCurrent
 			  , b.username   AS userName
+			  , d.sleep_grade as sleepGrade
 		from	bcg a 
 		      , tbl_member b
 				LEFT OUTER JOIN (	SELECT	a.*
@@ -944,10 +945,26 @@
 										AND      a.bno = b.bno
 									  ) c
 		  		ON	b.mat_id = c.mat_id
+		  		left outer join (
+									select case when sleep_rem <![CDATA[<]]> 5 then 'D'
+									            when sleep_rem <![CDATA[>=]]> 5 and sleep_rem <![CDATA[<]]> 15 then 'C'
+									            when sleep_rem <![CDATA[>=]]> 15 and sleep_rem <![CDATA[<]]> 25 then 'B'
+									            when sleep_rem <![CDATA[>=]]> 25  then 'A'
+								           end sleep_grade
+								         , mat_id
+									from (
+										select mat_id, round(sum(case when sleep_mode = '1' then 1 ELSE 0 END )/count(1)*100,0) sleep_rem
+										from bcg
+										where 1=1
+										and    DATE_FORMAT(reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
+										group by mat_id
+										) main
+		  		                ) d
+		  		ON	b.mat_id = d.mat_id
 		where	1=1
 		and    	b.userid = #{userId}
 		and    	a.mat_id = b.mat_id
-		AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= case when b.sleep_time = NULL OR b.sleep_time ='' 
+		AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') <![CDATA[>=]]> case when b.sleep_time = NULL OR b.sleep_time ='' 
 				                                                   then concat(DATE_FORMAT(NOW(), '%Y%m%d'),'00')
 				                                                   ELSE concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),b.sleep_time)
 				                                              end
@@ -956,7 +973,11 @@
 
     <select id="selectUserTodayBcg" resultType="com.ltop.app.common.domain.BcgVO">
 		select  round(avg(a.respiration_rate)) as respirationRate
+		      , min(a.respiration_rate) as respirationRateMin
+		      , max(a.respiration_rate) as respirationRateMax
 		      , round(avg(a.heart_rate)) as heartRate
+		      , min(a.heart_rate) as heartRateMin
+		      , max(a.heart_rate) as heartRateMax
 		      , round(avg(a.sleep_mode)) as sleepMode
 		<if test="searchType != null and searchType == 'HOUR'">
 		      , DATE_FORMAT(a.reg_date, '%m-%d %h') as regDate
@@ -970,7 +991,7 @@
 		and    	b.userid = #{userId}
 		and    	a.mat_id = b.mat_id
 		<if test="searchType != null and searchType == 'HOUR'">
-		AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= case when b.sleep_time = NULL OR b.sleep_time ='' 
+		AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') <![CDATA[>=]]> case when b.sleep_time = NULL OR b.sleep_time ='' 
 				                                                   then concat(DATE_FORMAT(NOW(), '%Y%m%d'),'00')
 				                                                   ELSE concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),b.sleep_time)
 				                                              end
@@ -978,10 +999,23 @@
 		group by DATE_FORMAT(a.reg_date, '%Y-%m-%d %h')
 		</if>
 		<if test="searchType != null and searchType == 'DAY'">
-		AND    DATE_FORMAT(a.reg_date, '%Y%m%d') >= DATE_FORMAT(date_add(NOW(),INTERVAL -1 month), '%Y%m%d')
+		AND    DATE_FORMAT(a.reg_date, '%Y%m%d') <![CDATA[>=]]> DATE_FORMAT(date_add(NOW(),INTERVAL -7 DAY), '%Y%m%d')
 		group by DATE_FORMAT(a.reg_date, '%Y-%m-%d')
 		</if>
     </select>
+    
+    <select id="selectUserSleepList" resultType="com.ltop.app.common.domain.BcgVO">
+		select	a.mat_id 		as matId
+		      , a.sleep_mode 	as sleepMode
+		      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
+		from	bcg a
+			  , tbl_member b
+		where	1=1
+		and    	b.userid = #{userId}
+		and    	a.mat_id = b.mat_id
+		and    DATE_FORMAT(reg_date, '%Y%m%d') = #{searchDay}
+    </select>
+    
     <select id="selectUserTodayAlarm" resultType="com.ltop.app.common.domain.AlarmVO">
 				select	a.alarm_no  as alarmNo
 				      , a.mat_id    as matId
@@ -1016,12 +1050,44 @@
 				and     a.mat_id = b.mat_id
 				and     a.mat_id = e.mat_id
 				and     e.userid = #{userId}
-				AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= case when e.sleep_time = NULL OR e.sleep_time ='' 
+				AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') <![CDATA[>=]]> case when e.sleep_time = NULL OR e.sleep_time ='' 
 						                                                   then concat(DATE_FORMAT(NOW(), '%Y%m%d'),'00')
 						                                                   ELSE concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),e.sleep_time)
 						                                              end
 				AND    DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
 				order by a.reg_date desc
+    </select>
+
+    <select id="selectUserSleepInfo" resultType="com.ltop.app.common.domain.UserVO">
+		select	case when sleep_rem <![CDATA[<]]> 5 then 'D'
+		            when sleep_rem <![CDATA[>=]]> 5 and sleep_rem <![CDATA[<]]> 15 then 'C'
+		            when sleep_rem <![CDATA[>=]]> 15 and sleep_rem <![CDATA[<]]> 25 then 'B'
+		            when sleep_rem <![CDATA[>=]]> 25  then 'A'
+	           	end as sleepGrade
+	          , sleep_rem 	as sleepRem
+	          , sleep_1_cnt as sleepCnt1
+	          , sleep_2_cnt as sleepCnt2
+	          , sleep_3_cnt as sleepCnt3
+	          , sleep_4_cnt as sleepCnt4
+	          , snore_cnt 	as snoreCnt
+	          , apnea_cnt 	as apneaCnt
+	          , tot_cnt 	as totCnt
+		from	(
+				select	round(sum(case when sleep_mode = '1' then 1 ELSE 0 END )/count(1)*100,0) sleep_rem
+	 		     	  , sum(case when sleep_mode = '1' then 1 ELSE 0 END ) sleep_1_cnt
+	 		     	  , sum(case when sleep_mode = '2' then 1 ELSE 0 END ) sleep_2_cnt
+	 		     	  , sum(case when sleep_mode = '3' then 1 ELSE 0 END ) sleep_3_cnt
+	 		     	  , sum(case when sleep_mode = '4' then 1 ELSE 0 END ) sleep_4_cnt
+	 		     	  , sum(case when snore_yn = 'Y' then 1 ELSE 0 END ) snore_cnt
+	 		     	  , sum(case when apnea_yn = 'Y' then 1 ELSE 0 END ) apnea_cnt
+	 		     	  , count(1) tot_cnt
+				from	bcg a
+			      	  , tbl_member b
+				where	1=1
+				and    	b.userid = #{userId}
+				and    	a.mat_id = b.mat_id
+				and    DATE_FORMAT(reg_date, '%Y%m%d') = #{searchDay}
+				) main
     </select>
     
   <update id="alarmUpdate">
@@ -1029,12 +1095,14 @@
        SET confirm_yn = 'Y'
         , confirm_date = now()
         , confirm_id = #{userId}
+        , confirm_type = #{confirmType}
     WHERE alarm_no = #{alarmNo}
   </update>
 
   <update id="positionUpdate">
     UPDATE	tbl_member
        SET position_update = now()
+         , position_type = #{positionType}
     WHERE userid = #{userId}
   </update>
   

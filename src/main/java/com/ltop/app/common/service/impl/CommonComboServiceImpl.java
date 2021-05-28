@@ -346,11 +346,22 @@ public class CommonComboServiceImpl implements CommonComboService {
     public UserVO selectUserTodayInfo(String userId) {
         return commonComboMapper.selectUserTodayInfo(userId);
     }
+
+    @Override
+    public UserVO selectUserSleepInfo(String userId,String searchDay) {
+        return commonComboMapper.selectUserSleepInfo(userId,searchDay);
+    }
     
     @Override
     public List<BcgVO> selectUserTodayBcg(String userId,String searchType) {
         return commonComboMapper.selectUserTodayBcg(userId,searchType);
     }
+    
+    @Override
+    public List<BcgVO> selectUserSleepList(String userId,String searchDay) {
+        return commonComboMapper.selectUserSleepList(userId,searchDay);
+    }
+    
     @Override
     public List<AlarmVO> selectUserTodayAlarm(String userId) {
         return commonComboMapper.selectUserTodayAlarm(userId);

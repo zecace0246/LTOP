@@ -246,6 +246,37 @@ public class CommonController {
 
         //return "userDetail";
     }
+
+    // 사용자 상세 보기
+    @GetMapping("/mob/user/userSleep")
+    @ResponseBody
+    public String mobuserSleep(@RequestParam("userId") String userId,@RequestParam("searchDay") String searchDay, UserVO userVO, Model model) {
+    	//System.out.println(" User id :::>  "+ params.get("userId").toString());searchDateFrom
+    	/*
+		if (userVO.getSearchDateFrom() == null || userVO.getSearchDateFrom() == ""  )
+		{
+			userVO.setSearchDateFrom("");
+		}
+		*/
+		Gson gson = new Gson();
+
+		model.addAttribute("userSleep", commonComboService.selectUserSleepInfo(userId,searchDay));
+		model.addAttribute("userSleepList", commonComboService.selectUserSleepList(userId,searchDay));
+		/*
+        model.addAttribute("user", commonComboService.selectUserTodayInfo(userId));
+        model.addAttribute("userBcg", commonComboService.selectUserTodayBcg(userId,userVO.getSearchType()));
+        model.addAttribute("userAlarm", commonComboService.selectUserTodayAlarm(userId));
+        model.addAttribute("userId", userId); 
+        */
+		
+    	String gsonString  = gson.toJson(model);
+
+        System.out.println(" Moble Json rst ::> "+ gsonString);
+
+        return gsonString;
+
+        //return "userDetail";
+    }
     
     // 알람확인
     @PostMapping("/user/alarmUpdate")

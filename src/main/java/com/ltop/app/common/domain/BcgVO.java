@@ -14,6 +14,11 @@ public class BcgVO {
 	private String heartRate;
 	private String sleepMode;
 
+	private String respirationRateMin;
+	private String respirationRateMax;
+	private String heartRateMin;
+	private String heartRateMax;
+	
 	private String regDate;
 
 }

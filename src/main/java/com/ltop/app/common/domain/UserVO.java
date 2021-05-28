@@ -29,11 +29,13 @@ public class UserVO {
 	private String heartRateMin;	
 	private String sleepModeMin;
 	private String sleepModeMax;
+	private String sleepGrade;
 
 	private String positionTime;
 	private String positionUpdate;
 	private String positionCurrent;
-
+	private String positionType;
+	
 	
 	private String searchDateFrom;
 	private String agencyNo;
@@ -41,4 +43,13 @@ public class UserVO {
 	private String searchUserName;
 	private String searchUserId;
 	private String searchType;
+	
+	private String sleepRem;
+	private String sleepCnt1;
+	private String sleepCnt2;
+	private String sleepCnt3;
+	private String sleepCnt4;
+	private String snoreCnt;
+	private String apneaCnt;
+	private String totCnt;
 }
