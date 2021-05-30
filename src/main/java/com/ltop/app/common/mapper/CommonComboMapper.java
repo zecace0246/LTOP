@@ -70,14 +70,18 @@ public interface CommonComboMapper {
     public UserVO selectUserTodayInfo(String userId);
     public List<BcgVO> selectUserTodayBcg(@Param("userId") String userId,@Param("searchType") String searchType);
     public List<AlarmVO> selectUserTodayAlarm(String userId);
-
+    public UserVO selectTodaySleep(@Param("userId") String userId);
+    
     //	/mob/user/userSleep
     public UserVO selectUserSleepInfo(@Param("userId") String userId,@Param("searchDay") String searchDay);
     public List<BcgVO> selectUserSleepList(@Param("userId") String userId,@Param("searchDay") String searchDay);
+
     
+    public List<UserVO> userPositionHist(@Param("userId") String userId,@Param("searchDay") String searchDay);
     
     public int alarmUpdate(AlarmVO alarmVO);
     public int positionUpdate(UserVO userVO);
+    public int positionInsert(UserVO userVO);
     
 	//Summary Of Menu
 	public int selectSummaryTotalCountA(UserVO userVO);

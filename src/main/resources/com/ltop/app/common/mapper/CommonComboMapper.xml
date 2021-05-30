@@ -325,7 +325,7 @@
 	</select>
 
 	<select id="selectAlarmCnt" resultType="com.ltop.app.common.domain.DashBoardAVO">
-		select date_format(reg_date, '%Y-%m-%d') wday
+		select date_format(reg_date, '%m-%d') wday
 		      , ifnull(sum(case when event_num = '10001' then 1 ELSE 0 END ),0) wdayr
 		      , ifnull(sum(case when event_num = '20001' then 1 ELSE 0 END ),0) wdayh
 		      , 0 AS wdays
@@ -980,7 +980,7 @@
 		      , max(a.heart_rate) as heartRateMax
 		      , round(avg(a.sleep_mode)) as sleepMode
 		<if test="searchType != null and searchType == 'HOUR'">
-		      , DATE_FORMAT(a.reg_date, '%m-%d %h') as regDate
+		      , DATE_FORMAT(a.reg_date, '%h') as regDate
 		</if>
 		<if test="searchType != null and searchType == 'DAY'">
 			  , DATE_FORMAT(a.reg_date, '%m-%d') as regDate
@@ -1013,6 +1013,19 @@
 		where	1=1
 		and    	b.userid = #{userId}
 		and    	a.mat_id = b.mat_id
+		and    DATE_FORMAT(reg_date, '%Y%m%d') = #{searchDay}
+    </select>
+
+    <select id="userPositionHist" resultType="com.ltop.app.common.domain.UserVO">
+		select	a.userid 		as userId
+		      , a.position_type 	as positionType
+		      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
+		      , b.username
+		from	tbl_position_hist a
+			  , tbl_member b
+		where	1=1
+		and    	a.userid = #{userId}
+		and    	a.userid = b.userid
 		and    DATE_FORMAT(reg_date, '%Y%m%d') = #{searchDay}
     </select>
     
@@ -1056,6 +1069,37 @@
 						                                              end
 				AND    DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
 				order by a.reg_date desc
+    </select>
+    <select id="selectTodaySleep" resultType="com.ltop.app.common.domain.UserVO">
+		select	case when sleep_rem <![CDATA[<]]> 5 then 'D'
+		            when sleep_rem <![CDATA[>=]]> 5 and sleep_rem <![CDATA[<]]> 15 then 'C'
+		            when sleep_rem <![CDATA[>=]]> 15 and sleep_rem <![CDATA[<]]> 25 then 'B'
+		            when sleep_rem <![CDATA[>=]]> 25  then 'A'
+	           	end as sleepGrade
+	          , sleep_rem 	as sleepRem
+	          , sleep_1_cnt as sleepCnt1
+	          , sleep_2_cnt as sleepCnt2
+	          , sleep_3_cnt as sleepCnt3
+	          , sleep_4_cnt as sleepCnt4
+	          , snore_cnt 	as snoreCnt
+	          , apnea_cnt 	as apneaCnt
+	          , tot_cnt 	as totCnt
+		from	(
+				select	round(sum(case when sleep_mode = '1' then 1 ELSE 0 END )/count(1)*100,0) sleep_rem
+	 		     	  , sum(case when sleep_mode = '1' then 1 ELSE 0 END ) sleep_1_cnt
+	 		     	  , sum(case when sleep_mode = '2' then 1 ELSE 0 END ) sleep_2_cnt
+	 		     	  , sum(case when sleep_mode = '3' then 1 ELSE 0 END ) sleep_3_cnt
+	 		     	  , sum(case when sleep_mode = '4' then 1 ELSE 0 END ) sleep_4_cnt
+	 		     	  , sum(case when snore_yn = 'Y' then 1 ELSE 0 END ) snore_cnt
+	 		     	  , sum(case when apnea_yn = 'Y' then 1 ELSE 0 END ) apnea_cnt
+	 		     	  , count(1) tot_cnt
+				from	bcg a
+			      	  , tbl_member b
+				where	1=1
+				and    	b.userid = #{userId}
+				and    	a.mat_id = b.mat_id
+				and    DATE_FORMAT(reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
+				) main
     </select>
 
     <select id="selectUserSleepInfo" resultType="com.ltop.app.common.domain.UserVO">
@@ -1105,6 +1149,20 @@
          , position_type = #{positionType}
     WHERE userid = #{userId}
   </update>
+    <insert id="positionInsert">
+    INSERT INTO tbl_position_hist
+    (
+      userid
+      , position_type
+      , reg_date
+    )
+    VALUES
+    (
+      #{userId}
+      , #{positionType}
+      , now()
+    )
+  </insert>
   
 	<select id="selectSummaryTotalCountA" resultType="int">
 		SELECT		COUNT(*) cnt

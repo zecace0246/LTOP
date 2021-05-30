@@ -71,7 +71,7 @@
 	                                <th><span>사용자명 </span></th>
 	                                <th><span>심박 </span></th>
 	                                <th><span>호흡</span></th>
-	                                <th><span>수면</span></th>
+	                                <!-- th><span>수면</span></th -->
 	                                <th><span>낙상상태</span></th>
 	                                <th><span>자세 </span></th>
 	                                <th><span>사용시작일 </span></th>
@@ -101,11 +101,11 @@
 	                                                       <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
 	                                                   </div-->
 	                                               </td>
-	                                               <td><c:out value="${user.sleepMode}" />
-	                                                   <!-- div class="progress mt-1" style="height:4px;">
+	                                               <!--td><c:out value="${user.sleepMode}" />
+	                                                    <div class="progress mt-1" style="height:4px;">
 	                                                       <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-	                                                   </div-->
-	                                               </td>
+	                                                   </div>
+	                                               </td-->
 	                                               <td><c:out value="${user.fallAlarm}" /></td>
 	                                               <td>사용안함</td>
 	                                               <td><c:out value="${user.regDate}" /></td>
@@ -300,7 +300,7 @@
                 </div>
             </div>
             <div class="col-xl-6">
-                <div class="card">
+                <!-- div class="card">
                     <div class="card-header">
                         <h5>수면</h5>
                     </div>
@@ -322,7 +322,34 @@
                                                             </div>
                                                         </div>
                     </div>
-                </div>
+                </div-->
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <span>수면</span>
+                                    </div>
+                                    <div class="col text-right">
+                                        <h2 class="mb-0"><c:out value="${userSleep.sleepGrade}" /></h2>
+                                    </div>
+                                </div>
+                                <div id="customer-chart"></div>
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        <h3 class="m-0"><i class="fas fa-circle f-10 m-r-5 text-success"></i><c:out value="${userSleep.sleepCnt1}" /></h3>
+                                        <span class="ml-3">REM</span>
+                                    </div>
+                                    <div class="col">
+                                        <h3 class="m-0"><i class="fas fa-circle text-primary f-10 m-r-5"></i><c:out value="${userSleep.sleepCnt2}" /></h3>
+                                        <span class="ml-3">NREM</span>
+                                    </div>
+                                    <div class="col">
+                                        <h3 class="m-0"><i class="fas fa-circle f-10 m-r-5 text-success"></i><c:out value="${userSleep.sleepCnt3}" /></h3>
+                                        <span class="ml-3">AWAKE</span>
+                                    </div>
+                                    <div class="col">
+                                        <h3 class="m-0"><i class="fas fa-circle text-primary f-10 m-r-5"></i><c:out value="${userSleep.sleepCnt4}" /></h3>
+                                        <span class="ml-3">MOVEMENT</span>
+                                    </div>
+                                </div>
             </div>
                                             <!-- Power card End -->
                                             <div class="col-md-12 col-xl-4">
@@ -338,7 +365,10 @@
                                                         <div class="text-left">
                                                             <h3 class="d-inline-block"><c:out value="${user.positionCurrent}"/></h3>
                                                             <i class="fa fa-long-arrow-up f-24 text-success m-l-15"></i>
-                                                            <button data-oper='position' class="btn btn-primary btn-sm btn-round">자세변경</button>
+                                                            <button data-oper='position1' class="btn btn-primary btn-sm btn-round">자세변경(바로누운자세)</button>
+                                                            <button data-oper='position2' class="btn btn-primary btn-sm btn-round">자세변경(업드린자세)</button>
+                                                            <button data-oper='position3' class="btn btn-primary btn-sm btn-round">자세변경(오른쪽자세)</button>
+                                                            <button data-oper='position4' class="btn btn-primary btn-sm btn-round">자세변경(왼쪽자세)</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -382,7 +412,13 @@
 	                                               		<c:out value="${alarm.confirmYn}" />
 	                                               	</c:if>
 	                                               	<c:if test="${alarm.confirmYn ne 'Y'}">
-	                                               		<button data-oper='alarm' id="<c:out value="${alarm.alarmNo}" />" class="btn btn-primary btn-sm btn-round">처리</button>
+	                                               		<c:if test="${alarm.eventNum eq '30001'}">
+	                                               			<button data-oper='alarm0' id="<c:out value="${alarm.alarmNo}"  />"  class="btn btn-primary btn-sm btn-round">감지오류</button>
+	                                               			<button data-oper='alarm1' id="<c:out value="${alarm.alarmNo}"  />"  class="btn btn-primary btn-sm btn-round">낙상확인</button>
+	                                               		</c:if>
+	                                               		<c:if test="${alarm.eventNum ne '30001'}">
+	                                               			<button data-oper='alarm' id="<c:out value="${alarm.alarmNo}" />" class="btn btn-primary btn-sm btn-round">처리</button>
+	                                               		</c:if>
 	                                               	</c:if>
 	                                               	</td>
 	                                               <!-- td><c:out value="${alarm.confirmDate}" /></td>
@@ -914,21 +950,99 @@ $(document).ready(function() {
 	            chart.render();
 	        });
 	    });
+	    // [ customer-chart ] start
+	    $(function() {
+	        var options = {
+	            chart: {
+	                height: 150,
+	                type: 'donut',
+	            },
+	            dataLabels: {
+	                enabled: false
+	            },
+	            plotOptions: {
+	                pie: {
+	                    donut: {
+	                        size: '75%'
+	                    }
+	                }
+	            },
+	            labels: ['REM', 'NREM','AWAKE', 'MOVEMENT'],
+	            series: [<c:out value="${userSleep.sleepCnt1}" />, <c:out value="${userSleep.sleepCnt2}" />, <c:out value="${userSleep.sleepCnt3}" />, <c:out value="${userSleep.sleepCnt4}" />],
+	            legend: {
+	                show: false
+	            },
+	            tooltip: {
+	                theme: 'datk'
+	            },
+	            grid: {
+	                padding: {
+	                    top: 20,
+	                    right: 0,
+	                    bottom: 0,
+	                    left: 0
+	                },
+	            },
+	            colors: ["#4680ff", "#2ed8b6"],
+	            fill: {
+	                opacity: [1, 1]
+	            },
+	            stroke: {
+	                width: 0,
+	            }
+	        }
+	        var chart = new ApexCharts(document.querySelector("#customer-chart"), options);
+	        chart.render();
+	    });
   }
+  
   //User Detail
-  $('button[data-oper=position]').on('click', function(e){
+  $('button[data-oper=position1]').on('click', function(e){
 	    e.preventDefault();
 
 	    var formData = {
-	        userId: $('input[name=userId]').val()
+	        userId: $('input[name=userId]').val(),
+	        positionType:1
 	      };
 
 	    gfn_callServer('POST', '/user/positionUpdate', true, formData, 'application/x-www-form-urlencoded', 'text', callServerModifyResult, 30000, csrfTokenValue);
   });
 
-$('button[data-oper=alarm]').on('click', function(e){
+  $('button[data-oper=position2]').on('click', function(e){
+	    e.preventDefault();
+
+	    var formData = {
+	        userId: $('input[name=userId]').val(),
+	        positionType:2
+	      };
+
+	    gfn_callServer('POST', '/user/positionUpdate', true, formData, 'application/x-www-form-urlencoded', 'text', callServerModifyResult, 30000, csrfTokenValue);
+});
+  $('button[data-oper=position3]').on('click', function(e){
+	    e.preventDefault();
+
+	    var formData = {
+	        userId: $('input[name=userId]').val(),
+	        positionType:3
+	      };
+
+	    gfn_callServer('POST', '/user/positionUpdate', true, formData, 'application/x-www-form-urlencoded', 'text', callServerModifyResult, 30000, csrfTokenValue);
+});
+  $('button[data-oper=position4]').on('click', function(e){
+	    e.preventDefault();
+
+	    var formData = {
+	        userId: $('input[name=userId]').val(),
+	        positionType:4
+	      };
+
+	    gfn_callServer('POST', '/user/positionUpdate', true, formData, 'application/x-www-form-urlencoded', 'text', callServerModifyResult, 30000, csrfTokenValue);
+});
+  
+	$('button[data-oper=alarm]').on('click', function(e){
 	    e.preventDefault();
 	    //console.log(this.id);
+	    console.log(this.confirmType);
 	    //console.log($('input[name=userId]').val());
 	    var formData = {
 	        userId: $('input[name=userId]').val(),
@@ -936,29 +1050,49 @@ $('button[data-oper=alarm]').on('click', function(e){
 	      };
 
 	    gfn_callServer('POST', '/user/alarmUpdate', true, formData, 'application/x-www-form-urlencoded', 'text', callServerModifyResult, 30000, csrfTokenValue);
-	    });
-
-
-
-  
 });
+	$('button[data-oper=alarm0]').on('click', function(e){
+	    e.preventDefault();
+	    //console.log(this.id);
+	    console.log(this.confirmType);
+	    //console.log($('input[name=userId]').val());
+	    var formData = {
+	        userId: $('input[name=userId]').val(),
+	        alarmNo: this.id,
+	        confirmType: 0
+	      };
 
-//수정 후 처리
-function callServerModifyResult(data) {
-if (data == 'success') {
-  swal({
-       title: 'SUCCESS',
-       text: '수정 완료',
-       icon: 'success',
-       buttons: 'OK'
-  }).then(function () {
-      var formData = {
-              searchUserId: $('input[name=userId]').val()
-            };
+	    gfn_callServer('POST', '/user/alarmUpdate', true, formData, 'application/x-www-form-urlencoded', 'text', callServerModifyResult, 30000, csrfTokenValue);
+});
+	$('button[data-oper=alarm1]').on('click', function(e){
+	    e.preventDefault();
+	    //console.log(this.id);
+	    console.log(this.confirmType);
+	    //console.log($('input[name=userId]').val());
+	    var formData = {
+	        userId: $('input[name=userId]').val(),
+	        alarmNo: this.id,
+	        confirmType: 1
+	      };
 
-          gfn_callServer('GET', '/user', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
-  });
-}
-}
-	
+	    gfn_callServer('POST', '/user/alarmUpdate', true, formData, 'application/x-www-form-urlencoded', 'text', callServerModifyResult, 30000, csrfTokenValue);
+});
+	//수정 후 처리
+	function callServerModifyResult(data) {
+		if (data == 'success') {
+		  swal({
+		       title: 'SUCCESS',
+		       text: '수정 완료',
+		       icon: 'success',
+		       buttons: 'OK'
+		  }).then(function () {
+		      var formData = {
+		              searchUserId: $('input[name=userId]').val()
+		            };
+		
+		          gfn_callServer('GET', '/user', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
+		  });
+		}
+	}
+});
 </script>

@@ -45,14 +45,19 @@ public interface CommonComboService {
     public UserVO selectUserTodayInfo(String userId);
     public List<BcgVO> selectUserTodayBcg(String userId,String searchType);
     public List<AlarmVO> selectUserTodayAlarm(String userId);
-
+    public UserVO selectTodaySleep(String userId);
+    
     ///mob/user/userSleep
     public UserVO selectUserSleepInfo(String userId,String searchDay);
     public List<BcgVO> selectUserSleepList(String userId,String searchDay);
     
+    ///mob/user/userPositionHist
+    public List<UserVO> userPositionHist(String userId,String searchDay);
+    
     
 	public boolean alarmUpdate(AlarmVO alarmVO);
 	public boolean positionUpdate(UserVO userVO);
+	public boolean positionInsert(UserVO userVO);
     
 	//summary Of Main Menu
 	public int selectSummaryTotalCount(UserVO userVO);

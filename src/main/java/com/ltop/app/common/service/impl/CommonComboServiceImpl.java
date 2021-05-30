@@ -348,6 +348,11 @@ public class CommonComboServiceImpl implements CommonComboService {
     }
 
     @Override
+    public UserVO selectTodaySleep(String userId) {
+        return commonComboMapper.selectTodaySleep(userId);
+    }
+    
+    @Override
     public UserVO selectUserSleepInfo(String userId,String searchDay) {
         return commonComboMapper.selectUserSleepInfo(userId,searchDay);
     }
@@ -360,6 +365,11 @@ public class CommonComboServiceImpl implements CommonComboService {
     @Override
     public List<BcgVO> selectUserSleepList(String userId,String searchDay) {
         return commonComboMapper.selectUserSleepList(userId,searchDay);
+    }
+ 
+    @Override
+    public List<UserVO> userPositionHist(String userId,String searchDay) {
+        return commonComboMapper.userPositionHist(userId,searchDay);
     }
     
     @Override
@@ -385,6 +395,15 @@ public class CommonComboServiceImpl implements CommonComboService {
 
 
 		return commonComboMapper.positionUpdate(userVO) == 1;
+	}
+	
+	@Transactional
+	@Override
+	public boolean positionInsert(UserVO userVO) {
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+
+		return commonComboMapper.positionInsert(userVO) == 1;
 	}
 	
     @Override

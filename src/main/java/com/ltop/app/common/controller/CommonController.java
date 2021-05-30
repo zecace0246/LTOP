@@ -153,26 +153,21 @@ public class CommonController {
 		//User Detail <if test="searchDateFrom != null and searchDateFrom != ''">
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
-		//System.out.println("AAAAAAAAAAAAAAAAAAA");
-		//System.out.println("userVO.getUserId()>>"+userVO.getUserId());
-		//System.out.println("AAAAAAAAAAAAAAAAAAA");
 		
 		if (userVO.getSearchUserId() == null || userVO.getSearchUserId() == ""  )
-		//if (userId == null || userId == ""  )
 		{
 			String userId = user.getUsername();
 			userVO.setSearchUserId(userId);
-			//userId = user.getUsername();
 		}
 		if (userVO.getSearchType() == null || userVO.getSearchType() == ""  )
-		//if (userId == null || userId == ""  )
 		{
 			userVO.setSearchType("HOUR");
-			//userId = user.getUsername();
 		}
         model.addAttribute("user", commonComboService.selectUserTodayInfo(userVO.getSearchUserId()));
         model.addAttribute("userBcg", commonComboService.selectUserTodayBcg(userVO.getSearchUserId(),userVO.getSearchType()));
         model.addAttribute("userAlarm", commonComboService.selectUserTodayAlarm(userVO.getSearchUserId()));
+        //model.addAttribute("userSleep", commonComboService.selectUserSleepInfo(userId));
+        model.addAttribute("userSleep", commonComboService.selectTodaySleep(userVO.getSearchUserId()));
         model.addAttribute("userId", userVO.getSearchUserId());
         model.addAttribute("searchType", userVO.getSearchType());
         
@@ -277,7 +272,32 @@ public class CommonController {
 
         //return "userDetail";
     }
-    
+
+    // 사용자 상세 보기
+    @GetMapping("/mob/user/userPositionHist")
+    @ResponseBody
+    public String userPositionHist(@RequestParam("userId") String userId,@RequestParam("searchDay") String searchDay, UserVO userVO, Model model) {
+
+		Gson gson = new Gson();
+
+		//model.addAttribute("userPositionList", commonComboService.selectUserSleepList(userId,searchDay));
+		model.addAttribute("userPositionList", commonComboService.userPositionHist(userId,searchDay));
+		/*
+        model.addAttribute("user", commonComboService.selectUserTodayInfo(userId));
+        model.addAttribute("userBcg", commonComboService.selectUserTodayBcg(userId,userVO.getSearchType()));
+        model.addAttribute("userAlarm", commonComboService.selectUserTodayAlarm(userId));
+        model.addAttribute("userId", userId); 
+        */
+		
+    	String gsonString  = gson.toJson(model);
+
+        System.out.println(" Moble Json rst ::> "+ gsonString);
+
+        return gsonString;
+
+        //return "userDetail";
+    }
+
     // 알람확인
     @PostMapping("/user/alarmUpdate")
     @ResponseBody
@@ -315,7 +335,7 @@ public class CommonController {
     @ResponseBody
     public ResponseEntity<String> positionUpdate(UserVO userVO, RedirectAttributes rttr) {
         boolean result = commonComboService.positionUpdate(userVO);
-
+        result = commonComboService.positionInsert(userVO);
         return result ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
