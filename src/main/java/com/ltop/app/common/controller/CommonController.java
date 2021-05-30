@@ -347,7 +347,7 @@ public class CommonController {
     	String rstStr = "false";
     	
         boolean result = commonComboService.positionUpdate(userVO);
-
+        result = commonComboService.positionInsert(userVO);
     	if(result) {
     		rstStr = "true";
     	}
