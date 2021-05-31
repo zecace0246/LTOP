@@ -10,6 +10,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -241,7 +243,7 @@ public class MemberController {
      */
     @GetMapping("/mob/modifyUserInfo")
     @ResponseBody
-    public String modifyUserInfo(@RequestParam Map<String, Object> params, HttpServletRequest request){
+    public String modifyUserInfo(@RequestParam(required = false,defaultValue="") Map<String, Object> params, HttpServletRequest request){
 
         Gson gson = new Gson();
         String rstStr = ""; //a123456b
@@ -249,29 +251,72 @@ public class MemberController {
         // membervo에 param 으로 받은 id 셋팅
         MemberVO memberVO = new MemberVO();
         memberVO.setUserId(params.get("userId").toString());
-        memberVO.setUserPw(params.get("userPw").toString());
-        memberVO.setUserName(params.get("userName").toString());
-        memberVO.setEnabledStr(params.get("enabled").toString());
 
-        memberVO.setBirthday(params.get("birthday").toString());
-        memberVO.setMatId(params.get("matId").toString());
-        memberVO.setHeight(params.get("height").toString());
-        memberVO.setWeight(params.get("weight").toString());
-        memberVO.setTel(params.get("tel").toString());
+        String pUserPw         = "";
+        String pUserName       = "";
+        String pEnabled        = "";
+        String pBirthday       = "";
+        String pMatId          = "";
+        String pHeight         = "";
+        String pWeight         = "";
+        String pTel            = "";
+        String pReguserId      = "";
+        String pAgencyNo       = "";
+        String pSleepTime      = "";
+        String pSleepEndtime   = "";
+        String pPositionTime   = "";
+        String pSexCd          = "";
+        String pPositionUpdate = "";
+        String pFallYn         = "";
+        String pPositionYn     = "";
 
-        memberVO.setReguserId(params.get("reguserId").toString());
-        memberVO.setAgencyNo(params.get("agencyNo").toString());
-        memberVO.setSleepTime(params.get("sleepTime").toString());
-        memberVO.setSleepEndtime(params.get("sleepEndtime").toString());
-        memberVO.setPositionTime(params.get("positionTime").toString());
-        memberVO.setSexCd(params.get("sex").toString());
+        System.out.println( " params ::>> "+ params );
 
-        memberVO.setPositionUpdate(params.get("positionUpdate").toString());
-        memberVO.setFallYn(params.get("fallYn").toString());
-        memberVO.setPositionYn(params.get("positionYn").toString());
+        for (String key : params.keySet())
+    	{
+    		System.out.println(key + " : " + params.get(key).toString());
+    	}
 
-        int result = memberService.modifyUserInfo(memberVO);
+        if( params.get("userPw") != null )       pUserPw         = params.get("userPw").toString();
+        if(params.get("userName") != null)       pUserName       = params.get("userName").toString();
+        if(params.get("enabled") != null)        pEnabled        = params.get("enabled").toString();
+        if(params.get("birthday") != null)       pBirthday       = params.get("birthday").toString();
+        if(params.get("matId") != null)          pMatId          = params.get("matId").toString();
+        if(params.get("height") != null)         pHeight         = params.get("height").toString();
+        if(params.get("weight") != null)         pWeight         = params.get("weight").toString();
+        if(params.get("tel") != null)            pTel            = params.get("tel").toString();
+        if(params.get("reguserId") != null)      pReguserId      = params.get("reguserId").toString();
+        if(params.get("agencyNo") != null)       pAgencyNo       = params.get("agencyNo").toString();
+        if(params.get("sleepTime") != null)      pSleepTime      = params.get("sleepTime").toString();
+        if(params.get("sleepEndtime") != null)   pSleepEndtime   = params.get("sleepEndtime").toString();
+        if(params.get("positionTime") != null)   pPositionTime   = params.get("positionTime").toString();
+        if(params.get("sex") != null)            pSexCd          = params.get("sex").toString();
+        if(params.get("positionUpdate") != null) pPositionUpdate = params.get("positionUpdate").toString();
+        if(params.get("fallYn") != null)         pFallYn         = params.get("fallYn").toString();
+        if(params.get("positionYn") != null)     pPositionYn     = params.get("positionYn").toString();
 
+        memberVO.setUserPw(pUserPw);
+        memberVO.setUserName(pUserName);
+        memberVO.setEnabledStr(pEnabled);
+        memberVO.setBirthday(pBirthday);
+        memberVO.setMatId(pMatId);
+        memberVO.setHeight(pHeight);
+        memberVO.setWeight(pWeight);
+        memberVO.setTel(pTel);
+        memberVO.setReguserId(pReguserId);
+        memberVO.setAgencyNo(pAgencyNo);
+        memberVO.setSleepTime(pSleepTime);
+        memberVO.setSleepEndtime(pSleepEndtime);
+        memberVO.setPositionTime(pPositionTime);
+        memberVO.setSexCd(pSexCd);
+
+        memberVO.setPositionUpdate(pPositionUpdate);
+        memberVO.setFallYn(pFallYn);
+        memberVO.setPositionYn(pPositionYn);
+
+       // int result = memberService.modifyUserInfo(memberVO);
+
+        int result = 1;
         if(result >0) {
             rstStr = "Modify Success";
         }else {
