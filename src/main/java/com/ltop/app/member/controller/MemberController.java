@@ -252,7 +252,7 @@ public class MemberController {
      * @param request
      * @return
      */
-    @GetMapping("/mob/getUserInfo")
+    @GetMapping(value = "/mob/getUserInfo", produces = "application/json; charset=utf8")
     @ResponseBody
     public String getUserInfo(@RequestParam Map<String, Object> params, HttpServletRequest request){
 

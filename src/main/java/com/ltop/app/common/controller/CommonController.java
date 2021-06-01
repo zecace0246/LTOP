@@ -107,6 +107,7 @@ public class CommonController {
 	}
 
 	@GetMapping("/mob/alarm")
+	@RequestMapping(produces = "application/json; charset=utf8")
     @ResponseBody
 	public String mobalarmList(PageVO pageVO, AlarmVO alarmVO, Model model) {
 		Gson gson = new Gson();
@@ -175,6 +176,7 @@ public class CommonController {
 	}
 
 	@GetMapping("/mob/user")
+	@RequestMapping("application/json; charset=utf8")
     @ResponseBody
 	public String mobuserList(PageVO pageVO, UserVO userVO, Model model) {
 		Gson gson = new Gson();
@@ -216,7 +218,7 @@ public class CommonController {
         return "userDetail";
     }
     // 사용자 상세 보기
-    @GetMapping("/mob/user/userDetail")
+    @GetMapping(value ="/mob/user/userDetail", produces = "application/json; charset=utf8")
     @ResponseBody
     public String mobuserView(@RequestParam("userId") String userId, UserVO userVO, Model model) {
     	//System.out.println(" User id :::>  "+ params.get("userId").toString());
@@ -397,7 +399,7 @@ public class CommonController {
 		return "summaryList";
 	}
 
-	@GetMapping("/mob/summary")
+	@GetMapping(value ="/mob/summary", produces = "application/json; charset=utf8")
     @ResponseBody
 	public String mobsummaryList(PageVO pageVO, UserVO userVO, Model model) {
 		Gson gson = new Gson();
