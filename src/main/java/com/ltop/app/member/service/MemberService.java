@@ -17,7 +17,7 @@ public interface MemberService {
 
     public boolean updateMember(MemberVO memberVO);
 
-    public boolean deleteMember(MemberVO memberVO);
+    public int deleteMember(MemberVO memberVO);
 
     public void insertMemberAuth(AuthVO authVO);
 

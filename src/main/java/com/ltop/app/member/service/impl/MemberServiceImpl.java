@@ -75,8 +75,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public boolean deleteMember(MemberVO memberVO) {
-        return memberMapper.deleteMember(memberVO) == 1;
+    public int deleteMember(MemberVO memberVO) {
+        return memberMapper.deleteMember(memberVO) ;
     }
 
     @Transactional
@@ -95,6 +95,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void deleteMemberAuth(AuthVO authVO) {
         // TODO Auto-generated method stub
+    	memberMapper.deleteMemberAuth(authVO) ;
     }
 
     /**

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
+import com.ltop.app.member.domain.AuthVO;
 import com.ltop.app.member.domain.MemberVO;
 import com.ltop.app.member.service.MemberService;
 
@@ -172,6 +173,45 @@ public class MemberController {
         return gsonString;
     }
 
+    /**
+     * Moble Json 회원탈퇴
+     * @param
+     * @param model
+     */
+    @GetMapping("/mob/memberRemove")
+    @ResponseBody
+    public String memberRemove(@RequestParam Map<String, Object> params, HttpServletRequest request){
+
+        Gson gson = new Gson();
+        String rstStr = "failed";
+
+        // membervo에 param 으로 받은 id 셋팅
+        MemberVO memberVO = new MemberVO();
+        memberVO.setUserId(params.get("userId").toString());
+        AuthVO authVO = new AuthVO();
+        authVO.setUserId(params.get("userId").toString());
+        
+        if(memberVO.getUserId().equals("")) {
+            rstStr = "failed";
+        }else {
+
+            int rst = 0;
+            memberService.deleteMemberAuth(authVO);
+            rst = memberService.deleteMember(memberVO);
+
+            if(rst >0) {
+                rstStr = "success";
+            }
+        }
+
+        memberVO.setResult(rstStr);
+
+        String gsonString  = gson.toJson(memberVO);
+
+        return gsonString;
+    }
+
+    
     /**
      * Moble Json 임시비번발급
      * @param
