@@ -106,8 +106,7 @@ public class CommonController {
 		return "alarmList";
 	}
 
-	@GetMapping("/mob/alarm")
-	@RequestMapping(produces = "application/json; charset=utf8")
+	@GetMapping(value ="/mob/alarm", produces = "application/json; charset=utf8")
     @ResponseBody
 	public String mobalarmList(PageVO pageVO, AlarmVO alarmVO, Model model) {
 		Gson gson = new Gson();
@@ -175,8 +174,7 @@ public class CommonController {
 		return "userList";
 	}
 
-	@GetMapping("/mob/user")
-	@RequestMapping("application/json; charset=utf8")
+	@GetMapping(value ="/mob/user", produces = "application/json; charset=utf8")
     @ResponseBody
 	public String mobuserList(PageVO pageVO, UserVO userVO, Model model) {
 		Gson gson = new Gson();

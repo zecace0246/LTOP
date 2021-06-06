@@ -550,6 +550,7 @@ function floatchart() {
             },
             grid: {
                 borderColor: '#cccccc3b',
+            	//show: false
             }
         }
         var chart = new ApexCharts(document.querySelector("#unique-visitor-chart"), options);
