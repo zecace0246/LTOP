@@ -1441,4 +1441,23 @@
 		</if>
 		order by a.bno asc
     </select>
+    <select id="bcgListHour" resultType="com.ltop.app.common.domain.BcgVO">
+		select  round(avg(a.respiration_rate)) as respirationRate
+		      , min(a.respiration_rate) as respirationRateMin
+		      , max(a.respiration_rate) as respirationRateMax
+		      , round(avg(a.heart_rate)) as heartRate
+		      , min(a.heart_rate) as heartRateMin
+		      , max(a.heart_rate) as heartRateMax
+		      , round(avg(a.sleep_mode)) as sleepMode
+		      , DATE_FORMAT(a.reg_date, '%h') as regDate
+		from	bcg a 
+		      , tbl_member b
+		where	1=1
+		and    	b.userid = #{userId}
+		and    	a.mat_id = b.mat_id
+		<if test="searchDateFrom != null and searchDateFrom != ''">
+		AND 	DATE_FORMAT(a.reg_date, '%Y-%m-%d') = #{searchDateFrom}
+		</if>
+		group by DATE_FORMAT(a.reg_date, '%Y-%m-%d %h')
+    </select>
 </mapper>

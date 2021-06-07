@@ -93,4 +93,5 @@ public interface CommonComboMapper {
 	public List<UserVO> selectMenuSummaryListP(@Param("pageVO") PageVO pageVO, @Param("alarmVO") UserVO userVO);
 	
 	public List<BcgVO> bcgList(UserVO userVO);
+	public List<BcgVO> bcgListHour(UserVO userVO);
 }

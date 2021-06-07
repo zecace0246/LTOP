@@ -410,4 +410,8 @@ public class CommonComboServiceImpl implements CommonComboService {
     public List<BcgVO> bcgList(UserVO userVO) {
         return commonComboMapper.bcgList(userVO);
     }
+    @Override
+    public List<BcgVO> bcgListHour(UserVO userVO) {
+        return commonComboMapper.bcgListHour(userVO);
+    }
 }

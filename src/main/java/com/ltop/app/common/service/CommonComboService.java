@@ -66,4 +66,7 @@ public interface CommonComboService {
 
 	//mob Only
     public List<BcgVO> bcgList(UserVO userVO);
+
+	//mob Only
+    public List<BcgVO> bcgListHour(UserVO userVO);
 }

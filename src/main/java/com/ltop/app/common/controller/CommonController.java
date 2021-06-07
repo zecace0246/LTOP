@@ -376,6 +376,21 @@ public class CommonController {
 
         return gsonString;
     }
+
+    // 자세변경
+    @GetMapping("/mob/bcgListHour")
+    @ResponseBody
+    public String bcgListHour(UserVO userVO,  Model model) {
+    	Gson gson = new Gson();
+    	String rstStr = "false";
+    	//selectUserTodayBcg
+    	model.addAttribute("userBcg", commonComboService.bcgListHour(userVO));
+    	String gsonString  = gson.toJson(model);
+
+        System.out.println(" Moble Json rst ::> "+ gsonString);
+
+        return gsonString;
+    }
     
 	@GetMapping("/summary")
 	public String summaryList(PageVO pageVO, UserVO userVO, Model model) {
