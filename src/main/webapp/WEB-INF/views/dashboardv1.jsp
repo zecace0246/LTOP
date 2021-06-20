@@ -167,8 +167,8 @@
                                             <thead>
                                                 <tr>
                                                     <th><span>알림 일시</span></th>
+                                                    <th><span>기관 </span></th>
                                                     <th><span>그룹 </span></th>
-                                                    <th><span>그룹상세 </span></th>
                                                     <th><span>사용자명 </span></th>
                                                     <th><span>알림내용 </span></th>
                                                     <th><span>상태값</span></th>

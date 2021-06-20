@@ -22,6 +22,12 @@
                                 <option value="30001">낙상감지</option>
                             </select>
 	                    </div -->
+	                    <div class="col-sm-3">
+	                        <input type="date" class="form-control" placeholder="검색 시작일" id="searchDateFrom" name="searchDateFrom" value='<c:out value="${searchDateFrom}"/>'>
+	                    </div>
+	                    <div class="col-sm-3">
+	                        <input type="date" class="form-control" placeholder="검색 종료일" id="searchDateTo" name="searchDateTo" value='<c:out value="${searchDateTo}"/>'>
+	                    </div>
 	                    <div class="col-sm-2">
                                     <select class="form-control js-example-placeholder-multiple " id="agencyNo" name="agencyNo" onChange="">
                                         <option value="">기관전체</option>
@@ -72,11 +78,12 @@
 	                                <th><span>그룹 </span></th>
 	                                <th><span>그룹상세 </span></th>
 	                                <th><span>사용자명 </span></th>
+	                                <th><span>날짜 </span></th>	                                
 	                                <th><span>심박 </span></th>
 	                                <th><span>호흡</span></th>
 	                                <th><span>수면</span></th>
-	                                <th><span>낙상상태</span></th>
-	                                <th><span>자세 </span></th>
+	                                <th><span>무호흡</span></th>
+	                                <th><span>코골이 </span></th>
 	                            </tr>
 							</thead>
 							<tbody>
@@ -89,23 +96,15 @@
 	                                               <td><c:out value="${summary.agencyName}" /></td>
 	                                               <td><c:out value="${summary.groupName}" /></td>
 	                                               <td><c:out value="${summary.userName}" /></td>
+	                                               <td><c:out value="${summary.regDate}" /></td>
 	                                               <td><c:out value="${summary.respirationRate}" />
-	                                                   <!-- div class="progress mt-1" style="height:4px;">
-	                                                       <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-	                                                   </div-->
 	                                               </td>
 	                                               <td><c:out value="${summary.heartRate}" />
-	                                                   <!-- div class="progress mt-1" style="height:4px;">
-	                                                       <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-	                                                   </div-->
 	                                               </td>
 	                                               <td><c:out value="${summary.sleepMode}" />
-	                                                   <!-- div class="progress mt-1" style="height:4px;">
-	                                                       <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-	                                                   </div-->
 	                                               </td>
-	                                               <td><c:out value="${summary.fallAlarm}" /></td>
-	                                               <td>사용안함</td>
+	                                               <td><c:out value="${summary.snoreYn}" /></td>
+	                                               <td><c:out value="${summary.apneaYn}" /></td>
 	                                           </tr>
 										</c:forEach>	
 	
@@ -171,6 +170,7 @@ $(document).ready(function() {
 				pageNum: $('input[name=pageNum]').val(), 
 				amount: $('input[name=amount]').val(), 				
 				searchDateFrom: $('input[name=searchDateFrom]').val(),
+				searchDateTo: $('input[name=searchDateTo]').val(),
 				agencyNo: $('select[name=agencyNo]').val(),
 				groupSeq: $('select[name=groupSeq]').val(),
 				searchUserName: $('input[name=searchUserName]').val()

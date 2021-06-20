@@ -72,13 +72,12 @@
 						<table id="simpletable" class="table table-striped table-bordered nowrap">
 							<thead>
 	                            <tr>
-	                            	<th><span>No.</span></th>
 	                                <th><span>알림 일시</span></th>
+	                                <th><span>기관 </span></th>
 	                                <th><span>그룹 </span></th>
-	                                <th><span>그룹상세 </span></th>
 	                                <th><span>사용자명 </span></th>
 	                                <th><span>알림내용 </span></th>
-	                                <th><span>상태값</span></th>
+	                                <th><span>측정값</span></th>
 	                                <th><span>확인유무</span></th>
 	                                <th><span>확인시간 </span></th>
 	                                <th><span>확인자</span></th>
@@ -90,7 +89,6 @@
 									<c:set var="listStartNum" value="${pageMaker.total - (pageMaker.pageVO.amount * (pageMaker.pageVO.pageNum - 1)) + 1}" />
 										<c:forEach items="${alarmList}" var="alarm" varStatus="alarmStatus">
 	                                           <tr>
-	                                           	   <td><c:out value="${listStartNum - alarmStatus.count}" /></td>
 	                                               <td><c:out value="${alarm.regDate}" /></td>
 	                                               <td><c:out value="${alarm.agencyName}" /></td>
 	                                               <td><c:out value="${alarm.groupName}" /></td>
@@ -106,7 +104,13 @@
 	                                               		<c:out value="${alarm.confirmYn}" />
 	                                               	</c:if>
 	                                               	<c:if test="${alarm.confirmYn ne 'Y'}">
-	                                               		<button data-oper='alarm' id="<c:out value="${alarm.alarmNo}" />" class="btn btn-primary btn-sm btn-round">처리</button>
+	                                               		<c:if test="${alarm.eventNum eq '30001'}">
+	                                               			<button data-oper='alarm0' id="<c:out value="${alarm.alarmNo}"  />"  class="btn btn-primary btn-sm btn-round">감지오류</button>
+	                                               			<button data-oper='alarm1' id="<c:out value="${alarm.alarmNo}"  />"  class="btn btn-primary btn-sm btn-round">낙상확인</button>
+	                                               		</c:if>
+	                                               		<c:if test="${alarm.eventNum ne '30001'}">
+	                                               			<button data-oper='alarm' id="<c:out value="${alarm.alarmNo}" />" class="btn btn-primary btn-sm btn-round">처리</button>
+	                                               		</c:if>
 	                                               	</c:if>
 												   </td>
 	                                               <td><c:out value="${alarm.confirmDate}" /></td>
@@ -236,7 +240,32 @@ $(document).ready(function() {
 
 		    gfn_callServer('POST', '/user/alarmUpdate', true, formData, 'application/x-www-form-urlencoded', 'text', callServerModifyResult, 30000, csrfTokenValue);
 		    });
+		$('button[data-oper=alarm0]').on('click', function(e){
+		    e.preventDefault();
+		    //console.log(this.id);
+		    console.log(this.confirmType);
+		    //console.log($('input[name=userId]').val());
+		    var formData = {
+		        userId: $('input[name=userId]').val(),
+		        alarmNo: this.id,
+		        confirmType: 0
+		      };
 
+		    gfn_callServer('POST', '/user/alarmUpdate', true, formData, 'application/x-www-form-urlencoded', 'text', callServerModifyResult, 30000, csrfTokenValue);
+			});
+		$('button[data-oper=alarm1]').on('click', function(e){
+		    e.preventDefault();
+		    //console.log(this.id);
+		    console.log(this.confirmType);
+		    //console.log($('input[name=userId]').val());
+		    var formData = {
+		        userId: $('input[name=userId]').val(),
+		        alarmNo: this.id,
+		        confirmType: 1
+		      };
+
+		    gfn_callServer('POST', '/user/alarmUpdate', true, formData, 'application/x-www-form-urlencoded', 'text', callServerModifyResult, 30000, csrfTokenValue);
+			});
 	  $('#agencyNo').change(function(e){
 	        var $target = $('select[name=groupSeq]');
 	        var selectType=$(this).val();

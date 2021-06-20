@@ -212,7 +212,7 @@
 		        end as eventNm
 		      , a.value
 		      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
-		      , a.confirm_yn as confirmYn
+		      , case when a.confirm_yn='Y' then '확인' else '미확인' end as confirmYn
 		      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d %h:%i') as confirmDate
 		      , f.username as confirmId
 		      , b.agency_no  as agencyNo
@@ -236,7 +236,7 @@
 		and     a.mat_id = e.mat_id
 		#AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),'18')
 		#AND    DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
-		order by a.reg_date DESC
+		order by a.reg_date DESC, c.agency_name , d.group_name,e.username  ASC
 		limit 10
 	</select>
 
@@ -253,7 +253,7 @@
 		        end as eventNm
 		      , a.value
 		      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
-		      , a.confirm_yn as confirmYn
+		      , case when a.confirm_yn='Y' then '확인' else '미확인' end as confirmYn
 		      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d %h:%i') as confirmDate
 		      , g.username as confirmId
 		      , b.agency_no  as agencyNo
@@ -280,7 +280,7 @@
 		and     b.agency_no = f.agency_no
 		#AND    	DATE_FORMAT(a.reg_date, '%Y%m%d%H') >= concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),'18')
 		#AND    	DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
-		order by a.reg_date DESC
+		order by a.reg_date DESC, c.agency_name , d.group_name,e.username  ASC
 		limit 10
 	</select>
 
@@ -295,7 +295,7 @@
 		        end as eventNm
 		      , a.value
 		      , DATE_FORMAT(a.reg_date, '%Y-%m-%d %h:%i') as regDate
-		      , a.confirm_yn as confirmYn
+		      , case when a.confirm_yn='Y' then '확인' else '미확인' end as confirmYn
 		      , DATE_FORMAT(a.confirm_date, '%Y-%m-%d') as confirmDate
 		      , f.username as confirmId
 		      , b.agency_no  as agencyNo
@@ -756,15 +756,16 @@
 				SELECT a.userid
 				      , a.username
 				      , c.agency_name AS agencyName
+				      , case when a.position_yn ='Y' then '사용' else '사용안함' end  as positionYn
 				      , a.group_name AS groupName
 						, b.mat_id  AS matId
 						, b.respiration_rate  AS respirationRate
 						, b.heart_rate AS heartRate
 						, b.sleep_mode  AS sleepMode
-				       , ( select case when count(1) > 0 then '낙상감지' else '감시중' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
+				       , ( select case when count(1) > 0 then '낙상감지' else '감시중' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  and ta.confirm_yn ='N' AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
 				       , a.reg_date AS regDate
 				FROM		(
-							SELECT	c.userid, c.username, c.mat_id, c.agency_no, d.group_name, DATE_FORMAT(b.reg_date, '%Y-%m-%d') reg_date
+							SELECT	c.userid, c.username, c.mat_id, c.agency_no, d.group_name, DATE_FORMAT(b.reg_date, '%Y-%m-%d') reg_date, c.position_yn
 							FROM		tbl_mat_info b
 							         left outer join tbl_agency_group d
 							         on b.group_seq = d.group_seq
@@ -804,7 +805,7 @@
 
 		<![CDATA[
 			) R
-			ORDER BY R.agencyName, R.groupName ASC
+			ORDER BY R.agencyName, R.groupName, R.username ASC
 			LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
 		]]>
 	</select>
@@ -818,14 +819,15 @@
 				      , a.username
 				      , c.agency_name AS agencyName
 				      , a.group_name AS groupName
+				      , case when a.position_yn ='Y' then '사용' else '사용안함' end  as positionYn
 						, b.mat_id AS matId
 						, b.respiration_rate AS respirationRate
 						, b.heart_rate AS heartRate
 						, b.sleep_mode  AS sleepMode
-				      , ( select case when count(1) > 0 then '낙상감지' else '감시중' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
+				      , ( select case when count(1) > 0 then '낙상감지' else '감시중' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id and ta.confirm_yn ='N'  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
 				      , a.reg_date AS regDate
 				FROM		(
-							SELECT	c.userid, c.username, c.mat_id, c.agency_no, d.group_name, DATE_FORMAT(b.reg_date, '%Y-%m-%d') reg_date
+							SELECT	c.userid, c.username, c.mat_id, c.agency_no, d.group_name, DATE_FORMAT(b.reg_date, '%Y-%m-%d') reg_date, c.position_yn
 							FROM		tbl_agency a
 							       , tbl_mat_info b
 							         left outer join tbl_agency_group d
@@ -869,7 +871,7 @@
 
 		<![CDATA[
 			) R
-			ORDER BY R.agencyName, R.groupName ASC
+			ORDER BY R.agencyName, R.groupName, R.username ASC
 			LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
 		]]>
 	</select>
@@ -883,11 +885,12 @@
 				      , a.username
 				      , c.agency_name AS agencyName
 				      , e.group_name AS groupName
+				      , case when a.position_yn ='Y' then '사용' else '사용안함' end  as positionYn
 				      , b.mat_id AS matId
 						, b.respiration_rate AS respirationRate
 						, b.heart_rate AS heartRate
 						, b.sleep_mode  AS sleepMode
-					  , ( select case when count(1) > 0 then '낙상감지' else '감시중' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
+					  , ( select case when count(1) > 0 then '낙상감지' else '감시중' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id and ta.confirm_yn ='N'  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
 					  , DATE_FORMAT(d.reg_date, '%Y-%m-%d') AS regDate
 				FROM   tbl_member a
 				       LEFT OUTER join bcg b
@@ -907,7 +910,7 @@
 
 		<![CDATA[
 			) R
-			ORDER BY R.agencyName, R.groupName ASC
+			ORDER BY R.agencyName, R.groupName, R.username ASC
 			LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
 		]]>
 	</select>
@@ -991,10 +994,6 @@
 		and    	b.userid = #{userId}
 		and    	a.mat_id = b.mat_id
 		<if test="searchType != null and searchType == 'HOUR'">
-		AND    DATE_FORMAT(a.reg_date, '%Y%m%d%H') <![CDATA[>=]]> case when b.sleep_time = NULL OR b.sleep_time ='' 
-				                                                   then concat(DATE_FORMAT(NOW(), '%Y%m%d'),'00')
-				                                                   ELSE concat(DATE_FORMAT(date_add(NOW(),INTERVAL -1 DAY), '%Y%m%d'),b.sleep_time)
-				                                              end
 		AND    DATE_FORMAT(a.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
 		group by DATE_FORMAT(a.reg_date, '%Y-%m-%d %h')
 		</if>
@@ -1273,11 +1272,17 @@
 				      , a.username
 				      , c.agency_name AS agencyName
 				      , a.group_name AS groupName
-						, b.mat_id  AS matId
-						, b.respiration_rate  AS respirationRate
-						, b.heart_rate AS heartRate
-						, b.sleep_mode  AS sleepMode
-				       , ( select case when count(1) > 0 then '낙상감지' else '감시중' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
+				      , d.mat_id  as matId
+				      , d.reg_date  as regDate
+				      , d.respiration_rate  as respirationRate
+				      , d.heart_rate  as heartRate
+				      , case when d.sleep_mode='1' then 'REM' 
+				             when d.sleep_mode='2' then 'NREM'
+				             when d.sleep_mode='3' then 'AWAKE'
+				             when d.sleep_mode='4' then 'MOVEMENT'
+				        end as sleepMode
+				      , case when d.snore_yn='Y' then 'O' else 'X' end as snoreYn
+				      , case when d.apnea_yn='Y' then 'O' else 'X' end as apneaYn
 				FROM		(
 							SELECT	c.userid, c.username, c.mat_id, c.agency_no, d.group_name
 							FROM		tbl_mat_info b
@@ -1297,29 +1302,23 @@
                 <if test="alarmVO.groupSeq != null and alarmVO.groupSeq != ''">
                  	AND 	b.group_seq = #{alarmVO.groupSeq}
                 </if>
-		<![CDATA[
 							) a
-							LEFT OUTER JOIN (	SELECT	a.*
-													FROM		bcg a
-									      				, (
-																SELECT  mat_id, MAX(bno) bno
-																FROM   bcg a
-																WHERE   1=1
-																AND  DATE_FORMAT(a.reg_date, '%Y%m%d%H%i') >= DATE_FORMAT(date_add(NOW(),INTERVAL -5 minute), '%Y%m%d%H%i')
-																GROUP BY mat_id
-																) b
-													WHERE    1=1
-													AND      a.mat_id = b.mat_id
-													AND      a.bno = b.bno
-												  ) b
-				      	ON	a.mat_id = b.mat_id
 				       LEFT OUTER join tbl_agency c
 				       ON	a.agency_no = c.agency_no
-		]]>
+		      			, bcg d
+					where 	1=1
+					and     a.mat_id = d.mat_id
+				<if test="alarmVO.searchDateFrom != null and alarmVO.searchDateFrom != ''">
+					AND 	DATE_FORMAT(d.reg_date, '%Y-%m-%d') <![CDATA[>=]]> #{alarmVO.searchDateFrom}
+				</if>
+			
+				<if test="alarmVO.searchDateTo != null and alarmVO.searchDateTo != ''">
+					AND 	DATE_FORMAT(d.reg_date, '%Y-%m-%d') <![CDATA[<=]]> #{alarmVO.searchDateTo}
+				</if>
 
 		<![CDATA[
 			) R
-			ORDER BY R.agencyName, R.groupName ASC
+			order by r.agencyName, r.groupName, r.userid, r.regDate desc
 			LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
 		]]>
 	</select>
@@ -1333,11 +1332,17 @@
 				      , a.username
 				      , c.agency_name AS agencyName
 				      , a.group_name AS groupName
-						, b.mat_id AS matId
-						, b.respiration_rate AS respirationRate
-						, b.heart_rate AS heartRate
-						, b.sleep_mode  AS sleepMode
-				      , ( select case when count(1) > 0 then '낙상감지' else '감시중' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
+				      , d.mat_id  as matId
+				      , d.reg_date  as regDate
+				      , d.respiration_rate  as respirationRate
+				      , d.heart_rate  as heartRate
+				      , case when d.sleep_mode='1' then 'REM' 
+				             when d.sleep_mode='2' then 'NREM'
+				             when d.sleep_mode='3' then 'AWAKE'
+				             when d.sleep_mode='4' then 'MOVEMENT'
+				        end as sleepMode
+				      , case when d.snore_yn='Y' then 'O' else 'X' end as snoreYn
+				      , case when d.apnea_yn='Y' then 'O' else 'X' end as apneaYn
 				FROM		(
 							SELECT	c.userid, c.username, c.mat_id, c.agency_no, d.group_name
 							FROM		tbl_agency a
@@ -1361,35 +1366,27 @@
                 <if test="alarmVO.groupSeq != null and alarmVO.groupSeq != ''">
                  	AND 	b.group_seq = #{alarmVO.groupSeq}
                 </if>
-		<![CDATA[
 							) a
-							LEFT OUTER JOIN (	SELECT	a.*
-													FROM		bcg a
-									      				, (
-																SELECT  mat_id, MAX(bno) bno
-																FROM   bcg a
-																WHERE   1=1
-																AND  DATE_FORMAT(a.reg_date, '%Y%m%d%H%i') >= DATE_FORMAT(date_add(NOW(),INTERVAL -5 minute), '%Y%m%d%H%i')
-																GROUP BY mat_id
-																) b
-													WHERE    1=1
-													AND      a.mat_id = b.mat_id
-													AND      a.bno = b.bno
-												  ) b
-				      	ON	a.mat_id = b.mat_id
 				       LEFT OUTER join tbl_agency c
 				       ON	a.agency_no = c.agency_no
-		]]>
-
+		      			, bcg d
+					where 	1=1
+					and     a.mat_id = d.mat_id
+				<if test="alarmVO.searchDateFrom != null and alarmVO.searchDateFrom != ''">
+					AND 	DATE_FORMAT(d.reg_date, '%Y-%m-%d') <![CDATA[>=]]> #{alarmVO.searchDateFrom}
+				</if>
+			
+				<if test="alarmVO.searchDateTo != null and alarmVO.searchDateTo != ''">
+					AND 	DATE_FORMAT(d.reg_date, '%Y-%m-%d') <![CDATA[<=]]> #{alarmVO.searchDateTo}
+				</if>
 		<![CDATA[
 			) R
-			ORDER BY R.agencyName, R.groupName ASC
+			ORDER BY r.agencyName, r.groupName, r.userid, r.regDate desc
 			LIMIT #{pageVO.amount} OFFSET #{pageVO.startNum}
 		]]>
 	</select>
 
 	<select id="selectMenuSummaryListP" resultType="com.ltop.app.common.domain.UserVO">
-		<![CDATA[
 			SELECT R.*
 			FROM
 			(
@@ -1397,27 +1394,36 @@
 				      , a.username
 				      , c.agency_name AS agencyName
 				      , e.group_name AS groupName
-				      , b.mat_id AS matId
-						, b.respiration_rate AS respirationRate
-						, b.heart_rate AS heartRate
-						, b.sleep_mode  AS sleepMode
-					  , ( select case when count(1) > 0 then '낙상감지' else '감시중' end from mat_alarm ta where 1=1 and ta.event_num='30001'  and ta.mat_id = b.mat_id  AND    DATE_FORMAT(ta.reg_date, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d') ) fallAlarm
+				      , b.mat_id  as matId
+				      , b.reg_date  as regDate
+				      , b.respiration_rate  as respirationRate
+				      , b.heart_rate  as heartRate
+				      , case when b.sleep_mode='1' then 'REM' 
+				             when b.sleep_mode='2' then 'NREM'
+				             when b.sleep_mode='3' then 'AWAKE'
+				             when b.sleep_mode='4' then 'MOVEMENT'
+				        end as sleepMode
+				      , case when b.snore_yn='Y' then 'O' else 'X' end as snoreYn
+				      , case when b.apnea_yn='Y' then 'O' else 'X' end as apneaYn
 				FROM   tbl_member a
-				       LEFT OUTER join bcg b
-				       ON	a.mat_id = b.mat_id
-				       AND  DATE_FORMAT(b.reg_date, '%Y%m%d%H%i') >= DATE_FORMAT(date_add(NOW(),INTERVAL -5 minute), '%Y%m%d%H%i')
 				       LEFT OUTER join tbl_agency c
 				       ON	a.agency_no = c.agency_no
 				     , tbl_mat_info d
 				       left outer join tbl_agency_group e
 				       on  d.group_seq = e.group_seq
+					 , bcg b
 				WHERE  1=1
 				and	   a.userid = #{alarmVO.userId}
 				and    a.mat_id = d.mat_id
+				and    a.mat_id = b.mat_id
+				<if test="alarmVO.searchDateFrom != null and alarmVO.searchDateFrom != ''">
+					AND 	DATE_FORMAT(d.reg_date, '%Y-%m-%d') <![CDATA[>=]]> #{alarmVO.searchDateFrom}
+				</if>
+			
+				<if test="alarmVO.searchDateTo != null and alarmVO.searchDateTo != ''">
+					AND 	DATE_FORMAT(d.reg_date, '%Y-%m-%d') <![CDATA[<=]]> #{alarmVO.searchDateTo}
+				</if>
 				ORDER BY b.reg_date desc
-				LIMIT 1
-		]]>
-
 		<![CDATA[
 			) R
 			ORDER BY R.agencyName, R.groupName ASC

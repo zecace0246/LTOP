@@ -19,6 +19,9 @@ public class UserVO {
 	private String heartRate;
 	private String sleepMode;
 	private String fallAlarm;
+	private String snoreYn;
+	private String apneaYn;
+	private String positionYn;
 	
 	private String regDate;
 
@@ -38,6 +41,7 @@ public class UserVO {
 	
 	
 	private String searchDateFrom;
+	private String searchDateTo;
 	private String agencyNo;
 	private String groupSeq;
 	private String searchUserName;

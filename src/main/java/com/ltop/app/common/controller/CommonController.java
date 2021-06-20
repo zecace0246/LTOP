@@ -404,6 +404,7 @@ public class CommonController {
 
 		model.addAttribute("summaryList", summaryList);
 		model.addAttribute("searchDateFrom", 	userVO.getSearchDateFrom());
+		model.addAttribute("searchDateTo", 		userVO.getSearchDateTo());
 		model.addAttribute("agencyNo", 			userVO.getAgencyNo());
 		model.addAttribute("groupSeq", 			userVO.getGroupSeq());
 		model.addAttribute("searchUserName", 	userVO.getSearchUserName());

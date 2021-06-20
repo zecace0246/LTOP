@@ -177,7 +177,7 @@ $(document).ready(function() {
         searchMatId: $('input[name=searchMatId]').val()
       };
 
-    gfn_callServer('POST', '/menu5/sub3/agencyView', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
+    gfn_callServer('POST', '/menu5/sub3/agencyModify', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
   });
 
   // 페이징 버튼 선택

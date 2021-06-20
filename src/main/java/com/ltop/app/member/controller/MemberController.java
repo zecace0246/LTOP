@@ -42,7 +42,7 @@ public class MemberController {
         MemberVO member = memberService.selectMemberInfo(memberVO);
 
         if (error != null) {
-            model.addAttribute("loginError", "Login Error Check Your Account");
+            model.addAttribute("loginError", "ID를 확인하세요");
         }
 
         if(member != null){

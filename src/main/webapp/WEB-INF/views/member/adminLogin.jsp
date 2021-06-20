@@ -44,13 +44,13 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="feather icon-user"></i></span>
                 </div>
-                <input type="text" class="form-control" placeholder="Userid" name="username" required oninvalid="this.setCustomValidity('Userid cannot be empty')" oninput="this.setCustomValidity('')">
+                <input type="text" class="form-control" placeholder="Userid" name="username" required oninvalid="this.setCustomValidity('ID를 입력하세요')" oninput="this.setCustomValidity('')">
               </div>
               <div class="input-group mb-4">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="feather icon-lock"></i></span>
                 </div>
-                <input type="password" class="form-control" placeholder="Password" name="password" required oninvalid="this.setCustomValidity('Password cannot be empty')" oninput="this.setCustomValidity('')">
+                <input type="password" class="form-control" placeholder="Password" name="password" required oninvalid="this.setCustomValidity('비밀번호를 입력하세요')" oninput="this.setCustomValidity('')">
               </div>
               <div class="form-group text-left mt-2">
                 <div class="checkbox checkbox-primary d-inline">

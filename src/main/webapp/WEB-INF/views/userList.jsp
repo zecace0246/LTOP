@@ -66,8 +66,8 @@
 							<thead>
 	                            <tr>
 	                            	<!-- th><span>No.</span></th -->
+	                                <th><span>기관 </span></th>
 	                                <th><span>그룹 </span></th>
-	                                <th><span>그룹상세 </span></th>
 	                                <th><span>사용자명 </span></th>
 	                                <th><span>심박 </span></th>
 	                                <th><span>호흡</span></th>
@@ -107,7 +107,7 @@
 	                                                   </div>
 	                                               </td-->
 	                                               <td><c:out value="${user.fallAlarm}" /></td>
-	                                               <td>사용안함</td>
+	                                               <td><c:out value="${user.positionYn}" /></td>
 	                                               <td><c:out value="${user.regDate}" /></td>
 	                                           </tr>
 										</c:forEach>	
@@ -380,12 +380,12 @@
 							<thead>
 	                            <tr>
 	                            	<!-- th><span>No.</span></th -->
-	                                <th><span>Alarm date</span></th>
+	                                <th><span>알람일시</span></th>
 	                                <!-- th><span>그룹 </span></th>
 	                                <th><span>그룹상세 </span></th>
 	                                <th><span>사용자명 </span></th -->
-	                                <th><span>Alarm </span></th>
-	                                <th><span>Value</span></th>
+	                                <th><span>알랍 </span></th>
+	                                <th><span>측정값</span></th>
 	                                <th><span>확인유무</span></th>
 	                                <!-- th><span>확인시간 </span></th>
 	                                <th><span>확인자</span></th -->

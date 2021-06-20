@@ -182,7 +182,7 @@ $(document).ready(function() {
         searchAdmName: $('input[name=searchAdmName]').val()
       };
 
-    gfn_callServer('POST', '/menu5/sub5/groupView', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
+    gfn_callServer('POST', '/menu5/sub5/groupModify', true, formData, 'application/x-www-form-urlencoded', 'text', gfn_callMenuResult, 30000, csrfTokenValue);
   });
 
   // 페이징 버튼 선택
